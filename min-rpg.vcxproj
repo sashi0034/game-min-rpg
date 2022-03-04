@@ -24,6 +24,7 @@
     <ProjectGuid>{b211721e-50e9-4505-973f-072444119d85}</ProjectGuid>
     <RootNamespace>game_min_rpg</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>min-rpg</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
