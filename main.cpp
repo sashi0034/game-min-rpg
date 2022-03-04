@@ -1,7 +1,7 @@
 #include "main.h"
 
 
-#define LOOP    (DxLib::ProcessMessage() != -1 && (!luas::CanRestartProgram))
+#define LOOP    (DxLib::ProcessMessage() != -1 && (!luaManager::CanRestartProgram))
 
 
 
@@ -57,16 +57,16 @@ namespace game
 
     restart:
         
-        if (luas::SolStart()==-1) return -1;
+        if (luaManager::SolStart()==-1) return -1;
 
         printf("game is start\n");
 
         //シーン
         SceneTransition();
 
-        if (luas::CanRestartProgram)
+        if (luaManager::CanRestartProgram)
         {// 再起動
-            luas::CanRestartProgram = false;
+            luaManager::CanRestartProgram = false;
             Sprite::DisposeAll();
             printfDx("再起動完了\n");
             goto restart;
@@ -176,18 +176,25 @@ namespace game
             OtherSp->SetXY(100, 50);
             OtherSp->SetZ(-200);
 
-            SolState = luas::Sol["Test"];
-            std::string res = luas::Sol["Test"]["new"](SolState, mSpr);
+            SolState = luaManager::Lua["Test"];
+            std::string res = luaManager::Lua["Test"]["new"](SolState, mSpr);
             std::cout << res;
 
-            std::string testLoad = luas::Sol["Field"]["version"];
-            std::cout << testLoad;
+            //std::string testLoad = luaManager::Lua["Field"]["layers"][1]["type"];
+            //std::cout << testLoad << "\n";
+
+            //sol::table testLoad = luaManager::Lua["Field"]["layers"];
+            //std::cout << testLoad.size() << "\n";
+
+            sol::table testLoadVec = luaManager::Lua["Field"]["layers"][1]["data"];
+            std::cout << testLoadVec.size() << " " << (int)(testLoadVec[15]) << "\n";
+
             
         }
 
         void Test::update()
         {
-            std::string res = luas::Sol["Test"]["update"](SolState);
+            std::string res = luaManager::Lua["Test"]["update"](SolState);
             //std::cout << res;
 
             ETest color = ETest::RED;
@@ -245,114 +252,6 @@ namespace game
     }
 
 
-
-
-#if 0
-    // テンプレ
-    namespace main
-    {
-        Templa::Templa()
-        {
-            Image = Img->Templa;
-
-            Sp = Sprite::Make(Image, 0, 0, 16, 16);
-            Sprite::Offset(Sp, X, Y);
-            Sprite::Belong(Sp, this);
-            Sprite::Update(Sp, Templa::CallUpdate);
-            Sprite::destructor(Sp, Templa::Calldestructor);
-        }
-
-        void Templa::Update()
-        {
-            DxLib::printfDx("Count = %d\n", Count);
-            Count++;
-        }
-
-
-        void Templa::CallUpdate(int hSp)
-        {
-            std::any_cast<Templa*>(Sprite::GetBelong(hSp))->Update();
-        }
-        void Templa::Calldestructor(int hSp)
-        {
-            delete std::any_cast<Templa*>(Sprite::GetBelong(hSp));
-        }
-
-    }
-
-    // テンプレ(手動描画)
-    namespace main
-    {
-        Templa::Templa()
-        {
-            Sp = Sprite::Make();
-            Sprite::Offset(Sp, -4000);
-            Sprite::Belong(Sp, this);
-            Sprite::Update(Sp, Templa::CallUpdate);
-            Sprite::Drawing(Sp, Templa::CallDrawing);
-            Sprite::destructor(Sp, Templa::Calldestructor);
-        }
-
-        void Templa::Update()
-        {
-            DxLib::printfDx("Count = %d\n", Count);
-            Count++;
-        }
-
-        void Templa::Drawing(int hX, int hY)
-        {
-
-        }
-
-        void Templa::CallUpdate(int hSp)
-        {
-            std::any_cast<Templa*>(Sprite::GetBelong(hSp))->Update();
-        }
-        void Templa::CallDrawing(int hSp, int hX, int hY)
-        {
-            std::any_cast<Templa*>(Sprite::GetBelong(hSp))->Drawing(hX, hY);
-        }
-        void Templa::Calldestructor(int hSp)
-        {
-            delete std::any_cast<Templa*>(Sprite::GetBelong(hSp));
-        }
-
-    }
-
-    // コライダー付きテンプレ
-    namespace main
-    {
-        Templa::Templa() : hit::Collider(new hit::Collider::Rectangle(0, 0, 16, 16), MASK_TEMPLA)
-        {
-            Image = Img->Templa;
-
-            Sp = Sprite::Make(Image, 0, 0, 16, 16);
-            Sprite::Offset(Sp, X, Y);
-            Sprite::Belong(Sp, this);
-            Sprite::Update(Sp, Templa::CallUpdate);
-            Sprite::destructor(Sp, Templa::Calldestructor);
-        }
-
-        void Templa::Update()
-        {
-            DxLib::printfDx("Count = %d\n", Count);
-            Count++;
-        }
-
-
-        void Templa::CallUpdate(int hSp)
-        {
-            std::any_cast<Templa*>(Sprite::GetBelong(hSp))->Update();
-        }
-        void Templa::Calldestructor(int hSp)
-        {
-            delete std::any_cast<Templa*>(Sprite::GetBelong(hSp));
-        }
-
-    }
-
-
-#endif // 0
 
 
 

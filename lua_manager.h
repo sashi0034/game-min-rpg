@@ -1,13 +1,15 @@
 #pragma once
-#include "sol.hpp"
 #include <any>
+#include <string>
+#include <iostream>
+#include "sol.hpp"
 #include "DxLib.h"
 #include "sprite.h"
 
 
-namespace luas
+namespace luaManager
 {
-    extern sol::state Sol;
+    extern sol::state Lua;
     extern bool CanRestartProgram;
 
     int SolStart();

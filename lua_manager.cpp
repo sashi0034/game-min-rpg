@@ -1,33 +1,36 @@
-#include "luas.h"
+#include "lua_manager.h"
 
-namespace luas
+namespace luaManager
 {
-    sol::state Sol;
+    sol::state Lua;
     bool CanRestartProgram = false;
 
     int SolStart()
     {
 
-        Sol.open_libraries(sol::lib::base, sol::lib::package);
+        Lua.open_libraries(sol::lib::base, sol::lib::package, sol::lib::coroutine, sol::lib::string, sol::lib::os, sol::lib::math,
+            sol::lib::table, sol::lib::debug, sol::lib::bit32, sol::lib::io, sol::lib::ffi, sol::lib::utf8);
         DefineSpriteFunc();
 
-        new luas::LuaDebugManager();
+        new luaManager::LuaDebugManager();
         return 0;
     }
     void DefineSpriteFunc()
     {
 
-        luas::Sol.new_usertype<Sprite>(
+        luaManager::Lua.new_usertype<Sprite>(
             "Sprite",
             sol::constructors<Sprite()>(),
             "setXY", &Sprite::SetXY);
 
-        Sol.script_file("test.lua");
-        Sol.script_file("map_load.lua");
+        Lua.set_function("Cout", [](std::string str) -> void {std::cout << str; });
+
+        Lua.script_file(R"(.\asset\scripte\test.lua)");
+        Lua.script_file(R"(.\asset\scripte\map_load.lua)");
     }
 }
 
-namespace luas
+namespace luaManager
 {
     LuaDebugManager::LuaDebugManager()
     {

@@ -166,24 +166,19 @@
   <ItemGroup>
     <ClCompile Include="game_engine.cpp" />
     <ClCompile Include="game_utils.cpp" />
-    <ClCompile Include="luas.cpp" />
+    <ClCompile Include="lua_manager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="sprite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game_engine.h" />
     <ClInclude Include="game_utils.h" />
-    <ClInclude Include="luas.h" />
+    <ClInclude Include="lua_manager.h" />
     <ClInclude Include="magic_enum.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="sol.hpp" />
     <ClInclude Include="sprite.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="map_load.lua" />
-    <None Include="resorce.lua" />
-    <None Include="test.lua" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -27,7 +27,7 @@
     <ClCompile Include="game_engine.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="luas.cpp">
+    <ClCompile Include="lua_manager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,22 +50,11 @@
     <ClInclude Include="sol.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="luas.h">
+    <ClInclude Include="lua_manager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="magic_enum.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="resorce.lua">
-      <Filter>リソース ファイル</Filter>
-    </None>
-    <None Include="test.lua">
-      <Filter>リソース ファイル</Filter>
-    </None>
-    <None Include="map_load.lua">
-      <Filter>リソース ファイル</Filter>
-    </None>
   </ItemGroup>
 </Project>

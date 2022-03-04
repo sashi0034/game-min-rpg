@@ -17,7 +17,7 @@
 #include "sprite.h"
 #include "game_utils.h"
 #include "game_engine.h"
-#include "luas.h"
+#include "lua_manager.h"
 
 
 #define DEBUG
@@ -135,60 +135,6 @@ namespace game{
         };
 
 
-
-
-#if 0
-
-        // テンプレ
-        class Templa
-        {
-        public:
-            Sprite* Spr;
-            int Image;
-            double X = 0, Y = 0;
-            int Count = 0;
-
-            Templa();
-            void Update();
-
-            static void CallUpdate(Sprite* hSpr);
-            static void Calldestructor(Sprite* hSpr);
-        };
-
-        // テンプレ(手動描画)
-        class Templa
-        {
-        public:
-            Sprite* Spr;
-            int Count = 0;
-
-            Templa();
-            void Update();
-            void Drawing(int hX, int hY);
-
-            static void CallUpdate(Sprite* hSpr);
-            static void CallDrawing(int hSp, int hX, int hY);
-            static void Calldestructor(Sprite* hSpr);
-        };
-
-        // コライダー付きテンプレ
-        class Templa : public hit::Collider
-        {
-        public:
-            Sprite* Spr;
-            int Image;
-            // X, Yはいらない
-            int Count = 0;
-
-            Templa();
-            void Update();
-
-            static void CallUpdate(Sprite* hSpr);
-            static void Calldestructor(Sprite* hSpr);
-        };
-
-
-#endif // 0
 
 
     }
