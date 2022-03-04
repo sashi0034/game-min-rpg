@@ -1,6 +1,5 @@
 #include "main.h"
-#include <iostream>
-#include "magic_enum.h"
+
 
 #define LOOP    (DxLib::ProcessMessage() != -1 && (!luas::CanRestartProgram))
 
@@ -201,7 +200,7 @@ namespace game
                     std::cout << "ok\n";
                 }
             }
-            
+            std::cout << "\n" << DxLib::GetFPS() << "\n";
             Actor::update();
         }
     }

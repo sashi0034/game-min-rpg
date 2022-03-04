@@ -1,20 +1,24 @@
 #pragma once
 
 #define _USE_MATH_DEFINES
-#include "DxLib.h"
-#include "lua.hpp"
+
 
 #include <random>
 #include <any>
 #include <map>
 #include <math.h>
+#include <iostream>
 
+#include "DxLib.h" // 3.22
+#include "magic_enum.h" // 0.7.3
+#include "lua.hpp" // 5.4
 #include "sol.hpp" // 3.5.0
+
 #include "sprite.h"
 #include "game_utils.h"
 #include "game_engine.h"
-
 #include "luas.h"
+
 
 #define DEBUG
 
