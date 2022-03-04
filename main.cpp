@@ -179,17 +179,20 @@ namespace game
             SolState = luas::Sol["Test"];
             std::string res = luas::Sol["Test"]["new"](SolState, mSpr);
             std::cout << res;
+
+            std::string testLoad = luas::Sol["Field"]["version"];
+            std::cout << testLoad;
             
         }
 
         void Test::update()
         {
             std::string res = luas::Sol["Test"]["update"](SolState);
-            std::cout << res;
+            //std::cout << res;
 
             ETest color = ETest::RED;
             auto name = magic_enum::enum_name(color);
-            std::cout << name;
+            //std::cout << name;
 
             std::string str{ "BLUE" };
             auto casted_str = magic_enum::enum_cast<ETest>(str);
@@ -197,10 +200,10 @@ namespace game
             {
                 if (casted_str.value() == ETest::BLUE)
                 {
-                    std::cout << "ok\n";
+                    //std::cout << "ok\n";
                 }
             }
-            std::cout << "\n" << DxLib::GetFPS() << "\n";
+            //std::cout << "\n" << DxLib::GetFPS() << "\n";
             Actor::update();
         }
     }

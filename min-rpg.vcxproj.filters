@@ -64,5 +64,8 @@
     <None Include="test.lua">
       <Filter>リソース ファイル</Filter>
     </None>
+    <None Include="map_load.lua">
+      <Filter>リソース ファイル</Filter>
+    </None>
   </ItemGroup>
 </Project>

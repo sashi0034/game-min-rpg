@@ -23,6 +23,7 @@ namespace luas
             "setXY", &Sprite::SetXY);
 
         Sol.script_file("test.lua");
+        Sol.script_file("map_load.lua");
     }
 }
 

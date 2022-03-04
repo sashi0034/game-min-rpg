@@ -181,6 +181,7 @@
     <ClInclude Include="sprite.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="map_load.lua" />
     <None Include="resorce.lua" />
     <None Include="test.lua" />
   </ItemGroup>
