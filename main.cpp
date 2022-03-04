@@ -1,5 +1,6 @@
 #include "main.h"
 #include <iostream>
+#include "magic_enum.h"
 
 #define LOOP    (DxLib::ProcessMessage() != -1 && (!luas::CanRestartProgram))
 
@@ -147,6 +148,13 @@ namespace game
     }
 
 
+    enum class ETest
+    {
+        RED = 0,
+        GREEN = 1,
+        BLUE = 2,
+    };
+
 
 
 
@@ -180,6 +188,19 @@ namespace game
             std::string res = luas::Sol["Test"]["update"](SolState);
             std::cout << res;
 
+            ETest color = ETest::RED;
+            auto name = magic_enum::enum_name(color);
+            std::cout << name;
+
+            std::string str{ "BLUE" };
+            auto casted_str = magic_enum::enum_cast<ETest>(str);
+            if (casted_str.has_value())
+            {
+                if (casted_str.value() == ETest::BLUE)
+                {
+                    std::cout << "ok\n";
+                }
+            }
             
             Actor::update();
         }
