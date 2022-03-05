@@ -26,7 +26,7 @@ namespace luaManager
         Lua.set_function("Cout", [](std::string str) -> void {std::cout << str; });
 
         Lua.script_file(R"(.\asset\scripte\test.lua)");
-        Lua.script_file(R"(.\asset\scripte\map_load.lua)");
+        Lua.script_file(R"(.\asset\scripte\load_scripte.lua)");
     }
 }
 

@@ -22,16 +22,16 @@ void Sprite::End()
 }
 
 
-Sprite::Sprite() : Sprite(Graph::NONE, 0, 0, 0, 0)
+Sprite::Sprite() : Sprite(nullptr, 0, 0, 0, 0)
 {}
-Sprite::Sprite(Graph image) : Sprite(image, 0, 0, 0, 0)
+Sprite::Sprite(Graph* image) : Sprite(image, 0, 0, 0, 0)
 {
     int x = 0, y = 0;
-    DxLib::GetGraphSize(image.getHandler(), &x, &y);
+    DxLib::GetGraphSize(image->GetHandler(), &x, &y);
     this->width = x;
     this->height = y;
 }
-Sprite::Sprite(Graph image, int u, int v, int w, int h)
+Sprite::Sprite(Graph* image, int u, int v, int w, int h)
 {
     this->image = image;
     this->u = u;
@@ -51,7 +51,7 @@ void Sprite::SetFlip(bool isFlip)
 }
 
 
-void Sprite::SetImage(Graph image)
+void Sprite::SetImage(Graph* image)
 {
     this->image = image;
 }
@@ -66,7 +66,7 @@ void Sprite::SetImage(int u, int v, int width, int height)
     this->width = width;
     this->height = height;
 }
-void Sprite::SetImage(Graph image, int u, int v, int width, int height)
+void Sprite::SetImage(Graph* image, int u, int v, int width, int height)
 { 
     this->SetImage(image);
     this->SetImage(u, v, width, height);
@@ -270,7 +270,7 @@ void Sprite::DrawingAll()
     {
         if (spr != nullptr)
         {
-            if (spr->image == Graph::NONE) continue;
+            if (spr->image == nullptr) continue;
 
             int x, y;
             double x1, y1;
@@ -310,7 +310,7 @@ void Sprite::DrawingProcess::DotByDot(Sprite* hSpr, int hX, int hY)
 }
 void Sprite::DrawingProcess::Draw(Sprite* hSpr, int x, int y, int scale)
 {
-    int image = DxLib::DerivationGraph(hSpr->u, hSpr->v, hSpr->width, hSpr->height, hSpr->image.getHandler());
+    int image = DxLib::DerivationGraph(hSpr->u, hSpr->v, hSpr->width, hSpr->height, hSpr->image->GetHandler());
 
     if (hSpr->rotationRad == 0)
     {

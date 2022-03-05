@@ -17,7 +17,7 @@ class Sprite
     double x = 0;
     double y = 0;
     double z = 0;
-    Graph image = Graph::NONE;
+    Graph* image = nullptr;
     int u = 0;
     int v = 0;
     int width = 0;
@@ -38,18 +38,18 @@ class Sprite
     static void garbageCollect();
 public:
     Sprite();
-    Sprite(Graph image);
-    Sprite(Graph image, int u, int v, int w, int h);
+    Sprite(Graph* image);
+    Sprite(Graph* image, int u, int v, int w, int h);
 
     static void Init();
     static void End();
 
     void SetFlip(bool isFlip);
 
-    void SetImage(Graph image);
+    void SetImage(Graph* image);
     void SetImage(int u, int v);
     void SetImage(int u, int v, int width, int height);
-    void SetImage(Graph image, int u, int v, int width, int height);
+    void SetImage(Graph* image, int u, int v, int width, int height);
 
     void SetXY(double x, double y);
     void SetZ(double z);

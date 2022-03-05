@@ -9,24 +9,27 @@ namespace gameUtils
 		mHandler = handler;
 	}
 
-	bool Graph::operator==(Graph r)
+	Graph::~Graph()
 	{
-		return this->mHandler == r.mHandler;
+		if (mHandler!=-1) DxLib::DeleteGraph(mHandler);
+	}
+
+	bool Graph::operator==(Graph* r)
+	{
+		return this->mHandler == r->mHandler;
 	}
 
 
-	int Graph::getHandler()
+	int Graph::GetHandler()
 	{
 		return mHandler;
 	}
 
-	Graph Graph::LoadGraph(const char* path)
+	Graph* Graph::LoadGraph(const char* path)
 	{
 		int handler = DxLib::LoadGraph(path);
-		return Graph(handler);
+		return new Graph(handler);
 	}
-
-	const Graph Graph::NONE = Graph(-1);
 
 	
 	namespace useful

@@ -168,6 +168,7 @@
     <ClCompile Include="game_utils.cpp" />
     <ClCompile Include="lua_manager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ingame_manager.cpp" />
     <ClCompile Include="sprite.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -176,6 +177,7 @@
     <ClInclude Include="lua_manager.h" />
     <ClInclude Include="magic_enum.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="ingame_manager.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="sol.hpp" />
     <ClInclude Include="sprite.h" />

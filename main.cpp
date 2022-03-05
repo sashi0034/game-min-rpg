@@ -129,6 +129,7 @@ namespace game
     {
         Scene::Scene()
         {
+            new MapManager(1);
             new Test();
             new BackGround();
             
@@ -186,8 +187,8 @@ namespace game
             //sol::table testLoad = luaManager::Lua["Field"]["layers"];
             //std::cout << testLoad.size() << "\n";
 
-            sol::table testLoadVec = luaManager::Lua["Field"]["layers"][1]["data"];
-            std::cout << testLoadVec.size() << " " << (int)(testLoadVec[15]) << "\n";
+            //sol::table testLoadVec = luaManager::Lua["Field"]["layers"][1]["data"];
+            //std::cout << testLoadVec.size() << " " << (int)(testLoadVec[15]) << "\n";
 
             
         }
@@ -229,14 +230,14 @@ namespace game
         BackGround::BackGround() : Actor()
         {
             Image = DxLib::MakeScreen(ROUGH_WIDTH, ROUGH_HEIGHT, TRUE);
-            mSpr->SetImage(Graph(Image), 0, 0, ROUGH_WIDTH, ROUGH_HEIGHT);
+            mSpr->SetImage(new Graph(Image), 0, 0, ROUGH_WIDTH, ROUGH_HEIGHT);
             DxLib::SetDrawScreen(Image);
             
             for (int x = 0; x < ROUGH_WIDTH; x+=32)
             {
                 for (int y = 0; y < ROUGH_HEIGHT; y+=32)
                 {
-                    DxLib::DrawGraph(x, y, Img->Tile32.getHandler(), TRUE);
+                    DxLib::DrawGraph(x, y, Img->Tile32->GetHandler(), TRUE);
                 }
             }
 

@@ -18,6 +18,7 @@
 #include "game_utils.h"
 #include "game_engine.h"
 #include "lua_manager.h"
+#include "ingame_manager.h"
 
 
 #define DEBUG
@@ -46,9 +47,9 @@ namespace game
         class Image
         {
         public:
-            Graph Test = Graph::LoadGraph(R"(.\asset\image\cloud_128x64.png)");
-            Graph Chicken = Graph::LoadGraph(R"(.\asset\image\chicken_32x32.png)");
-            Graph Tile32 = Graph::LoadGraph(R"(.\asset\image\magma_tile_black_32x32.png)");
+            Graph* Test = Graph::LoadGraph(R"(.\asset\image\cloud_128x64.png)");
+            Graph* Chicken = Graph::LoadGraph(R"(.\asset\image\chicken_32x32.png)");
+            Graph* Tile32 = Graph::LoadGraph(R"(.\asset\image\magma_tile_black_32x32.png)");
 
 #if 0
             int Templa = LoadGraph(R"(.png)");
