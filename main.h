@@ -81,7 +81,7 @@ namespace ingame{
     resorce::Image* Img;
 
 
-    int Process();
+    int doProcess();
     int SceneTransition();
 
     void LoopBasicUpdate();
@@ -124,20 +124,60 @@ namespace ingame{
 
 
 
-        class BackGround : public Actor
+        class BackGroundTest : public Actor
         {
         public:
-            static BackGround* Sole;
+            static BackGroundTest* Sole;
 
             int Image;
-            BackGround();
+            BackGroundTest();
         protected:
             void update() override;
         };
 
 
 
+        class BackGroundManager : public SelfDrawingActor
+        {
+        public:
+            BackGroundManager();
+        protected:
+            void update() override;
+            void drawing(int hX, int hY) override;
+        };
 
+
+
+        /// <summary>
+        /// TileMapレイヤー描画の基底クラス
+        /// drawingChipを実装する必要がある
+        /// </summary>
+        class FieldLayerBase : public SelfDrawingActor
+        {
+        protected:
+            int mGridUnit = 16;
+            double mZ;
+        public:
+            FieldLayerBase(double z);
+        protected:
+            void drawing(int hX, int hY) override;
+            /// <summary>
+            /// 個々のマップチップの描画
+            /// </summary>
+            /// <param name="matX">Matrix X</param>
+            /// <param name="matY">Matrix Y</param>
+            /// <param name="dpX">Display X</param>
+            /// <param name="dpY">Display Y</param>
+            virtual void drawingChip(int matX, int matY, int dpX, int dpY, TileMapChip* chip) = 0;
+        };
+
+        class WallLayer : public FieldLayerBase
+        {
+        public: 
+            WallLayer();
+        protected:
+            void drawingChip(int matX, int matY, int dpX, int dpY, TileMapChip* chip) override;
+        };
     }
 }
 

@@ -42,11 +42,13 @@ namespace gameEngine
 {
 	void SelfDrawingActor::callDrawing(Sprite* hSpr, int hX, int hY)
 	{
-		std::any_cast<SelfDrawingActor*>(hSpr->GetBelong())->drawing(hX, hY);
+		SelfDrawingActor* actor = (SelfDrawingActor*)(std::any_cast<Actor*>(hSpr->GetBelong()));
+		actor->drawing(hX, hY);
 	}
 	SelfDrawingActor::SelfDrawingActor() : Actor()
 	{
 		mSpr->SetDrawingMethod(callDrawing);
+		mSpr->SetImage(const_cast<Graph*>(Graph::NONE));
 	}
 }
 

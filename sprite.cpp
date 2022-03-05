@@ -260,7 +260,10 @@ void Sprite::UpdateAll()
     garbageCollect();
 }
 
-
+/// <summary>
+/// ‘SSprite‚ğ•`‰æ‚·‚é
+/// image‚ªnullptr‚ÌSprite‚ÍdrawingMethod‚ªŒÄ‚Î‚ê‚È‚¢‚Ì‚Å’ˆÓ‚·‚é‚±‚Æ
+/// </summary>
 void Sprite::DrawingAll()
 {
     std::sort(sprites.begin(), sprites.end(),
@@ -310,28 +313,7 @@ void Sprite::DrawingProcess::DotByDot(Sprite* hSpr, int hX, int hY)
 }
 void Sprite::DrawingProcess::Draw(Sprite* hSpr, int x, int y, int scale)
 {
-    int image = DxLib::DerivationGraph(hSpr->u, hSpr->v, hSpr->width, hSpr->height, hSpr->image->GetHandler());
-
-    if (hSpr->rotationRad == 0)
-    {
-        DxLib::DrawRotaGraph3(x, y, 0, 0, scale, scale, 0, image, 1, hSpr->isFlip);
-    }
-    else
-    {
-        int x1 = hSpr->width / 2, y1 = hSpr->height / 2;
-        double cos = std::cos(hSpr->rotationRad), sin = std::sin(hSpr->rotationRad);
-
-        double x2 = x1 * cos - y1 * sin, y2 = x1 * sin + y1 * cos;
-
-        double dx = x1 - x2, dy = y1 - y2;
-
-        DxLib::DrawRotaGraph3(x + int(dx * scale), y + int(dy * scale),
-            0, 0, // ‰ñ“]’†S
-            scale, scale,
-            hSpr->rotationRad, image,
-            1, hSpr->isFlip);
-    }
-    DxLib::DeleteGraph(image);
+    hSpr->image->DrawGraph(x, y, hSpr->u, hSpr->v, hSpr->width, hSpr->height, scale, hSpr->rotationRad);
 }
 
 

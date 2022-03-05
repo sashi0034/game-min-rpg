@@ -4,7 +4,9 @@
 
 namespace gameEngine
 {
-	// 基底オブジェクト
+	/// <summary>
+	/// ゲームオブジェクト基底
+	/// </summary>
 	class Actor
 	{
 	protected:
@@ -24,6 +26,9 @@ namespace gameEngine
 	};
 
 	
+	/// <summary>
+	/// 手動描画するゲームオブジェクトの基底
+	/// </summary>
 	class SelfDrawingActor : public Actor
 	{
 	protected:
@@ -61,7 +66,9 @@ namespace gameEngine
 		};
 	}
 
-
+	/// <summary>
+	/// 当たり判定付きゲームオブジェクトの基底
+	/// </summary>
 	class CollideActor : public Actor
 	{
 	private:

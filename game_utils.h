@@ -17,10 +17,14 @@ namespace gameUtils
 		Graph(int handler);
 		~Graph();
 		int GetHandler();
+		void DrawGraph(int x, int y, int u, int v, int width, int height, double scale);
+		void DrawGraph(int x, int y, int u, int v, int width, int height, double scale, double rotationRad);
+		void DrawGraph(int x, int y, int u, int v, int width, int height, double scale, double rotationRad, bool isFlip);
 
 		bool operator ==(Graph* r);
 
 		static Graph* LoadGraph(const char* path);
+		static const Graph* NONE;
 	};
 
 	

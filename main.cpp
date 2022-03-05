@@ -17,7 +17,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         freopen_s(&stream, "CONOUT$", "w", stderr);
     }
 
-    return ingame::Process();
+    return ingame::doProcess();
     
 }
 
@@ -31,7 +31,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 namespace ingame
 {
-    int Process()
+    int doProcess()
     {
         // ウインドウモードで起動
         DxLib::ChangeWindowMode(TRUE);
@@ -132,7 +132,7 @@ namespace ingame
         {
             new MapManager(1);
             new Test();
-            new BackGround();
+            new BackGroundManager();
             
             Loop();
 
@@ -146,6 +146,10 @@ namespace ingame
                 LoopBasicUpdate();
             }
         }
+
+
+
+
     }
 
 
@@ -224,11 +228,11 @@ namespace ingame
     // BackGround
     namespace main
     {
-        BackGround* BackGround::Sole = nullptr;
+        BackGroundTest* BackGroundTest::Sole = nullptr;
 
 
-        // 背景
-        BackGround::BackGround() : Actor()
+        // 背景テスト
+        BackGroundTest::BackGroundTest() : Actor()
         {
             Image = DxLib::MakeScreen(ROUGH_WIDTH, ROUGH_HEIGHT, TRUE);
             mSpr->SetImage(new Graph(Image), 0, 0, ROUGH_WIDTH, ROUGH_HEIGHT);
@@ -243,16 +247,85 @@ namespace ingame
             }
 
             mSpr->SetZ(4000);
-            BackGround::Sole = this;
+            BackGroundTest::Sole = this;
 
         }
-        void BackGround::update()
+        void BackGroundTest::update()
         {
             Actor::update();
         }
 
     }
 
+    namespace main
+    {
+        BackGroundManager::BackGroundManager() : SelfDrawingActor()
+        {
+            new WallLayer();
+        }
+        void BackGroundManager::update()
+        {
+            SelfDrawingActor::update();
+        }
+        void BackGroundManager::drawing(int hX, int hY)
+        {
+
+        }
+    }
+    namespace main
+    {
+        FieldLayerBase::FieldLayerBase(double z) : SelfDrawingActor()
+        {
+            mZ = z;
+            mSpr->SetZ(z);
+        }
+        void FieldLayerBase::drawing(int hX, int hY)
+        {
+            double hX1 = hX / ROUGH_SCALE;
+            double hY1 = hY / ROUGH_SCALE;
+
+            int x0 = (-hX / mGridUnit) - (-hX1 < 0 ? 1 : 0);
+            int y0 = (-hX / mGridUnit) - (-hY1 < 0 ? 1 : 0);
+
+            for (int y = y0; y <= y0 + (ROUGH_HEIGHT / mGridUnit); ++y)
+            {
+                for (int x = x0; x <= x0 + (ROUGH_WIDTH / mGridUnit); ++x)
+                {
+                    int displayX = hX + x * mGridUnit * ROUGH_SCALE;
+                    int displayY = hY + y * mGridUnit * ROUGH_SCALE;
+
+                    MapMatElement* element = MapManager::Sole->GetMatAt(x, y);
+                    std::vector<TileMapChip*> chips = element->Chips;
+                    for (auto chip : chips)
+                    {
+                        drawingChip(x, y, displayX, displayY, chip);
+                    }
+                }
+            }
+        }
+    }
+
+    namespace main
+    {
+        WallLayer::WallLayer() : FieldLayerBase(2000)
+        {
+
+        }
+
+        void WallLayer::drawingChip(int matX, int matY, int dpX, int dpY, TileMapChip* chip)
+        {
+            MapManager::Sole->GetTilesetGraph()->DrawGraph(dpX, dpY, chip->srcX, chip->srcY, 16, 16, ROUGH_SCALE);
+
+            switch (chip->Name)
+            {
+            case ETileName::house:
+
+                break;
+            default:
+                break;
+            }
+        }
+    }
 
 
 

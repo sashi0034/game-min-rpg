@@ -14,6 +14,15 @@
 */
 namespace ingame
 {
+	MapMatElement::~MapMatElement()
+	{
+		for (auto chip : Chips)
+		{
+			delete chip;
+		}
+	}
+
+
 	MapManager::MapManager(int stageIndex) : Singleton<MapManager>()
 	{
 		sol::table fieldTable = luaManager::Lua["LoadScripte"](R"(.\asset\tilemap\field_01.lua)");
@@ -30,6 +39,7 @@ namespace ingame
 		int tileWidth = tilesetTable["tilewidth"].get_or(0);
 		int tileHeight = tilesetTable["tileheight"].get_or(0);
 
+		// タイルパレットの読み込み
 		for (int i = 1; i <= tiles.size(); i++)
 		{
 			int id = tiles[i]["id"].get_or(-1);
@@ -46,7 +56,7 @@ namespace ingame
 				int srcX = (id % tileCollums) * tileWidth;
 				int srcY = (id / tileCollums) * tileHeight;
 
-				mTilechips[id] = new TilePallete{eName, isRaw, isWall, srcX, srcY};
+				mTilechips[id] = new TileMapChip{eName, isRaw, isWall, srcX, srcY};
 			}
 			else
 			{
@@ -59,10 +69,13 @@ namespace ingame
 		mHeight = fieldTable["height"].get_or(0);
 
 
-
+		// タイルマップの読み込み
 		if (mWidth != 0 && mHeight != 0)
 		{
-			mMat.resize(mWidth, std::vector<MapMatElement*>(mHeight, new MapMatElement()));
+			mMat.resize(mWidth, std::vector<MapMatElement*>(mHeight));
+			for (auto& row : mMat)
+				for (auto& ele : row)
+					ele = new MapMatElement();
 
 			sol::table layers = fieldTable["layers"];
 			for (int i = 1; i <= layers.size(); ++i)
@@ -76,9 +89,9 @@ namespace ingame
 						int chipNo = layers[i]["data"][x + y * mWidth + 1].get_or(0) - 1;
 						if (mTilechips.count(chipNo) != 0)
 						{
-							TilePallete* pal = mTilechips[chipNo];
-							mMat[x][y]->elements.push_back(pal);
-							if (pal->IsWall) mMat[x][y]->IsWall = true;
+							TileMapChip* chip = mTilechips[chipNo];
+							mMat[x][y]->Chips.push_back(chip);
+							if (chip->IsWall) mMat[x][y]->IsWall = true;
 						}
 						else if (chipNo != -1)
 						{
@@ -89,9 +102,33 @@ namespace ingame
 			}
 		}
 
-
-
-
-
+		std::string imagePath = R"(.\asset\tilemap\)" + tilesetTable["image"].get_or(std::string{});
+		mTilesetGraph = Graph::LoadGraph(imagePath.c_str());
+		std::cout OUT_LOG "Get tilemap sorce image handler: " << mTilesetGraph->GetHandler() << "\n";
 	}
+	MapManager::~MapManager()
+	{
+		delete mTilesetGraph;
+		for (auto &tile : mTilechips)
+		{
+			delete (&tile)->second;
+		}
+		for (auto &raw : mMat)
+		{
+			for (auto& element : raw)
+			{
+				delete element;
+			}
+		}
+	}
+	MapMatElement* MapManager::GetMatAt(int x, int y)
+	{
+		return mMat[x][y];
+	}
+
+	Graph* MapManager::GetTilesetGraph()
+	{
+		return mTilesetGraph;
+	}
+
 }

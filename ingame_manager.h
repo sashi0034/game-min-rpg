@@ -49,7 +49,7 @@ namespace ingame
 		weed
 	};
 
-	struct TilePallete
+	struct TileMapChip
 	{
 		ETileName Name;
 		bool IsRaw;
@@ -60,14 +60,15 @@ namespace ingame
 
 	struct MapMatElement
 	{
-		std::vector<TilePallete*> elements{};
+		std::vector<TileMapChip*> Chips{};
 		bool IsWall = false;
+		~MapMatElement();
 	};
 
 	class MapManager : public Singleton<MapManager>
 	{
-		Graph* mTileSetGraph;
-		std::map<int, TilePallete*> mTilechips{};
+		Graph* mTilesetGraph;
+		std::map<int, TileMapChip*> mTilechips{};
 		
 		int mWidth;
 		int mHeight;
@@ -75,6 +76,9 @@ namespace ingame
 		
 	public:
 		MapManager(int stageIndex);
+		~MapManager();
+		MapMatElement* GetMatAt(int x, int y);
+		Graph* GetTilesetGraph();
 	};
 }
 
