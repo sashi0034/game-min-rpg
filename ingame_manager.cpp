@@ -3,14 +3,6 @@
 
 
 
-
-
-
-
-
-
-
-
 /*
 ** ’ˆÓ
 ** Lua‚Í1-index‚Å‚·
@@ -22,7 +14,7 @@
 */
 namespace ingame
 {
-	MapManager::MapManager(int stageIndex)
+	MapManager::MapManager(int stageIndex) : Singleton<MapManager>()
 	{
 		sol::table fieldTable = luaManager::Lua["LoadScripte"](R"(.\asset\tilemap\field_01.lua)");
 

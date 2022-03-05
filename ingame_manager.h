@@ -15,7 +15,26 @@ using namespace gameUtils;
 
 namespace ingame
 {
-
+	template <typename T>
+	class Singleton
+	{
+	public:
+		Singleton()
+		{
+			if (Sole != nullptr)
+			{
+				std::cerr ERR_LOG "Singleton object is already exit\n";
+				return;
+			}
+			Sole = static_cast<T*>(this);
+		}
+		~Singleton()
+		{
+			Sole = nullptr;
+		}
+		static T* Sole;
+	};
+	template <typename T> T* Singleton<T>::Sole = nullptr;
 
 
 	enum class ETileName
@@ -45,7 +64,7 @@ namespace ingame
 		bool IsWall = false;
 	};
 
-	class MapManager
+	class MapManager : public Singleton<MapManager>
 	{
 		Graph* mTileSetGraph;
 		std::map<int, TilePallete*> mTilechips{};
