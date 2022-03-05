@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset version="1.8" tiledversion="1.8.2" name="natural_tileset" tilewidth="16" tileheight="16" tilecount="256" columns="16">
+ <editorsettings>
+  <export target="natural_tileset.lua" format="lua"/>
+ </editorsettings>
  <image source="natural_tileset.png" width="256" height="256"/>
  <tile id="17">
   <properties>

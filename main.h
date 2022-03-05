@@ -40,7 +40,7 @@ using namespace gameEngine;
 
 
 
-namespace game
+namespace ingame
 {
     namespace resorce 
     {
@@ -67,7 +67,7 @@ namespace game
 }
 
 
-namespace game{
+namespace ingame{
     
     const int ROUGH_WIDTH = 416, ROUGH_HEIGHT = 240;
     const int ROUGH_SCALE = 3;

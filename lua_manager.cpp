@@ -23,7 +23,7 @@ namespace luaManager
             sol::constructors<Sprite()>(),
             "setXY", &Sprite::SetXY);
 
-        Lua.set_function("Cout", [](std::string str) -> void {std::cout << str; });
+        Lua.set_function("Cout", [](std::string str) -> void {std::cout OUT_LOG str; });
 
         Lua.script_file(R"(.\asset\scripte\test.lua)");
         Lua.script_file(R"(.\asset\scripte\load_scripte.lua)");

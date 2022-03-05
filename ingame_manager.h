@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string.h>
 #include <map>
+#include <vector>
 
 #include "magic_enum.h"
 
@@ -12,12 +13,14 @@
 
 using namespace gameUtils;
 
-namespace game
+namespace ingame
 {
+
+
 
 	enum class ETileName
 	{
-		NONE,
+		none,
 		water_place,
 		sand_pit,
 		meadows,
@@ -27,16 +30,30 @@ namespace game
 		weed
 	};
 
-	struct TileProps
+	struct TilePallete
 	{
-		ETileName name = ETileName::NONE;
-		bool isRaw = false;
+		ETileName Name;
+		bool IsRaw;
+		bool IsWall;
+		int srcX;
+		int srcY;
+	};
+
+	struct MapMatElement
+	{
+		std::vector<TilePallete*> elements{};
+		bool IsWall = false;
 	};
 
 	class MapManager
 	{
 		Graph* mTileSetGraph;
-		std::vector<std::map<int, ETileName>> mTilechips{};
+		std::map<int, TilePallete*> mTilechips{};
+		
+		int mWidth;
+		int mHeight;
+		std::vector<std::vector<MapMatElement*>> mMat{};
+		
 	public:
 		MapManager(int stageIndex);
 	};

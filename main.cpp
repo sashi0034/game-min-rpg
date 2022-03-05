@@ -14,9 +14,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         FILE* stream;
         freopen_s(&stream, "CONIN$", "r", stdin);
         freopen_s(&stream, "CONOUT$", "w", stdout);
+        freopen_s(&stream, "CONOUT$", "w", stderr);
     }
 
-    return game::Process();
+    return ingame::Process();
     
 }
 
@@ -28,7 +29,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 
-namespace game
+namespace ingame
 {
     int Process()
     {
@@ -59,7 +60,7 @@ namespace game
         
         if (luaManager::SolStart()==-1) return -1;
 
-        printf("game is start\n");
+        std::cout OUT_LOG "Game is started.\n";
 
         //ÉVÅ[Éì
         SceneTransition();
@@ -116,7 +117,7 @@ namespace game
 
 
 
-namespace game
+namespace ingame
 {
 
 

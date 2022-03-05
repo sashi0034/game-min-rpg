@@ -4,6 +4,9 @@
 #include <vector>
 #include <random>
 
+#define OUT_LOG	<< "\n [OUT] " << __FILE__  << " ** " << __FUNCTION__ << " ** " << __LINE__ << "\n" <<
+#define ERR_LOG	<< "\n [ERR] " << __FILE__  << " ** " << __FUNCTION__ << " ** " << __LINE__ << "\n" <<
+
 namespace gameUtils
 {
 	class Graph
