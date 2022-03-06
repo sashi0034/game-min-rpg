@@ -130,29 +130,6 @@ namespace ingame{
 
 
 
- 
-        class FieldDecorationBase : public Actor
-        {
-        public:
-            FieldDecorationBase(int x, int y);
-        };
-
-        class Weed : public FieldDecorationBase
-        {
-        public:
-            Weed(int x, int y);
-        protected:
-            void update() override;
-        };
-
-        class Tree : public FieldDecorationBase
-        {
-        public:
-            Tree(int x, int y);
-        protected:
-            void update() override;
-        };
-
 
 
 

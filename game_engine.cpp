@@ -1,6 +1,48 @@
 #include "game_engine.h"
 
+namespace gameEngine {
+	Time::Time() : gameUtils::Singleton<Time>()
+	{
+		Restart();
+	}
+	void Time::Restart()
+	{
+		mDeletaMili = 0;
+		mDeletaSec = 0;
+		mOldTime = std::chrono::system_clock::now();
+	}
+	void Time::Update()
+	{
+		auto cur = std::chrono::system_clock::now();
+		auto dur = cur - mOldTime;
+		auto milli = std::chrono::duration_cast<std::chrono::milliseconds>(dur).count();
+		mDeletaMili = milli;
+		mDeletaSec = milli / 1000.0;
+		mOldTime = cur;
+	}
+	int Time::GetDeltaMilli()
+	{
+		return mDeletaMili;
+	}
+	double Time::GetDeletaSec()
+	{
+		return mDeletaSec;
+	}
+
+	double Time::DeltaSec()
+	{
+		return Time::Sole->GetDeletaSec();
+	}
+	int Time::DeltaMilli()
+	{
+		return Time::Sole->GetDeltaMilli();;
+	}
+}
+
+
 namespace gameEngine{
+
+
 	Sprite* Actor::GetSpr()
 	{
 		return mSpr;

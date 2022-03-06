@@ -1,9 +1,30 @@
 #pragma once
 #include "sprite.h"
 #include "game_utils.h"
+#include <chrono>
 
 namespace gameEngine
 {
+
+	/// <summary>
+	/// 時間を管理するシングルトンクラス
+	/// ループ前にRestartを呼び、ループ回にUpdateを呼ぶこと
+	/// </summary>
+	class Time : public gameUtils::Singleton<Time>
+	{
+		std::chrono::system_clock::time_point mOldTime;
+		int mDeletaMili{};
+		double mDeletaSec{};
+	public:
+		Time();
+		int GetDeltaMilli();
+		double GetDeletaSec();
+		void Restart();
+		void Update();
+		static int DeltaMilli();
+		static double DeltaSec();
+	};
+
 	/// <summary>
 	/// ゲームオブジェクト基底
 	/// </summary>
@@ -11,7 +32,7 @@ namespace gameEngine
 	{
 	protected:
 		Sprite* mSpr;
-		double mTime = 0;
+		int mTime = 0;
 	public:
 		Sprite* GetSpr();
 		double GetTime();

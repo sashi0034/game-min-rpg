@@ -1,4 +1,4 @@
-#include "main.h"
+#include "start.h"
 
 
 #define LOOP    (DxLib::ProcessMessage() != -1 && (!luaManager::CanRestartProgram))
@@ -58,6 +58,7 @@ namespace ingame
         }
         Sprite::Init();
 
+        new Time();
         Rand = new useful::Random();
         Images = new resorce::Image(); //‰æ‘œ“Ç‚Ýž‚Ý
 
@@ -110,6 +111,7 @@ namespace ingame
         DxLib::ClearDrawScreen();
         Sprite::DrawingAll();
         DxLib::ScreenFlip();
+        Time::Sole->Update();
     }
 }
 
@@ -157,7 +159,7 @@ namespace ingame
         }
         void Scene::Loop()
         {
-
+            Time::Sole->Restart();
             while (LOOP)
             {
                 LoopBasicUpdate();
@@ -234,38 +236,12 @@ namespace ingame
                 }
             }
             //std::cout << "\n" << DxLib::GetFPS() << "\n";
+
+            std::cout OUT_LOG Time::DeltaMilli() << " " << Time::DeltaSec() << "\n";
+
             Actor::update();
         }
     }
-
-
-    namespace main
-    {
-        FieldDecorationBase::FieldDecorationBase(int x, int y) : Actor()
-        {
-            mSpr->SetZ(ZIndex::FLOOR-1);
-            mSpr->SetXY(x * 16, y * 16);
-        }
-
-
-
-        Weed::Weed(int x, int y) : FieldDecorationBase(x, y){}
-        void Weed::update()
-        {
-            mSpr->SetImage(Images->Weed, ((int)(mTime/1000)%2) * 16, 0, 16, 16);
-            Actor::update();
-        }
-
-        Tree::Tree(int x, int y) : FieldDecorationBase(x, y) {}
-        void Tree::update()
-        {
-            mSpr->SetImage(Images->Tree, ((int)(mTime/1000*2) % 4) * 16, 0, 16, 16);
-            Actor::update();
-        }
-
-    }
-
-
 
 
 

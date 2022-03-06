@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <random>
+#include <iostream>
 #include "DxLib.h"
 
 
@@ -29,6 +30,7 @@ namespace gameUtils
 		static const Graph* NONE;
 	};
 
+
 	
 	namespace useful
 	{
@@ -45,11 +47,35 @@ namespace gameUtils
 			int Get(int max);
 			int Get(int min, int max);
 		};
+	}
+
+	
+	/*
+	** template functiones and classes
+	*/
+	template <typename T>
+	class Singleton
+	{
+	public:
+		Singleton()
+		{
+			if (Sole != nullptr)
+			{
+				std::cerr ERR_LOG "Singleton object is already exit\n";
+				return;
+			}
+			Sole = static_cast<T*>(this);
+		}
+		~Singleton()
+		{
+			Sole = nullptr;
+		}
+		static T* Sole;
+	};
+	template <typename T> T* Singleton<T>::Sole = nullptr;
 
 
-		/*
-		** templates
-		*/
+	namespace useful {
 		template<typename T>
 		int FindIndex(std::vector<T> arr, T target)
 		{
@@ -72,6 +98,7 @@ namespace gameUtils
 			arr.erase(arr.begin() + index);
 			return 0;
 		}
+
 
 		template<typename T>
 		struct XY { T X; T Y; };

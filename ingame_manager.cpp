@@ -1,5 +1,10 @@
 #include "ingame_manager.h"
-#include "main.h"
+#include "start.h"
+#include "main_scene.h"
+
+
+
+
 
 
 
@@ -12,7 +17,7 @@
 **
 ** ‘åŽ–‚È‚±‚Æ‚È‚Ì‚Å2‰ñŒ¾‚¢‚Ü‚µ‚½
 */
-namespace ingame
+namespace ingame::main
 {
 	void MapMatElement::Update()
 	{
@@ -146,10 +151,10 @@ namespace ingame
 	{
 		switch (tile)
 		{
-		case ingame::ETileName::tree:
+		case ETileName::tree:
 			new main::Tree(x, y);
 			return true;
-		case ingame::ETileName::weed:
+		case ETileName::weed:
 			new main::Weed(x, y);
 			return true;
 		default:
@@ -180,9 +185,10 @@ namespace ingame
 			0<=y && y<=mHeight-1;
 	}
 
+
 }
 
-namespace ingame
+namespace ingame::main
 {
 
 
