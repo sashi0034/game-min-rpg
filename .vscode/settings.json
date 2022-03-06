@@ -2,6 +2,6 @@
     "Lua.diagnostics.globals": [
         "Cout",
         "Cerr",
-        "Graph"
+        "Images"
     ]
 }

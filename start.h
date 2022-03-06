@@ -19,6 +19,7 @@
 #include "game_engine.h"
 #include "lua_manager.h"
 #include "ingame_manager.h"
+#include "main_scene.h"
 
 
 #define DEBUG

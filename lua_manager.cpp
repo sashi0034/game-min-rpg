@@ -25,10 +25,22 @@ namespace luaManager
             "setXY", &Sprite::SetXY,
             "setImage", sol::resolve<void(Graph*)>(&Sprite::SetImage));
 
+        luaManager::Lua.new_usertype<Actor>(
+            "Actor",
+            sol::constructors<Actor()>(),
+            "getTime", &Actor::GetTime,
+            "getSpr", &Actor::GetSpr);
+
+        luaManager::Lua.new_usertype<CollideActor>(
+            "CollideActor",
+            "getTime", &CollideActor::GetTime,
+            "getSpr", &CollideActor::GetSpr,
+            "getHit", &CollideActor::GetHit,
+            "getHitWith", &CollideActor::GetHitWith);
+
         Lua.set_function("Cout", [](std::string str) -> void {std::cout << str; });
         Lua.set_function("Cerr", [](std::string str) -> void {std::cerr << str; });
         
-        luaManager::Lua.new_usertype<ingame::resorce::Image>("Graph", "Kisaragi", &ingame::resorce::Image::Kisaragi);
         Lua["Images"] = Lua.create_table();
         Lua["Images"]["Kisaragi"] = ingame::Images->Kisaragi;
 
@@ -52,7 +64,8 @@ namespace luaManager
         WIN32_FIND_DATA findData;
         FILETIME fileTime;
         // ê‚ëŒÉpÉXÇéwíË
-        HANDLE hFile = FindFirstFile(R"(E:\dev\VisualStudioRepos\min-rpg\asset\scripte\start.lua)", &findData); 
+        std::string debugFilePath = Lua["DEBUG_FILE_PATH"];
+        HANDLE hFile = FindFirstFile(debugFilePath.c_str(), &findData);
 
         if (hFile == INVALID_HANDLE_VALUE)
         {

@@ -151,7 +151,8 @@ namespace ingame
         {
             
             new MapManager(1);
-            new Test();
+            new Player(200, 200);
+            //new Test();
             new BackGroundManager();
             new luaManager::LuaDebugManager();
             
@@ -203,9 +204,9 @@ namespace ingame
             OtherSp->SetXY(100, 50);
             OtherSp->SetZ(-200);
 
-            SolState = luaManager::Lua["Test"];
-            std::string res = luaManager::Lua["Test"]["new"](SolState, mSpr);
-            std::cout << res;
+            SolState = luaManager::Lua.create_table();
+            SolState = luaManager::Lua["Test"]["new"](static_cast<Actor*>(this));
+            //std::cout << res;
 
             //std::string testLoad = luaManager::Lua["Field"]["layers"][1]["type"];
             //std::cout << testLoad << "\n";

@@ -17,6 +17,38 @@
 
 namespace ingame::main
 {
+    class ILuaUser
+    {
+    protected:
+        std::string mLuaClassName = "";
+        sol::table mLuaData{};
+        virtual void luaConstructor() = 0;
+        virtual int luaUpdate() = 0;
+    };
+
+    class LuaCollideActor: public CollideActor, public ILuaUser
+    {
+    protected:
+        LuaCollideActor(std::string luaClass, bool canLuaConstruct, collider::Shape* col, UINT mask);
+        void update() override;
+        void luaConstructor() override;
+        virtual int luaUpdate() override;
+    };
+
+
+
+    class Player : public LuaCollideActor
+    {
+    public:
+        Player(int startX, int startY);
+    protected:
+        void update() override;
+        int luaUpdate() override;
+    };
+
+
+
+
 
     class FieldDecorationBase : public Actor
     {

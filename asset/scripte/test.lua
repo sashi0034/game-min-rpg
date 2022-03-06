@@ -2,18 +2,24 @@
 
 -- class Test
 Test = {
+    actor=nil,
     spr = nil,
     x = 0,
     y = 0,
     time = 0,
+    
 
-    new = function(self, spr)
-        self.spr = spr
+    new = function(actor)
+        local self = {}
+        setmetatable(self, {__index=Test})
+        self.actor = actor
+        self.spr = actor:getSpr()
         self.x = 50
         self.y = 100
+        
         self.spr:setXY(self.x, self.y)
         self.spr:setImage(Images.Kisaragi)
-        return "created Test\n"
+        return self
     end,
 
     update = function(self)
@@ -24,7 +30,7 @@ Test = {
 
         self.spr:setXY(self.x, self.y)
         
-        Cout("Hoge.aho")
+        Cout(self.actor:getTime()..", ")
 
         --return "hogehoge" .. self.time
         return "x = ".. self.x .. ", y = " .. self.y .."\n"

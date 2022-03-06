@@ -57,7 +57,7 @@ namespace ingame::main
 		for (int i = 1; i <= tiles.size(); i++)
 		{
 			int id = tiles[i]["id"].get_or(-1);
-			sol::table prop = tiles[i]["properties"].get_or(sol::table{});
+			sol::table prop = tiles[i]["properties"].get_or(luaManager::Lua.create_table());
 			if (id != -1)
 			{
 				std::string name = prop["name"].get_or(std::string("none"));
