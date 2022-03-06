@@ -76,11 +76,11 @@ namespace ingame
         {// 再起動
             luaManager::CanRestartProgram = false;
             Sprite::DisposeAll();
-            printfDx("再起動完了\n");
+            printfDx("Hot Reload 完了\n");
             goto restart;
         }
 
-        printf("game is end\n");
+        std::cout OUT_LOG "Game is finished.\n";
 
         Sprite::End();
         DxLib::DxLib_End();        // ＤＸライブラリ使用の終了処理
@@ -149,9 +149,11 @@ namespace ingame
     {
         Scene::Scene()
         {
+            
             new MapManager(1);
             new Test();
             new BackGroundManager();
+            new luaManager::LuaDebugManager();
             
             Loop();
 
@@ -237,7 +239,7 @@ namespace ingame
             }
             //std::cout << "\n" << DxLib::GetFPS() << "\n";
 
-            std::cout OUT_LOG Time::DeltaMilli() << " " << Time::DeltaSec() << "\n";
+            //std::cout OUT_LOG Time::DeltaMilli() << " " << Time::DeltaSec() << "\n";
 
             Actor::update();
         }

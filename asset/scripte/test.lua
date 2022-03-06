@@ -12,6 +12,7 @@ Test = {
         self.x = 50
         self.y = 100
         self.spr:setXY(self.x, self.y)
+        self.spr:setImage(Images.Kisaragi)
         return "created Test\n"
     end,
 
@@ -23,6 +24,8 @@ Test = {
 
         self.spr:setXY(self.x, self.y)
         
+        Cout("Hoge.aho")
+
         --return "hogehoge" .. self.time
         return "x = ".. self.x .. ", y = " .. self.y .."\n"
     end,

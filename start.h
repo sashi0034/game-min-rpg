@@ -54,6 +54,8 @@ namespace ingame
             Graph* NaturalTile = loadPng("natural_playground_16x16");
             Graph* Weed = loadPng("weed_16x16");
             Graph* Tree = loadPng("tree_16x16");
+            Graph* Kisaragi = loadPng("kisaragi_24x24");
+
 
 #if 0
             int Templa = LoadGraph(R"(.png)");

@@ -14,19 +14,24 @@ namespace ingame::main
         mSpr->SetZ(double(ZIndex::FLOOR) - 1);
         mSpr->SetXY(x * 16, y * 16);
     }
-
-    Weed::Weed(int x, int y) : FieldDecorationBase(x, y) {}
-    void Weed::update()
+    void FieldDecorationBase::update()
     {
-        mSpr->SetImage(Images->Weed, ((int)(mTime / 1000) % 2) * 16, 0, 16, 16);
+        mAnimTime += Time::DeltaMilli();
         Actor::update();
     }
 
-    Tree::Tree(int x, int y) : FieldDecorationBase(x, y) {}
+    Weed::Weed(int x, int y) : FieldDecorationBase(x, y) { mAnimTime = (x + y) * 100; }
+    void Weed::update()
+    {
+        mSpr->SetImage(Images->Weed, ((int)(mAnimTime / 300) % 2) * 16, 0, 16, 16);
+        FieldDecorationBase::update();
+    }
+
+    Tree::Tree(int x, int y) : FieldDecorationBase(x, y) { mAnimTime = (x + y) * 100; }
     void Tree::update()
     {
-        mSpr->SetImage(Images->Tree, ((int)(mTime / 1000 * 2) % 4) * 16, 0, 16, 16);
-        Actor::update();
+        mSpr->SetImage(Images->Tree, ((int)(mAnimTime/500) % 4) * 16, 0, 16, 16);
+        FieldDecorationBase::update();
     }
 }
 

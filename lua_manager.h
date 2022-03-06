@@ -13,7 +13,7 @@ namespace luaManager
     extern bool CanRestartProgram;
 
     int SolStart();
-    void DefineSpriteFunc();
+    void DefineTable();
 
     class LuaDebugManager
     {

@@ -20,8 +20,12 @@ namespace ingame::main
 
     class FieldDecorationBase : public Actor
     {
+    protected:
+        int mAnimTime{};
     public:
         FieldDecorationBase(int x, int y);
+    protected :
+        void update() override;
     };
 
     class Weed : public FieldDecorationBase

@@ -53,7 +53,7 @@ namespace gameEngine{
 	}
 	void Actor::update()
 	{
-		mTime += 1;
+		mTime += Time::DeltaMilli();
 	}
 	void Actor::destructor()
 	{}

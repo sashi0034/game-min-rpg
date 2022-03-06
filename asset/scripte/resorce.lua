@@ -40,7 +40,7 @@ Test = {
     end,
 }
 
--- ƒeƒXƒgƒIƒuƒWƒFƒNƒgŒÄ‚Ño‚µ
+-- ï¿½eï¿½Xï¿½gï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½Ä‚Ñoï¿½ï¿½
 function LuacallTest(sp)
     return Luacall(sp, Test)
 end

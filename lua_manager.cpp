@@ -1,4 +1,5 @@
 #include "lua_manager.h"
+#include "start.h"
 
 namespace luaManager
 {
@@ -10,23 +11,28 @@ namespace luaManager
 
         Lua.open_libraries(sol::lib::base, sol::lib::package, sol::lib::coroutine, sol::lib::string, sol::lib::os, sol::lib::math,
             sol::lib::table, sol::lib::debug, sol::lib::bit32, sol::lib::io, sol::lib::ffi, sol::lib::utf8);
-        DefineSpriteFunc();
+        DefineTable();
 
         new luaManager::LuaDebugManager();
         return 0;
     }
-    void DefineSpriteFunc()
+    void DefineTable()
     {
 
         luaManager::Lua.new_usertype<Sprite>(
             "Sprite",
             sol::constructors<Sprite()>(),
-            "setXY", &Sprite::SetXY);
+            "setXY", &Sprite::SetXY,
+            "setImage", sol::resolve<void(Graph*)>(&Sprite::SetImage));
 
         Lua.set_function("Cout", [](std::string str) -> void {std::cout << str; });
+        Lua.set_function("Cerr", [](std::string str) -> void {std::cerr << str; });
+        
+        luaManager::Lua.new_usertype<ingame::resorce::Image>("Graph", "Kisaragi", &ingame::resorce::Image::Kisaragi);
+        Lua["Images"] = Lua.create_table();
+        Lua["Images"]["Kisaragi"] = ingame::Images->Kisaragi;
 
-        Lua.script_file(R"(.\asset\scripte\test.lua)");
-        Lua.script_file(R"(.\asset\scripte\load_scripte.lua)");
+        Lua.script_file(R"(.\asset\scripte\start.lua)");
     }
 }
 
@@ -45,11 +51,12 @@ namespace luaManager
     {
         WIN32_FIND_DATA findData;
         FILETIME fileTime;
-        HANDLE hFile = FindFirstFile(R"(C:\Users\satos\source\repos\lua_test\resorce.lua)", &findData); // 絶対パスを指定
+        // 絶対パスを指定
+        HANDLE hFile = FindFirstFile(R"(E:\dev\VisualStudioRepos\min-rpg\asset\scripte\start.lua)", &findData); 
 
         if (hFile == INVALID_HANDLE_VALUE)
         {
-            printf("読み込み失敗\n");
+            std::cerr ERR_LOG "指定されたLuaファイルが見つかりませんでした\n";
         }
         else
         {
@@ -72,15 +79,11 @@ namespace luaManager
             if ((mLastWriteTime.wMilliseconds != lastWriteTime.wMilliseconds)
                 || (mLastWriteTime.wSecond != lastWriteTime.wSecond))
             {//　更新してたなら
-                printf("プログラムの変更を確認しました。再起動します\n");
+                std::cout OUT_LOG "Luaファイルが変更されたので再起動します";
                 CanRestartProgram = true;
                 mLastWriteTime = lastWriteTime;
             }
-
-
         }
-
-
     }
 
 
