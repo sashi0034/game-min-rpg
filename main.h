@@ -51,8 +51,9 @@ namespace ingame
         public:
             Graph* Test = Graph::LoadGraph(R"(.\asset\image\cloud_128x64.png)");
             Graph* Chicken = Graph::LoadGraph(R"(.\asset\image\chicken_32x32.png)");
-            Graph* Tile32 = Graph::LoadGraph(R"(.\asset\image\magma_tile_black_32x32.png)");
             Graph* NaturalTile = loadPng("natural_playground_16x16");
+            Graph* Weed = loadPng("weed_16x16");
+            Graph* Tree = loadPng("tree_16x16");
 
 #if 0
             int Templa = LoadGraph(R"(.png)");
@@ -77,11 +78,11 @@ namespace ingame{
     const int FULL_WIDTH = ROUGH_WIDTH * ROUGH_SCALE;
     const int FULL_HEIGHT = ROUGH_HEIGHT * ROUGH_SCALE;
 
-    useful::Random* Rand = new useful::Random();
+    extern useful::Random* Rand;
 
-    int GameState;
+    extern int GameState;
 
-    resorce::Image* Images;
+    extern resorce::Image* Images;
 
 
     int doProcess();
@@ -130,70 +131,32 @@ namespace ingame{
 
 
  
-
-
-
-        class BackGroundTest : public Actor
+        class FieldDecorationBase : public Actor
         {
         public:
-            static BackGroundTest* Sole;
+            FieldDecorationBase(int x, int y);
+        };
 
-            int Image;
-            BackGroundTest();
+        class Weed : public FieldDecorationBase
+        {
+        public:
+            Weed(int x, int y);
+        protected:
+            void update() override;
+        };
+
+        class Tree : public FieldDecorationBase
+        {
+        public:
+            Tree(int x, int y);
         protected:
             void update() override;
         };
 
 
 
-        class BackGroundManager : public SelfDrawingActor
-        {
-        public:
-            BackGroundManager();
-        protected:
-            void update() override;
-            void drawing(int hX, int hY) override;
-        };
 
-
-
-        /// <summary>
-        /// TileMapレイヤー描画の基底クラス
-        /// drawingChipを実装する必要がある
-        /// </summary>
-        class FieldLayerBase : public SelfDrawingActor
-        {
-        protected:
-            int mGridUnit = 16;
-            double mZ;
-        public:
-            FieldLayerBase(double z);
-        protected:
-            void drawing(int hX, int hY) override;
-            /// <summary>
-            /// 個々のマップチップの描画
-            /// </summary>
-            /// <param name="matX">Matrix X</param>
-            /// <param name="matY">Matrix Y</param>
-            /// <param name="dpX">Display X</param>
-            /// <param name="dpY">Display Y</param>
-            virtual void drawingChip(int matX, int matY, int dpX, int dpY, TileMapChip* chip) = 0;
-            
-            void drawingAutoTile(int matX, int matY, int dpX, int dpY, 
-                Graph* srcImage, int srcX, int srcY, std::function<bool(int x, int y)> canConnect);
-            bool canConnect(int x, int y, ETileName tile);
-            bool canConnect(int x, int y, ETileName tile1, ETileName tile2);
-            bool canConnect(int x, int y, ETileName tile1, ETileName tile2, ETileName tile3);
-            bool canConnect(int x, int y, ETileName tile1, ETileName tile2, ETileName tile3, ETileName tile4);
-        };
-
-        class FloorLayer : public FieldLayerBase
-        {
-        public: 
-            FloorLayer();
-        protected:
-            void drawingChip(int matX, int matY, int dpX, int dpY, TileMapChip* chip) override;
-        };
+ 
     }
 }
 

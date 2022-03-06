@@ -18,7 +18,7 @@ namespace luaManager
     class LuaDebugManager
     {
         bool mHasLastWriteTime = false;
-        SYSTEMTIME mLastWriteTime;
+        SYSTEMTIME mLastWriteTime{};
 
     public:
         LuaDebugManager();

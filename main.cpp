@@ -31,6 +31,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 namespace ingame
 {
+    useful::Random* Rand = nullptr;
+    int GameState = 0;
+    resorce::Image* Images = nullptr;
+
+
     int doProcess()
     {
         // ウインドウモードで起動
@@ -53,6 +58,7 @@ namespace ingame
         }
         Sprite::Init();
 
+        Rand = new useful::Random();
         Images = new resorce::Image(); //画像読み込み
 
 
@@ -233,209 +239,38 @@ namespace ingame
     }
 
 
-
-
-
-    // BackGround
     namespace main
     {
-        BackGroundTest* BackGroundTest::Sole = nullptr;
-
-
-        // 背景テスト
-        BackGroundTest::BackGroundTest() : Actor()
+        FieldDecorationBase::FieldDecorationBase(int x, int y) : Actor()
         {
-            Image = DxLib::MakeScreen(ROUGH_WIDTH, ROUGH_HEIGHT, TRUE);
-            mSpr->SetImage(new Graph(Image), 0, 0, ROUGH_WIDTH, ROUGH_HEIGHT);
-            DxLib::SetDrawScreen(Image);
-            
-            for (int x = 0; x < ROUGH_WIDTH; x+=32)
-            {
-                for (int y = 0; y < ROUGH_HEIGHT; y+=32)
-                {
-                    DxLib::DrawGraph(x, y, Images->Tile32->GetHandler(), TRUE);
-                }
-            }
-
-            mSpr->SetZ(4000);
-            BackGroundTest::Sole = this;
-
+            mSpr->SetZ(ZIndex::FLOOR-1);
+            mSpr->SetXY(x * 16, y * 16);
         }
-        void BackGroundTest::update()
+
+
+
+        Weed::Weed(int x, int y) : FieldDecorationBase(x, y){}
+        void Weed::update()
         {
+            mSpr->SetImage(Images->Weed, ((int)(mTime/1000)%2) * 16, 0, 16, 16);
+            Actor::update();
+        }
+
+        Tree::Tree(int x, int y) : FieldDecorationBase(x, y) {}
+        void Tree::update()
+        {
+            mSpr->SetImage(Images->Tree, ((int)(mTime/1000*2) % 4) * 16, 0, 16, 16);
             Actor::update();
         }
 
     }
 
-    namespace main
-    {
-        BackGroundManager::BackGroundManager() : SelfDrawingActor()
-        {
-            new FloorLayer();
-        }
-        void BackGroundManager::update()
-        {
-            SelfDrawingActor::update();
-        }
-        void BackGroundManager::drawing(int hX, int hY)
-        {
-
-        }
-    }
-    namespace main
-    {
-        FieldLayerBase::FieldLayerBase(double z) : SelfDrawingActor()
-        {
-            mZ = z;
-            mSpr->SetZ(z);
-        }
-        void FieldLayerBase::drawing(int hX, int hY)
-        {
-            double hX1 = hX / ROUGH_SCALE;
-            double hY1 = hY / ROUGH_SCALE;
-
-            int x0 = (-hX / mGridUnit) - (-hX1 < 0 ? 1 : 0);
-            int y0 = (-hX / mGridUnit) - (-hY1 < 0 ? 1 : 0);
-
-            for (int y = y0; y <= y0 + (ROUGH_HEIGHT / mGridUnit); ++y)
-            {
-                for (int x = x0; x <= x0 + (ROUGH_WIDTH / mGridUnit); ++x)
-                {
-                    int displayX = hX + x * mGridUnit * ROUGH_SCALE;
-                    int displayY = hY + y * mGridUnit * ROUGH_SCALE;
-                    
-                    MapMatElement* element = MapManager::Sole->GetMatAt(x, y);
-                    std::vector<TileMapChip*> chips = element->Chips;
-                    for (auto chip : chips)
-                    {
-                        drawingChip(x, y, displayX, displayY, chip);
-                    }
-                }
-            }
-        }
 
 
-        void FieldLayerBase::drawingAutoTile(int matX, int matY, int dpX, int dpY,
-            Graph* srcImage, int srcX, int srcY, std::function<bool(int x, int y)> canConnect)
-        {
-            const int unit = 16;
-            useful::XY<int> clipXY[16] = {
-                useful::XY<int>{0 * unit, 0 * unit}, //        
-                useful::XY<int>{0 * unit, 3 * unit}, //       D
-                useful::XY<int>{0 * unit, 1 * unit}, //     U  
-                useful::XY<int>{1 * unit, 2 * unit}, //     U D
 
-                useful::XY<int>{1 * unit, 0 * unit}, //   R    
-                useful::XY<int>{1 * unit, 1 * unit}, //   R   D
-                useful::XY<int>{1 * unit, 3 * unit}, //   R U  
-                useful::XY<int>{1 * unit, 2 * unit}, //   R U D
 
-                useful::XY<int>{3 * unit, 0 * unit}, // L      
-                useful::XY<int>{3 * unit, 1 * unit}, // L     D
-                useful::XY<int>{3 * unit, 3 * unit}, // L   U  
-                useful::XY<int>{3 * unit, 2 * unit}, // L   U D
 
-                useful::XY<int>{2 * unit, 0 * unit}, // L R    
-                useful::XY<int>{2 * unit, 1 * unit}, // L R   D
-                useful::XY<int>{2 * unit, 3 * unit}, // L R U  
-                useful::XY<int>{2 * unit, 2 * unit}, // L R U D
-            };
 
-            int left = static_cast<int>(canConnect(matX-1, matY));
-            int right = static_cast<int>(canConnect(matX + 1, matY));
-            int up = static_cast<int>(canConnect(matX, matY - 1));
-            int down = static_cast<int>(canConnect(matX, matY + 1));
-            int index = (left << 3) + (right << 2) + (up << 1) + (down << 0);
-
-            srcImage->DrawGraph(dpX, dpY, srcX + clipXY[index].X, srcY + clipXY[index].Y, unit, unit, ROUGH_SCALE);
-            
-            if (left != 0 && up != 0 && !canConnect(matX - 1, matY - 1))
-            {
-                srcImage->DrawGraph(dpX, dpY, srcX, srcY + unit * 4, unit, unit, ROUGH_SCALE);
-            }
-            else if (right != 0 && up != 0 && !canConnect(matX + 1, matY - 1))
-            {
-                srcImage->DrawGraph(dpX, dpY, srcX + unit * 1, srcY + unit * 4, unit, unit, ROUGH_SCALE);
-            }
-            else if (left != 0 && down != 0 && !canConnect(matX - 1, matY + 1))
-            {
-                srcImage->DrawGraph(dpX, dpY, srcX + unit * 0, srcY + unit * 5, unit, unit, ROUGH_SCALE);
-            }
-            else if (right != 0 && down != 0 && !canConnect(matX + 1, matY + 1))
-            {
-                srcImage->DrawGraph(dpX, dpY, srcX + unit * 1, srcY + unit * 5, unit, unit, ROUGH_SCALE);
-            }
-
-        }
-
-        bool FieldLayerBase::canConnect(int x, int y, ETileName tile)
-        {
-            return MapManager::Sole->IsInRange(x, y)
-                ? 
-                MapManager::Sole->GetMatAt(x, y)->HasChip[static_cast<int>(tile)]!=0
-                : true;
-        }
-        bool FieldLayerBase::canConnect(int x, int y, ETileName tile1, ETileName tile2)
-        {
-            return MapManager::Sole->IsInRange(x, y)
-                ? 
-                MapManager::Sole->GetMatAt(x, y)->HasChip[static_cast<int>(tile1)] != 0 ||
-                MapManager::Sole->GetMatAt(x, y)->HasChip[static_cast<int>(tile2)] != 0
-                : true;
-        }
-        bool FieldLayerBase::canConnect(int x, int y, ETileName tile1, ETileName tile2, ETileName tile3)
-        {
-            return MapManager::Sole->IsInRange(x, y)
-                ?
-                MapManager::Sole->GetMatAt(x, y)->HasChip[static_cast<int>(tile1)] != 0 ||
-                MapManager::Sole->GetMatAt(x, y)->HasChip[static_cast<int>(tile2)] != 0 ||
-                MapManager::Sole->GetMatAt(x, y)->HasChip[static_cast<int>(tile3)] != 0
-                : true;
-        }
-        bool FieldLayerBase::canConnect(int x, int y, ETileName tile1, ETileName tile2, ETileName tile3, ETileName tile4)
-        {
-            return MapManager::Sole->IsInRange(x, y)
-                ? 
-                MapManager::Sole->GetMatAt(x, y)->HasChip[static_cast<int>(tile1)] != 0 ||
-                MapManager::Sole->GetMatAt(x, y)->HasChip[static_cast<int>(tile2)] != 0 ||
-                MapManager::Sole->GetMatAt(x, y)->HasChip[static_cast<int>(tile3)] != 0 ||
-                MapManager::Sole->GetMatAt(x, y)->HasChip[static_cast<int>(tile4)] != 0 
-                : true;
-        }
-    }
-
-    namespace main
-    {
-        FloorLayer::FloorLayer() : FieldLayerBase(ZIndex::FLOOR)
-        {
-        }
-
-        void FloorLayer::drawingChip(int matX, int matY, int dpX, int dpY, TileMapChip* chip)
-        {
-            
-
-            switch (chip->Name)
-            {
-            case ETileName::water_place:
-                drawingAutoTile(matX, matY, dpX, dpY, Images->NaturalTile, 0, 0, 
-                    [&](int x, int y) {return canConnect(x, y, ETileName::water_place); });
-                break;
-            case ETileName::sand_pit:
-                drawingAutoTile(matX, matY, dpX, dpY, Images->NaturalTile, 0, 0,
-                    [&](int x, int y) {return canConnect(x, y, ETileName::sand_pit); });
-                break;
-            case ETileName::meadows:
-                drawingAutoTile(matX, matY, dpX, dpY, Images->NaturalTile, 0, 0,
-                    [&](int x, int y) {return canConnect(x, y, ETileName::meadows); });
-                break;
-            default:
-                MapManager::Sole->GetTilesetGraph()->DrawGraph(dpX, dpY, chip->srcX, chip->srcY, 16, 16, ROUGH_SCALE);
-                break;
-            }
-           
-        }
-    }
 
 
 

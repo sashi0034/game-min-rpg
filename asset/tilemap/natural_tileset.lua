@@ -76,7 +76,8 @@ return {
     {
       id = 65,
       properties = {
-        ["name"] = "tree"
+        ["name"] = "tree",
+        ["wall"] = true
       }
     },
     {
@@ -88,7 +89,8 @@ return {
     {
       id = 67,
       properties = {
-        ["name"] = "house"
+        ["name"] = "house",
+        ["wall"] = true
       }
     },
     {
@@ -112,301 +114,211 @@ return {
     {
       id = 161,
       properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 162,
       properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 163,
       properties = {
-        ["raw"] = true
-      }
-    },
-    {
-      id = 164,
-      properties = {
-        ["raw"] = true
-      }
-    },
-    {
-      id = 165,
-      properties = {
-        ["raw"] = true
-      }
-    },
-    {
-      id = 166,
-      properties = {
-        ["raw"] = true
-      }
-    },
-    {
-      id = 167,
-      properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 168,
       properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 169,
       properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 170,
       properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 177,
       properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 178,
       properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 179,
       properties = {
-        ["raw"] = true
-      }
-    },
-    {
-      id = 180,
-      properties = {
-        ["raw"] = true
-      }
-    },
-    {
-      id = 181,
-      properties = {
-        ["raw"] = true
-      }
-    },
-    {
-      id = 182,
-      properties = {
-        ["raw"] = true
-      }
-    },
-    {
-      id = 183,
-      properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 184,
       properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 185,
       properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 186,
       properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 193,
       properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 194,
       properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 195,
       properties = {
-        ["raw"] = true
-      }
-    },
-    {
-      id = 196,
-      properties = {
-        ["raw"] = true
-      }
-    },
-    {
-      id = 197,
-      properties = {
-        ["raw"] = true
-      }
-    },
-    {
-      id = 198,
-      properties = {
-        ["raw"] = true
-      }
-    },
-    {
-      id = 199,
-      properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 200,
       properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 201,
       properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 202,
       properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 209,
       properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 210,
       properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 211,
       properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 212,
       properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 213,
       properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 214,
       properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 215,
       properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 216,
       properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 217,
       properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 218,
       properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 225,
       properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 226,
       properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 227,
       properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 228,
       properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 229,
       properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 230,
       properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     },
     {
       id = 231,
       properties = {
-        ["raw"] = true
-      }
-    },
-    {
-      id = 232,
-      properties = {
-        ["raw"] = true
-      }
-    },
-    {
-      id = 233,
-      properties = {
-        ["raw"] = true
-      }
-    },
-    {
-      id = 234,
-      properties = {
-        ["raw"] = true
+        ["wall"] = true
       }
     }
   }

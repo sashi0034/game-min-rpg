@@ -8,10 +8,12 @@
 #include "magic_enum.h"
 
 #include "game_utils.h"
+#include "game_engine.h"
 #include "lua_manager.h"
 
 
 using namespace gameUtils;
+using namespace gameEngine;
 
 namespace ingame
 {
@@ -57,6 +59,7 @@ namespace ingame
 		int srcY;
 	};
 
+
 	struct MapMatElement
 	{
 		std::vector<TileMapChip*> Chips{};
@@ -76,6 +79,7 @@ namespace ingame
 		int mWidth;
 		int mHeight;
 		std::vector<std::vector<MapMatElement*>> mMat{};
+		bool doStartChip(int x, int y, ETileName tile);
 		
 	public:
 		MapManager(int stageIndex);
@@ -86,5 +90,58 @@ namespace ingame
 		MapMatElement* GetMatAt(int x, int y);
 		Graph* GetTilesetGraph();
 	};
+
+
+
+
+	class BackGroundManager : public SelfDrawingActor
+	{
+	public:
+		BackGroundManager();
+	protected:
+		void update() override;
+		void drawing(int hX, int hY) override;
+	};
+
+
+
+	/// <summary>
+	/// TileMapレイヤー描画の基底クラス
+	/// drawingChipを実装する必要がある
+	/// </summary>
+	class FieldLayerBase : public SelfDrawingActor
+	{
+	protected:
+		int mGridUnit = 16;
+		double mZ;
+	public:
+		FieldLayerBase(double z);
+	protected:
+		void drawing(int hX, int hY) override;
+		/// <summary>
+		/// 個々のマップチップの描画
+		/// </summary>
+		/// <param name="matX">Matrix X</param>
+		/// <param name="matY">Matrix Y</param>
+		/// <param name="dpX">Display X</param>
+		/// <param name="dpY">Display Y</param>
+		virtual void drawingChip(int matX, int matY, int dpX, int dpY, TileMapChip* chip) = 0;
+
+		void drawingAutoTile(int matX, int matY, int dpX, int dpY,
+			Graph* srcImage, int srcX, int srcY, std::function<bool(int x, int y)> canConnect);
+		bool canConnect(int x, int y, ETileName tile);
+		bool canConnect(int x, int y, ETileName tile1, ETileName tile2);
+		bool canConnect(int x, int y, ETileName tile1, ETileName tile2, ETileName tile3);
+		bool canConnect(int x, int y, ETileName tile1, ETileName tile2, ETileName tile3, ETileName tile4);
+	};
+
+	class FloorLayer : public FieldLayerBase
+	{
+	public:
+		FloorLayer();
+	protected:
+		void drawingChip(int matX, int matY, int dpX, int dpY, TileMapChip* chip) override;
+	};
+
 }
 

@@ -1,8 +1,10 @@
 #pragma once
-#include <DxLib.h>
+
 #include <string>
 #include <vector>
 #include <random>
+#include "DxLib.h"
+
 
 #define OUT_LOG	<< "\n [OUT] " << __FILE__  << " ** " << __FUNCTION__ << " ** " << __LINE__ << "\n" <<
 #define ERR_LOG	<< "\n [ERR] " << __FILE__  << " ** " << __FUNCTION__ << " ** " << __LINE__ << "\n" <<
