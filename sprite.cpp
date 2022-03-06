@@ -219,7 +219,7 @@ void Sprite::DisposeAll(bool isProtectOnly)
             Dispose(spr);
         }
     }
-    garbageCollect();
+    collectGarbageSprites();
 }
 
 int Sprite::findIndex(Sprite* spr)
@@ -235,7 +235,7 @@ int Sprite::findIndex(Sprite* spr)
     }
     return index;
 }
-void Sprite::garbageCollect()
+void Sprite::collectGarbageSprites()
 {
     while (true)
     {
@@ -257,7 +257,7 @@ void Sprite::UpdateAll()
             if (spr->updateMethod != nullptr) spr->updateMethod(spr);
         }
     }
-    garbageCollect();
+    collectGarbageSprites();
 }
 
 /// <summary>

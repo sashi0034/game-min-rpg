@@ -45,9 +45,8 @@ namespace gameUtils
 		};
 
 
-
 		/*
-		** template funtions
+		** templates
 		*/
 		template<typename T>
 		int FindIndex(std::vector<T> arr, T target)
@@ -72,6 +71,11 @@ namespace gameUtils
 			return 0;
 		}
 
+		template<typename T>
+		struct XY { T X; T Y; };
+
+		template<typename T>
+		struct XYZ { T X; T Y; T Z; };
 	}
 }
 

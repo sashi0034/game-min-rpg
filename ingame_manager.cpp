@@ -14,6 +14,15 @@
 */
 namespace ingame
 {
+	void MapMatElement::Update()
+	{
+		HasChip = std::vector<byte>(magic_enum::enum_count<ETileName>(), 0);
+		for (auto &chip : Chips)
+		{
+			HasChip[static_cast<int>(chip->Name)] = 1;
+		}
+	}
+
 	MapMatElement::~MapMatElement()
 	{
 		for (auto chip : Chips)
@@ -49,14 +58,12 @@ namespace ingame
 				std::string name = prop["name"].get_or(std::string("none"));
 				ETileName eName = magic_enum::enum_cast<ETileName>(name).value_or(ETileName::none);
 
-				bool isRaw = prop["raw"].get_or(false);
-
 				bool isWall = prop["wall"].get_or(false);
 
 				int srcX = (id % tileCollums) * tileWidth;
 				int srcY = (id / tileCollums) * tileHeight;
 
-				mTilechips[id] = new TileMapChip{eName, isRaw, isWall, srcX, srcY};
+				mTilechips[id] = new TileMapChip{eName, isWall, srcX, srcY};
 			}
 			else
 			{
@@ -100,12 +107,19 @@ namespace ingame
 					}
 				}
 			}
+
 		}
 
 		std::string imagePath = R"(.\asset\tilemap\)" + tilesetTable["image"].get_or(std::string{});
 		mTilesetGraph = Graph::LoadGraph(imagePath.c_str());
 		std::cout OUT_LOG "Get tilemap sorce image handler: " << mTilesetGraph->GetHandler() << "\n";
+
+
+		for (auto& row : mMat)
+			for (auto& ele : row)
+				ele->Update();
 	}
+
 	MapManager::~MapManager()
 	{
 		delete mTilesetGraph;
@@ -129,6 +143,23 @@ namespace ingame
 	Graph* MapManager::GetTilesetGraph()
 	{
 		return mTilesetGraph;
+	}
+
+	int MapManager::GetWidth()
+	{
+		return mWidth;
+	}
+
+	int MapManager::GetHeight()
+	{
+		return mHeight;
+	}
+
+	bool MapManager::IsInRange(int x, int y)
+	{
+		return 
+			0<=x && x<=mWidth-1 &&
+			0<=y && y<=mHeight-1;
 	}
 
 }

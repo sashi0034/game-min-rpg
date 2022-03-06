@@ -52,7 +52,6 @@ namespace ingame
 	struct TileMapChip
 	{
 		ETileName Name;
-		bool IsRaw;
 		bool IsWall;
 		int srcX;
 		int srcY;
@@ -61,12 +60,16 @@ namespace ingame
 	struct MapMatElement
 	{
 		std::vector<TileMapChip*> Chips{};
+		std::vector<byte> HasChip{}; // std::vector<bool>ÇÕíxÇ¢ÇÁÇµÇ¢ÇÃÇ≈byteÇ≈ä«óù
 		bool IsWall = false;
+
+		void Update();
 		~MapMatElement();
 	};
 
 	class MapManager : public Singleton<MapManager>
 	{
+	private:
 		Graph* mTilesetGraph;
 		std::map<int, TileMapChip*> mTilechips{};
 		
@@ -77,6 +80,9 @@ namespace ingame
 	public:
 		MapManager(int stageIndex);
 		~MapManager();
+		int GetWidth();
+		int GetHeight();
+		bool IsInRange(int x, int y);
 		MapMatElement* GetMatAt(int x, int y);
 		Graph* GetTilesetGraph();
 	};

@@ -46,10 +46,13 @@ namespace ingame
     {
         class Image
         {
+        private:
+            Graph* loadPng(std::string fileName);
         public:
             Graph* Test = Graph::LoadGraph(R"(.\asset\image\cloud_128x64.png)");
             Graph* Chicken = Graph::LoadGraph(R"(.\asset\image\chicken_32x32.png)");
             Graph* Tile32 = Graph::LoadGraph(R"(.\asset\image\magma_tile_black_32x32.png)");
+            Graph* NaturalTile = loadPng("natural_playground_16x16");
 
 #if 0
             int Templa = LoadGraph(R"(.png)");
@@ -78,7 +81,7 @@ namespace ingame{
 
     int GameState;
 
-    resorce::Image* Img;
+    resorce::Image* Images;
 
 
     int doProcess();
@@ -97,6 +100,12 @@ namespace ingame{
             void Loop();
         };
 
+
+        enum ZIndex
+        {
+            FLOOR = 1000,
+            CHARACTER = 0,
+        };
 
 
 
@@ -169,12 +178,19 @@ namespace ingame{
             /// <param name="dpX">Display X</param>
             /// <param name="dpY">Display Y</param>
             virtual void drawingChip(int matX, int matY, int dpX, int dpY, TileMapChip* chip) = 0;
+            
+            void drawingAutoTile(int matX, int matY, int dpX, int dpY, 
+                Graph* srcImage, int srcX, int srcY, std::function<bool(int x, int y)> canConnect);
+            bool canConnect(int x, int y, ETileName tile);
+            bool canConnect(int x, int y, ETileName tile1, ETileName tile2);
+            bool canConnect(int x, int y, ETileName tile1, ETileName tile2, ETileName tile3);
+            bool canConnect(int x, int y, ETileName tile1, ETileName tile2, ETileName tile3, ETileName tile4);
         };
 
-        class WallLayer : public FieldLayerBase
+        class FloorLayer : public FieldLayerBase
         {
         public: 
-            WallLayer();
+            FloorLayer();
         protected:
             void drawingChip(int matX, int matY, int dpX, int dpY, TileMapChip* chip) override;
         };

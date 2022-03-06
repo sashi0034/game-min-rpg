@@ -35,7 +35,7 @@ class Sprite
     void (*drawingMethod)(Sprite* hSp, int hX, int hY);
 
     static int findIndex(Sprite* spr);
-    static void garbageCollect();
+    static void collectGarbageSprites();
 public:
     Sprite();
     Sprite(Graph* image);
