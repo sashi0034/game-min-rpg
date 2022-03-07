@@ -32,7 +32,7 @@ namespace gameEngine
 	{
 	protected:
 		Sprite* mSpr;
-		int mTime = 0;
+		long long mTime = 0;
 	public:
 		Sprite* GetSpr();
 		double GetTime();

@@ -317,7 +317,7 @@ void Sprite::DrawingProcess::DotByDot(Sprite* hSpr, int hX, int hY)
 }
 void Sprite::DrawingProcess::Draw(Sprite* hSpr, int x, int y, int scale)
 {
-    hSpr->image->DrawGraph(x, y, hSpr->u, hSpr->v, hSpr->width, hSpr->height, scale, hSpr->rotationRad);
+    hSpr->image->DrawGraph(x, y, hSpr->u, hSpr->v, hSpr->width, hSpr->height, scale, hSpr->rotationRad, hSpr->isFlip);
 }
 
 

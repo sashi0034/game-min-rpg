@@ -54,7 +54,7 @@ namespace luaManager
 
 namespace luaManager
 {
-    LuaDebugManager::LuaDebugManager()
+    LuaDebugManager::LuaDebugManager() : Singleton<LuaDebugManager>()
     {
         Spr = new Sprite();
         Spr->SetBelong(this);
@@ -96,7 +96,7 @@ namespace luaManager
             if ((mLastWriteTime.wMilliseconds != lastWriteTime.wMilliseconds)
                 || (mLastWriteTime.wSecond != lastWriteTime.wSecond))
             {//　更新してたなら
-                std::cout OUT_LOG "Luaファイルが変更されたので再起動します";
+                std::cout OUT_LOG "Luaファイルが変更されたので再起動します\n";
                 CanRestartProgram = true;
                 mLastWriteTime = lastWriteTime;
             }

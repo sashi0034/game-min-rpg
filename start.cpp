@@ -151,13 +151,13 @@ namespace ingame
         {
             
             new MapManager(1);
-            new TestNPC(250, 200);
+            new Player(16*8, 16*8);
             //new Test();
             new BackGroundManager();
-            new luaManager::LuaDebugManager();
             
             Loop();
 
+            delete MapManager::Sole;
             delete this;
         }
         void Scene::Loop()

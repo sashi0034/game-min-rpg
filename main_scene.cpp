@@ -31,7 +31,7 @@ namespace ingame::main
         {
             return EAngle::RIGHT;
         }
-        else if (useful::Between(theta, -M_PI*3 / 4, -M_PI / 4))
+        else if (useful::Between(theta, -M_PI * 3 / 4, -M_PI / 4))
         {
             return EAngle::UP;
         }
@@ -61,9 +61,9 @@ namespace ingame::main
         mLuaData = luaManager::Lua[mLuaClassName]["new"](static_cast<CollideActor*>(this));
 
     }
-    int LuaCollideActor::luaUpdate()
+    void LuaCollideActor::luaUpdate()
     {
-        return luaManager::Lua[mLuaClassName]["update"](mLuaData);
+        luaManager::Lua[mLuaClassName]["update"](mLuaData);
     }
     void LuaCollideActor::update()
     {
@@ -71,38 +71,173 @@ namespace ingame::main
         CollideActor::update();
     }
 
+    /// <summary>
+    /// キャラクターの標準的な移動
+    /// </summary>
+    /// <param name="curX">現在Xポインタ</param>
+    /// <param name="curY">現在Yポインタ</param>
+    /// <param name="toX"></param>
+    /// <param name="toY"></param>
+    /// <param name="vel">速度</param>
+    /// <returns>完了したらtrue</returns>
+    bool Character::DoMove(double *curX, double *curY, double toX, double toY, double vel)
+    {
+        double vx = 0, vy = 0;
+        double delta = 0.1;
+        if (*curX < toX - delta) vx = 1;
+        if (*curX > toX + delta) vx = -1;
+        if (*curY < toY - delta) vy = 1;
+        if (*curY > toY + delta) vy = -1;
 
+        if (vx == 0 && vy == 0)
+        {
+            return false;
+        }
+        // 斜めでも同じ速度にする
+        /*if (vx != 0 && vy != 0)
+        {
+            vx /= std::sqrt(2);
+            vy /= std::sqrt(2);
+        }*/
 
+        *curX += vx * vel * Time::DeltaSec();
+        *curY += vy * vel * Time::DeltaSec();
 
+        if (vx < 0 && *curX < toX) *curX = toX;
+        if (vx > 0 && *curX > toX) *curX = toX;
+        if (vy < 0 && *curY < toY) *curY = toY;
+        if (vy > 0 && *curY > toY) *curY = toY;
+        return true;
+    }
+    void Character::AttachToGridXY(double* x, double* y)
+    {
+        const int unit = 16;
+        *x = int(*x / unit) * unit;
+        *y = int(*y / unit) * unit;
+    }
+}
+
+namespace ingame::main
+{
+    /// <summary>
+    /// プレイヤー
+    /// 中心に16*16pxの板があるイメージでそれの左上が原点
+    /// 描画時に座標をずらす
+    /// </summary>
+    /// <param name="startX"></param>
+    /// <param name="startY"></param>
     Player::Player(int startX, int startY) : LuaCollideActor("Player", false, new collider::Rectangle(8, 16, 16, 16), 1)
     {
         mSpr->SetImage(Images->Kisaragi, 0, 0, 32, 32);
         mSpr->SetZ(ZIndex::CHARACTER);
-        mLuaData = luaManager::Lua[mLuaClassName]["new"](static_cast<CollideActor*>(this), startX, startY);
-        mLuaData["doMove"] = [&](int x, int y) {this->doMove(x, y); };
-        mLuaData["doWaitForMove"] = [&]() {this->doWaitForMove(); };
+
+        mX = startX;
+        mY = startY;
+
+        mLuaData = luaManager::Lua[mLuaClassName]["new"]();
+        mLuaData["doWaitForMove"] = [&]()->bool {return this->doWaitForMove(); };
+        mLuaData["doMove"] = [&]()->bool {return this->doMove(); };
+
+        mVel = mLuaData["vel"];
     }
     void Player::update()
     {
         LuaCollideActor::update();
+
     }
-    int Player::luaUpdate()
+    void Player::luaUpdate()
     {
-        int ret = luaManager::Lua[mLuaClassName]["update"](mLuaData);
-        return ret;
+        luaManager::Lua[mLuaClassName]["update"](mLuaData);
+
+        mSpr->SetXY(mX - 8, mY - 16 - 4);
+        animation();
     }
 
-    bool Player::doMove(int x, int y)
+    bool Player::doMove()
     {
-        std::cout << "doMove\n";
-        return false;
+        if (Character::DoMove(&mX, &mY, mGotoX, mGotoY, mVel))
+        {
+            return true;
+        }
+        else
+        {
+            mX += 8; mY += 8;
+            Character::AttachToGridXY(&mX, &mY);
+            return false;
+        }
+    }
+
+    void Player::animation()
+    {
+        int frame = (mAnimTime / 200);
+        mSpr->SetFlip(false);
+        if (mWaitTime > 50)
+        {// 待機
+            switch (mAngle)
+            {
+            case EAngle::DOWN:
+                mSpr->SetImage((frame%4)*32, 0);
+                break;
+            case EAngle::RIGHT:
+                mSpr->SetImage((frame % 3) * 32, 32*1);
+                break;
+            case EAngle::UP:
+                mSpr->SetImage((frame % 4) * 32, 32*2);
+                break;
+            case EAngle::LEFT:
+                mSpr->SetImage((frame % 3) * 32, 32 * 1);
+                mSpr->SetFlip(true);
+                break;
+            }
+        }
+        else
+        {// 移動
+            switch (mAngle)
+            {
+            case EAngle::DOWN:
+                mSpr->SetImage((frame % 4) * 32, 32 * 3);
+                break;
+            case EAngle::RIGHT:
+                mSpr->SetImage((frame % 6) * 32, 32 * 4);
+                break;
+            case EAngle::UP:
+                mSpr->SetImage((frame % 4) * 32, 32 * 5);
+                break;
+            case EAngle::LEFT:
+                mSpr->SetImage((frame % 6) * 32, 32 * 4);
+                mSpr->SetFlip(true);
+                break;
+            }
+        }
+
+
+        mAnimTime += Time::DeltaMilli();
     }
 
     bool Player::doWaitForMove()
     {
-        return false;
-    }
+        EAngle ang = EAngle::NONE;
+        if (DxLib::CheckHitKey(KEY_INPUT_W)) ang = EAngle::UP;
+        if (DxLib::CheckHitKey(KEY_INPUT_A)) ang = EAngle::LEFT;
+        if (DxLib::CheckHitKey(KEY_INPUT_S)) ang = EAngle::DOWN;
+        if (DxLib::CheckHitKey(KEY_INPUT_D)) ang = EAngle::RIGHT;
 
+        if (ang != EAngle::NONE)
+        {
+            mAngle = ang;
+            useful::XY xy = Angle::ToXY(ang);
+            mGotoX = mX + xy.X * 16;
+            mGotoY = mY + xy.Y * 16;
+            if (mWaitTime>1000) mAnimTime = 0;
+            mWaitTime = 0;
+            return true;
+        }
+        else
+        {
+            mWaitTime += Time::DeltaMilli();
+            return false;
+        }
+    }
 
 
     TestNPC::TestNPC(int startX, int startY) : LuaCollideActor("TestNPC", false, new collider::Rectangle(8, 16, 16, 16), 1)
@@ -122,11 +257,10 @@ namespace ingame::main
     {
         LuaCollideActor::update();
     }
-    int TestNPC::luaUpdate()
+    void TestNPC::luaUpdate()
     {
-        int ret = luaManager::Lua[mLuaClassName]["update"](mLuaData);
+        luaManager::Lua[mLuaClassName]["update"](mLuaData);
         mSpr->SetXY(mX-8, mY-8);
-        return ret;
     }
 
     bool TestNPC::doMove(double x, double y)
@@ -141,8 +275,7 @@ namespace ingame::main
         {
             return false; 
         }
-
-        
+     
 
         double vel = 20;
         mX += vx * vel * Time::DeltaSec();
@@ -180,12 +313,18 @@ namespace ingame::main
         FieldDecorationBase::update();
     }
 
-    Tree::Tree(int x, int y) : FieldDecorationBase(x, y) { mAnimTime = (x + y) * 100; }
+    Tree::Tree(int x, int y) : FieldDecorationBase(x, y) 
+    {
+        mSpr->SetXY(x * 16, y * 16-4);
+        mAnimTime = (x + y) * 100; 
+    }
     void Tree::update()
     {
         mSpr->SetImage(Images->Tree, ((int)(mAnimTime/500) % 4) * 16, 0, 16, 16);
         FieldDecorationBase::update();
     }
+
+
 
 
 

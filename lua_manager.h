@@ -15,7 +15,7 @@ namespace luaManager
     int SolStart();
     void DefineTable();
 
-    class LuaDebugManager
+    class LuaDebugManager : public Singleton<LuaDebugManager>
     {
         bool mHasLastWriteTime = false;
         SYSTEMTIME mLastWriteTime{};

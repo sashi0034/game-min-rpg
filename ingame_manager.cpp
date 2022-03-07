@@ -30,9 +30,9 @@ namespace ingame::main
 
 	MapMatElement::~MapMatElement()
 	{
-		for (auto chip : Chips)
+		for (auto &chip : Chips)
 		{
-			delete chip;
+			delete &chip;
 		}
 	}
 
@@ -138,7 +138,7 @@ namespace ingame::main
 		{
 			for (auto& element : raw)
 			{
-				delete element;
+				delete &element;
 			}
 		}
 	}

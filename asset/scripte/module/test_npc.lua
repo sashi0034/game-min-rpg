@@ -22,7 +22,6 @@ TestNPC = {
             coroutine.resume(self.events.move, self, self.getX(), self.getY())
         end
 
-        return 0
     end,
 
     move = function (self, x, y)
@@ -31,13 +30,13 @@ TestNPC = {
         while self.doMove(x+8, y+8) do Yield() end
         while self.doMove(x, y+8) do Yield() end
 
-        c = coroutine.create( self.doWait )
+        c = coroutine.create( self.doSleep )
         while coroutine.resume(c, 1.0) do Yield() end
 
         while self.doMove(x+8, y-16) do Yield() end
         while self.doMove(x-24, y-16) do Yield() end
 
-        c = coroutine.create( self.doWait )
+        c = coroutine.create( self.doSleep )
         while coroutine.resume(c, 2.0) do Yield() end
 
     end,

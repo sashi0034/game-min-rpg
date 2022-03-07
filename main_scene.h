@@ -19,10 +19,11 @@ namespace ingame::main
 {
     enum class EAngle
     {
-        RIGHT,
-        DOWN,
-        LEFT,
-        UP
+        NONE = -1,
+        RIGHT = 0,
+        DOWN = 1,
+        LEFT = 2,
+        UP = 3
     };
     class Angle
     {
@@ -39,7 +40,7 @@ namespace ingame::main
         std::string mLuaClassName = "";
         sol::table mLuaData{};
         virtual void luaConstructor() = 0;
-        virtual int luaUpdate() = 0;
+        virtual void luaUpdate() = 0;
     };
 
     class LuaCollideActor: public CollideActor, public ILuaUser
@@ -48,22 +49,35 @@ namespace ingame::main
         LuaCollideActor(std::string luaClass, bool canLuaConstruct, collider::Shape* col, UINT mask);
         void update() override;
         void luaConstructor() override;
-        virtual int luaUpdate() override;
+        virtual void luaUpdate() override;
+    };
+
+    class Character
+    {
+    public:
+        static bool DoMove(double *curX, double *curY, double toX, double toY, double vel);
+        static void AttachToGridXY(double *x, double *y);
     };
 
 
 
     class Player : public LuaCollideActor
     {
-        
+        double mX, mY;
+        double mGotoX=0, mGotoY=0;
+        EAngle mAngle = EAngle::DOWN;
+        double mVel = 0;
+        int mAnimTime = 0;
+        int mWaitTime = 0;
     public:
         Player(int startX, int startY);
     protected:
         void update() override;
-        int luaUpdate() override;
+        void luaUpdate() override;
     private:
+        void animation();
         bool doWaitForMove();
-        bool doMove(int x, int y);
+        bool doMove();
     };
 
     class TestNPC : public LuaCollideActor
@@ -74,7 +88,7 @@ namespace ingame::main
         TestNPC(int startX, int startY);
     protected:
         void update() override;
-        int luaUpdate() override;
+        void luaUpdate() override;
     private:
         bool doWaitForMove();
         bool doMove(double x, double y);

@@ -21,7 +21,7 @@ IngameEventBase = {
         return 0
     end,
 
-    doWait = function (time)
+    doSleep = function (time)
         local t = 0
         while t<time do 
             t = t + Time.deltaSec()

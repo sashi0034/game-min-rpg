@@ -1,45 +1,37 @@
 
 
-
-
-
 -- class Player
 Player = {
 
-    new = function(actor, startX, startY)
+    new = function()
         
+        local self = Instantiate(Player, IngameEventBase)
+        
+        self.events = {
+            move = COROUTINE_DEAD,
+        }
+        self.vel = 53
 
-        local self = {}
-        setmetatable(self, {__index=Player})
-        
-        self.actor = actor
-        self.spr = actor:getSpr()
-        self.x = startX
-        self.y = startY
-        self.time = 0
-      
-        self.spr:setXY(self.x, self.y)
-        self.spr:setImage(Images.Kisaragi)
-        
+        OutLog("Player in Lua is initilaized.\n")
         return self
     end,
 
     update = function(self)
-        Cout(" "..self.x)
-        --self.x = self.x + 0.5
-        self.x = self.x + 8 * Time.deltaSec()
-        self.y = self.y - 8 * Time.deltaSec()
-        self.time = self.time+Time.deltaMilli()
-        self.spr:setXY(self.x, self.y)
+        IngameEventBase.update(self)
 
-        if (self.time>100) then
-            self.doMove(20, 40)    
+        if (coroutine.status(self.events.move)=="dead") then
+            if (self.doWaitForMove()) then
+                OutLog("Player is prepareing for move.\n")
+                self.events.move = coroutine.create(self.move)
+                coroutine.resume(self.events.move, self)
+            end
         end
-
-        return 0
     end,
 
-
+    move = function (self)
+        while self.doMove() do Yield() end
+        OutLog("Player move is completed.\n")
+    end
 }
 
 

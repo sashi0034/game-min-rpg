@@ -11,3 +11,16 @@ function Instantiate(class, super, ...)
     return self
 end
 
+
+function OutLog(str)
+    str = str or ""
+    local log = "\n [OUT] " .. debug.getinfo(2).source .. " ** ".. debug.getinfo(2).currentline .. "\n" .. str
+    Cout(tostring(log))
+end
+
+function ErrLog(str)
+    str = str or ""
+    local log = "\n [ERR] " .. debug.getinfo(2).source .. " ** ".. debug.getinfo(2).currentline .. "\n" .. str
+    Cerr(tostring(log))
+end
+
