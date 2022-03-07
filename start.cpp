@@ -151,7 +151,7 @@ namespace ingame
         {
             
             new MapManager(1);
-            new TestNPC(200, 200);
+            new TestNPC(250, 200);
             //new Test();
             new BackGroundManager();
             new luaManager::LuaDebugManager();

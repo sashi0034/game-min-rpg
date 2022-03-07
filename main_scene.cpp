@@ -144,7 +144,7 @@ namespace ingame::main
 
         
 
-        double vel = 8;
+        double vel = 20;
         mX += vx * vel * Time::DeltaSec();
         mY += vy * vel * Time::DeltaSec();
         
