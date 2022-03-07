@@ -44,6 +44,10 @@ namespace luaManager
         Lua["Images"] = Lua.create_table();
         Lua["Images"]["Kisaragi"] = ingame::Images->Kisaragi;
 
+        Lua["Time"] = Lua.create_table();
+        Lua["Time"]["deltaSec"] = &Time::DeltaSec;
+        Lua["Time"]["deltaMilli"] = &Time::DeltaMilli;
+
         Lua.script_file(R"(.\asset\scripte\start.lua)");
     }
 }

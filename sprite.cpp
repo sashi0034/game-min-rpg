@@ -279,11 +279,15 @@ void Sprite::DrawingAll()
             double x1, y1;
             spr->GetLinkDifferenceXY(&x1, &y1);
 
-            x = int(spr->x + x1);
-            y = int(spr->y + y1);
+            x1 = (spr->x + x1);
+            y1 = (spr->y + y1);
 
-            x *= ROUGH_SCALE;
-            y *= ROUGH_SCALE;
+            x1 *= ROUGH_SCALE;
+            y1 *= ROUGH_SCALE;
+
+            x = int(x1);
+            y = int(y1);
+
             DxLib::SetDrawBlendMode(spr->blendMode, spr->blendPal);
 
             if (spr->drawingMethod != nullptr)

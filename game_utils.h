@@ -47,6 +47,9 @@ namespace gameUtils
 			int Get(int max);
 			int Get(int min, int max);
 		};
+
+		bool Between(double n, double min, double max);
+
 	}
 
 	

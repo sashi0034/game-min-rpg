@@ -89,6 +89,11 @@ namespace gameUtils
 		}
 
 
+		bool Between(double n, double min, double max)
+		{
+			return (min <= n && n <= max);
+		}
+
 	}
 
 

@@ -97,17 +97,12 @@ namespace gameEngine
 	public:
 		static std::vector<CollideActor*> GetColliders();
 	protected:
-		double mX=0, mY=0;
 		UINT mColbit;
 	private:
 		collider::Shape* mShape;
 	public:
-		auto GetX();
-		auto GetY();
 		auto GetColbit();
 		auto GetShape();
-		void SetX(double value);
-		void SetY(double value);
 		CollideActor(collider::Shape* shape, UINT colbit);
 
 		CollideActor* GetHit();

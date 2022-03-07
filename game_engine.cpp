@@ -102,14 +102,6 @@ namespace gameEngine
 	{
 		return colliders;
 	}
-	auto CollideActor::GetX()
-	{
-		return mX;
-	}
-	auto CollideActor::GetY()
-	{
-		return mY;
-	}
 	auto CollideActor::GetColbit()
 	{
 		return mColbit;
@@ -117,14 +109,6 @@ namespace gameEngine
 	auto CollideActor::GetShape()
 	{
 		return mShape;
-	}
-	void CollideActor::SetX(double v)
-	{
-		mX = v;
-	}
-	void CollideActor::SetY(double value)
-	{
-		mY = value;
 	}
 
 	CollideActor::CollideActor(collider::Shape* shape, UINT colbit) : Actor()
@@ -146,7 +130,9 @@ namespace gameEngine
 		case collider::EType::RECTANGLE:
 		{
 			auto rect = (collider::Rectangle*)mShape;
-			return hit::GetHitRectWith(mX+rect->ColX, mY+rect->ColY, rect->ColWidth, rect->ColHeight, mColbit, actor);
+			int x{}, y{};
+			mSpr->GetScreenXY(&x, &y);
+			return hit::GetHitRectWith(x+rect->ColX, y+rect->ColY, rect->ColWidth, rect->ColHeight, mColbit, actor);
 		}
 		default:
 			break;
@@ -227,7 +213,9 @@ namespace gameEngine
 		case (collider::EType::RECTANGLE):
 		{
 			auto rect = (collider::Rectangle*)shape;
-			if (CheckRectRect(col->GetX() + rect->ColX, col->GetY() + rect->ColY, rect->ColWidth, rect->ColHeight,
+			int x{}, y{};
+			col->GetSpr()->GetScreenXY(&x, &y);
+			if (CheckRectRect(x + rect->ColX, x + rect->ColY, rect->ColWidth, rect->ColHeight,
 				x, y, width, height))
 			{
 				return true;
@@ -269,7 +257,9 @@ namespace gameEngine
 			case collider::EType::RECTANGLE:
 			{
 				auto rect = (collider::Rectangle*)actor->GetShape();
-				auto res = hit::GetHitRectFromIndex(actor->GetX()+rect->ColX, actor->GetY()+rect->ColY,
+				int x{}, y{};
+				actor->GetSpr()->GetScreenXY(&x, &y);
+				auto res = hit::GetHitRectFromIndex(x+rect->ColX, y+rect->ColY,
 					rect->ColWidth, rect->ColHeight, actor->GetColbit(), i);
 				col = res.first;
 				i = res.second;

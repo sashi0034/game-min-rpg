@@ -17,6 +17,22 @@
 
 namespace ingame::main
 {
+    enum class EAngle
+    {
+        RIGHT,
+        DOWN,
+        LEFT,
+        UP
+    };
+    class Angle
+    {
+    public:
+        static useful::XY<int> ToXY(EAngle ang);
+        static EAngle ToAng(double x, double y);
+    };
+
+
+
     class ILuaUser
     {
     protected:
@@ -39,13 +55,30 @@ namespace ingame::main
 
     class Player : public LuaCollideActor
     {
+        
     public:
         Player(int startX, int startY);
     protected:
         void update() override;
         int luaUpdate() override;
+    private:
+        bool doWaitForMove();
+        bool doMove(int x, int y);
     };
 
+    class TestNPC : public LuaCollideActor
+    {
+        double mX=0;
+        double mY=0;
+    public:
+        TestNPC(int startX, int startY);
+    protected:
+        void update() override;
+        int luaUpdate() override;
+    private:
+        bool doWaitForMove();
+        bool doMove(double x, double y);
+    };
 
 
 
