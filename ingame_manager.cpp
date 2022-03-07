@@ -30,10 +30,12 @@ namespace ingame::main
 
 	MapMatElement::~MapMatElement()
 	{
-		for (auto &chip : Chips)
-		{
-			delete &chip;
-		}
+        // MapManager‚Ådelte‚µ‚Ä‚¢‚é
+        // chip‚ÍMapManager‚ªŽ‚Á‚Ä‚¢‚é‚à‚Ì‚ðŽQÆ‚µ‚Ä‚¢‚é‚Ì‚Å
+		//for (auto &chip : Chips)
+		//{
+		//	delete chip;
+		//}
 	}
 
 
@@ -105,7 +107,7 @@ namespace ingame::main
 							
 							if (!doStartChip(x, y, chip->Name)) mMat[x][y]->Chips.push_back(chip);
 
-							if (chip->IsWall) mMat[x][y]->IsWall = true;
+							if (chip->CanMoveTo) mMat[x][y]->CanMoveTo = true;
 						}
 						else if (chipNo != -1)
 						{
@@ -130,17 +132,19 @@ namespace ingame::main
 	MapManager::~MapManager()
 	{
 		delete mTilesetGraph;
-		for (auto &tile : mTilechips)
-		{
-			delete (&tile)->second;
-		}
+
+        for (auto& tile : mTilechips)
+        {
+            delete (&tile)->second;
+        }
 		for (auto &raw : mMat)
 		{
 			for (auto& element : raw)
 			{
-				delete &element;
+				delete element;
 			}
 		}
+
 	}
 	MapMatElement* MapManager::GetMatAt(int x, int y)
 	{

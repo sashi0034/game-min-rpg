@@ -109,11 +109,21 @@ namespace ingame::main
         if (vy > 0 && *curY > toY) *curY = toY;
         return true;
     }
-    void Character::AttachToGridXY(double* x, double* y)
+    void Character::AttachToGridXY(double* x, double* y, int unit)
     {
-        const int unit = 16;
         *x = int(*x / unit) * unit;
         *y = int(*y / unit) * unit;
+    }
+    void Character::GetMatXY(int *x, int *y)
+    {
+        *x = *x / 16;
+        *y = *y / 16;
+    }
+    bool Character::CanMoveTo(double x, double y)
+    {
+        int matX = x, matY = y;
+        GetMatXY(&matX, &matY);
+        return MapManager::Sole->IsInRange(matX, matY) ? !MapManager::Sole->GetMatAt(matX, matY)->CanMoveTo : false;
     }
 }
 
@@ -161,8 +171,8 @@ namespace ingame::main
         }
         else
         {
-            mX += 8; mY += 8;
-            Character::AttachToGridXY(&mX, &mY);
+            mX += moveUnit/2; mY += moveUnit/2;
+            Character::AttachToGridXY(&mX, &mY, moveUnit);
             return false;
         }
     }
@@ -176,13 +186,13 @@ namespace ingame::main
             switch (mAngle)
             {
             case EAngle::DOWN:
-                mSpr->SetImage((frame%4)*32, 0);
+                mSpr->SetImage((frame % 4) * 32, 0);
                 break;
             case EAngle::RIGHT:
-                mSpr->SetImage((frame % 3) * 32, 32*1);
+                mSpr->SetImage((frame % 3) * 32, 32 * 1);
                 break;
             case EAngle::UP:
-                mSpr->SetImage((frame % 4) * 32, 32*2);
+                mSpr->SetImage((frame % 4) * 32, 32 * 2);
                 break;
             case EAngle::LEFT:
                 mSpr->SetImage((frame % 3) * 32, 32 * 1);
@@ -226,11 +236,47 @@ namespace ingame::main
         {
             mAngle = ang;
             useful::XY xy = Angle::ToXY(ang);
-            mGotoX = mX + xy.X * 16;
-            mGotoY = mY + xy.Y * 16;
-            if (mWaitTime>1000) mAnimTime = 0;
-            mWaitTime = 0;
-            return true;
+
+            bool canMove = false;
+
+            switch (ang)
+            {
+            case EAngle::RIGHT:
+                canMove =
+                    Character::CanMoveTo(mX + 16 * 3 / 4 + xy.X * moveUnit, mY + 16 * 1 / 4 + xy.Y * moveUnit) &&
+                    Character::CanMoveTo(mX + 16 * 3 / 4 + xy.X * moveUnit, mY + 16 * 3 / 4 + xy.Y * moveUnit);
+                break;
+            case EAngle::DOWN:
+                canMove =
+                    Character::CanMoveTo(mX + 16 * 1 / 4 + xy.X * moveUnit, mY + 16 * 3 / 4 + xy.Y * moveUnit) &&
+                    Character::CanMoveTo(mX + 16 * 3 / 4 + xy.X * moveUnit, mY + 16 * 3 / 4 + xy.Y * moveUnit);
+                break;
+            case EAngle::LEFT:
+                canMove =
+                    Character::CanMoveTo(mX + 16 * 1 / 4 + xy.X * moveUnit, mY + 16 * 1 / 4 + xy.Y * moveUnit) &&
+                    Character::CanMoveTo(mX + 16 * 1 / 4 + xy.X * moveUnit, mY + 16 * 3 / 4 + xy.Y * moveUnit);
+                break;
+            case EAngle::UP:
+                canMove =
+                    Character::CanMoveTo(mX + 16 * 1 / 4 + xy.X * moveUnit, mY + 16 * 1 / 4 + xy.Y * moveUnit) &&
+                    Character::CanMoveTo(mX + 16 * 3 / 4 + xy.X * moveUnit, mY + 16 * 1 / 4 + xy.Y * moveUnit);
+                break;
+            }
+
+            if (canMove)
+            {
+                mGotoX = mX + xy.X * moveUnit;
+                mGotoY = mY + xy.Y * moveUnit;
+
+                if (mWaitTime > 1000) mAnimTime = 0;
+                mWaitTime = 0;
+                return true;
+
+            }
+            else
+            {
+                return false;
+            }
         }
         else
         {
@@ -238,8 +284,10 @@ namespace ingame::main
             return false;
         }
     }
+}
 
-
+namespace ingame::main
+{
     TestNPC::TestNPC(int startX, int startY) : LuaCollideActor("TestNPC", false, new collider::Rectangle(8, 16, 16, 16), 1)
     {
         mX = startX;

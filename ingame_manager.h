@@ -37,7 +37,7 @@ namespace ingame
 		struct TileMapChip
 		{
 			ETileName Name;
-			bool IsWall;
+			bool CanMoveTo;
 			int srcX;
 			int srcY;
 		};
@@ -47,7 +47,7 @@ namespace ingame
 		{
 			std::vector<TileMapChip*> Chips{};
 			std::vector<byte> HasChip{}; // std::vector<bool>ÇÕíxÇ¢ÇÁÇµÇ¢ÇÃÇ≈byteÇ≈ä«óù
-			bool IsWall = false;
+			bool CanMoveTo = false;
 
 			void Update();
 			~MapMatElement();

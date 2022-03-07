@@ -10,7 +10,7 @@ Player = {
         self.events = {
             move = COROUTINE_DEAD,
         }
-        self.vel = 53
+        self.vel = 50
 
         OutLog("Player in Lua is initilaized.\n")
         return self

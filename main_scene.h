@@ -56,13 +56,16 @@ namespace ingame::main
     {
     public:
         static bool DoMove(double *curX, double *curY, double toX, double toY, double vel);
-        static void AttachToGridXY(double *x, double *y);
+        static void AttachToGridXY(double *x, double *y, int unit);
+        static void GetMatXY(int *x, int *y);
+        static bool CanMoveTo(double x, double y);
     };
 
 
 
     class Player : public LuaCollideActor
     {
+        int moveUnit = 8;
         double mX, mY;
         double mGotoX=0, mGotoY=0;
         EAngle mAngle = EAngle::DOWN;
