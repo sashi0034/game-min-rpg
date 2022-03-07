@@ -149,7 +149,7 @@ namespace ingame
     {
         Scene::Scene()
         {
-            
+            new ScrollManager();
             new MapManager(1);
             new Player(16*8, 16*8);
             //new Test();

@@ -50,6 +50,7 @@ namespace ingame::main
     }
 
 
+
     LuaCollideActor::LuaCollideActor(std::string luaClass, bool canLuaConstruct, collider::Shape* col, UINT mask) : CollideActor(col, mask)
     {
         mLuaClassName = luaClass;
@@ -125,6 +126,7 @@ namespace ingame::main
         GetMatXY(&matX, &matY);
         return MapManager::Sole->IsInRange(matX, matY) ? !MapManager::Sole->GetMatAt(matX, matY)->CanMoveTo : false;
     }
+
 }
 
 namespace ingame::main
@@ -138,6 +140,9 @@ namespace ingame::main
     /// <param name="startY"></param>
     Player::Player(int startX, int startY) : LuaCollideActor("Player", false, new collider::Rectangle(8, 16, 16, 16), 1)
     {
+        Sole = this;
+
+        mSpr->SetLinkXY(ScrollManager::Sole->GetSpr());
         mSpr->SetImage(Images->Kisaragi, 0, 0, 32, 32);
         mSpr->SetZ(ZIndex::CHARACTER);
 
@@ -149,6 +154,18 @@ namespace ingame::main
         mLuaData["doMove"] = [&]()->bool {return this->doMove(); };
 
         mVel = mLuaData["vel"];
+    }
+    Player::~Player()
+    {
+        Sole = nullptr;
+    }
+    double Player::GetX()
+    {
+        return mX;
+    }
+    double Player::GetY()
+    {
+        return mY;
     }
     void Player::update()
     {
@@ -347,6 +364,7 @@ namespace ingame::main
     {
         mSpr->SetZ(double(ZIndex::FLOOR) - 1);
         mSpr->SetXY(x * 16, y * 16);
+        mSpr->SetLinkXY(ScrollManager::Sole->GetSpr());
     }
     void FieldDecorationBase::update()
     {

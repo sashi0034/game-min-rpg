@@ -195,6 +195,29 @@ namespace ingame::main
 namespace ingame::main
 {
 
+    ScrollManager::ScrollManager() : Actor()
+    {
+        Sole = this;
+    }
+    void ScrollManager::update()
+    {
+        mX = -(Player::Sole->GetX() + 8) + ROUGH_WIDTH / 2;
+        mY = -(Player::Sole->GetY() + 8) + ROUGH_HEIGHT / 2;
+        if (mX > 0) mX = 0;
+        if (mY > 0) mY = 0;
+        if (mX < -(MapManager::Sole->GetWidth() * 16 - ROUGH_WIDTH)) mX = -(MapManager::Sole->GetWidth() * 16 - ROUGH_WIDTH);
+        if (mY < -(MapManager::Sole->GetHeight() * 16 - ROUGH_HEIGHT)) mY = -(MapManager::Sole->GetHeight() * 16 - ROUGH_HEIGHT);
+
+        mSpr->SetXY(mX, mY);
+    }
+
+    ScrollManager::~ScrollManager()
+    {
+        Sole = nullptr;
+    }
+
+
+
 
     BackGroundManager::BackGroundManager() : SelfDrawingActor()
     {
@@ -214,18 +237,19 @@ namespace ingame::main
     {
         mZ = z;
         mSpr->SetZ(z);
+        mSpr->SetLinkXY(ScrollManager::Sole->GetSpr());
     }
     void FieldLayerBase::drawing(int hX, int hY)
     {
         double hX1 = hX / ROUGH_SCALE;
         double hY1 = hY / ROUGH_SCALE;
 
-        int x0 = (-hX / mGridUnit) - (-hX1 < 0 ? 1 : 0);
-        int y0 = (-hX / mGridUnit) - (-hY1 < 0 ? 1 : 0);
+        int x0 = (-hX1 / mGridUnit) - (-hX1 < 0 ? 1 : 0);
+        int y0 = (-hY1 / mGridUnit) - (-hY1 < 0 ? 1 : 0);
 
-        for (int y = y0; y <= y0 + (ROUGH_HEIGHT / mGridUnit); ++y)
+        for (int y = std::max(y0, 0); y <= std::min(y0 + (ROUGH_HEIGHT / mGridUnit), MapManager::Sole->GetHeight() - 1); ++y)
         {
-            for (int x = x0; x <= x0 + (ROUGH_WIDTH / mGridUnit); ++x)
+            for (int x = std::max(x0, 0); x <= std::min(x0 + (ROUGH_WIDTH / mGridUnit), MapManager::Sole->GetWidth() - 1); ++x)
             {
                 int displayX = hX + x * mGridUnit * ROUGH_SCALE;
                 int displayY = hY + y * mGridUnit * ROUGH_SCALE;

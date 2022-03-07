@@ -1,9 +1,11 @@
 #pragma once
+#define NOMINMAX 
 
 #include <iostream>
 #include <string.h>
 #include <map>
 #include <vector>
+#include <math.h>
 
 
 #include "magic_enum.h"
@@ -74,6 +76,17 @@ namespace ingame
 			Graph* GetTilesetGraph();
 		};
 
+
+
+		class ScrollManager : public Actor, public ISingleton<ScrollManager>
+		{
+			double mX{}, mY{};
+		public:
+			ScrollManager();
+			~ScrollManager();
+		protected:
+			void update() override;
+		};
 
 
 

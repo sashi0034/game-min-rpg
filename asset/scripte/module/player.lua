@@ -21,7 +21,7 @@ Player = {
 
         if (coroutine.status(self.events.move)=="dead") then
             if (self.doWaitForMove()) then
-                OutLog("Player is prepareing for move.\n")
+                --OutLog("Player is prepareing for move.\n")
                 self.events.move = coroutine.create(self.move)
                 coroutine.resume(self.events.move, self)
             end
@@ -30,7 +30,7 @@ Player = {
 
     move = function (self)
         while self.doMove() do Yield() end
-        OutLog("Player move is completed.\n")
+        --OutLog("Player move is completed.\n")
     end
 }
 

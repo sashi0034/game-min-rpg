@@ -32,8 +32,6 @@ namespace ingame::main
         static EAngle ToAng(double x, double y);
     };
 
-
-
     class ILuaUser
     {
     protected:
@@ -63,7 +61,7 @@ namespace ingame::main
 
 
 
-    class Player : public LuaCollideActor
+    class Player : public LuaCollideActor, public ISingleton<Player>
     {
         int moveUnit = 8;
         double mX, mY;
@@ -74,6 +72,9 @@ namespace ingame::main
         int mWaitTime = 0;
     public:
         Player(int startX, int startY);
+        ~Player();
+        double GetX();
+        double GetY();
     protected:
         void update() override;
         void luaUpdate() override;

@@ -57,6 +57,15 @@ namespace gameUtils
 	** template functiones and classes
 	*/
 	template <typename T>
+	class ISingleton
+	{
+	public:
+		static T* Sole;
+	};
+	template <typename T> T* ISingleton<T>::Sole = nullptr;
+
+
+	template <typename T>
 	class Singleton
 	{
 	public:

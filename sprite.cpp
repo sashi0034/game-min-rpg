@@ -130,7 +130,7 @@ void Sprite::GetLinkDifferenceXY(double* x, double* y)
     if (linkSpr != nullptr)
     {
         double x1, y1;
-        Sprite::GetLinkDifferenceXY(&x1, &y1);
+        const_cast<Sprite*>(linkSpr)->GetLinkDifferenceXY(&x1, &y1);
         *x = linkSpr->x + x1;
         *y = linkSpr->y + y1;
         return;
