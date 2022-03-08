@@ -12,6 +12,7 @@
  <tile id="18">
   <properties>
    <property name="name" value="water_place"/>
+   <property name="wall" type="bool" value="true"/>
   </properties>
  </tile>
  <tile id="19">
@@ -34,9 +35,9 @@
    <property name="name" value="grass"/>
   </properties>
  </tile>
- <tile id="35">
+ <tile id="35" probability="0.2">
   <properties>
-   <property name="name" value=""/>
+   <property name="name" value="grass"/>
   </properties>
  </tile>
  <tile id="36">
@@ -74,6 +75,46 @@
  <tile id="83">
   <properties>
    <property name="name" value=""/>
+  </properties>
+ </tile>
+ <tile id="97">
+  <properties>
+   <property name="wall" type="bool" value="false"/>
+  </properties>
+ </tile>
+ <tile id="98">
+  <properties>
+   <property name="wall" type="bool" value="false"/>
+  </properties>
+ </tile>
+ <tile id="99">
+  <properties>
+   <property name="wall" type="bool" value="false"/>
+  </properties>
+ </tile>
+ <tile id="100">
+  <properties>
+   <property name="wall" type="bool" value="true"/>
+  </properties>
+ </tile>
+ <tile id="101">
+  <properties>
+   <property name="wall" type="bool" value="false"/>
+  </properties>
+ </tile>
+ <tile id="102">
+  <properties>
+   <property name="wall" type="bool" value="false"/>
+  </properties>
+ </tile>
+ <tile id="117">
+  <properties>
+   <property name="wall" type="bool" value="false"/>
+  </properties>
+ </tile>
+ <tile id="118">
+  <properties>
+   <property name="wall" type="bool" value="false"/>
   </properties>
  </tile>
  <tile id="161">

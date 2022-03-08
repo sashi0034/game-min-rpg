@@ -34,7 +34,8 @@ return {
     {
       id = 18,
       properties = {
-        ["name"] = "water_place"
+        ["name"] = "water_place",
+        ["wall"] = true
       }
     },
     {
@@ -64,7 +65,7 @@ return {
     {
       id = 35,
       properties = {
-        ["name"] = ""
+        ["name"] = "grass"
       }
     },
     {
@@ -109,6 +110,54 @@ return {
       id = 83,
       properties = {
         ["name"] = ""
+      }
+    },
+    {
+      id = 97,
+      properties = {
+        ["wall"] = false
+      }
+    },
+    {
+      id = 98,
+      properties = {
+        ["wall"] = false
+      }
+    },
+    {
+      id = 99,
+      properties = {
+        ["wall"] = false
+      }
+    },
+    {
+      id = 100,
+      properties = {
+        ["wall"] = true
+      }
+    },
+    {
+      id = 101,
+      properties = {
+        ["wall"] = false
+      }
+    },
+    {
+      id = 102,
+      properties = {
+        ["wall"] = false
+      }
+    },
+    {
+      id = 117,
+      properties = {
+        ["wall"] = false
+      }
+    },
+    {
+      id = 118,
+      properties = {
+        ["wall"] = false
       }
     },
     {
