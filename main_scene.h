@@ -56,7 +56,7 @@ namespace ingame::main
         static bool DoMove(double *curX, double *curY, double toX, double toY, double vel);
         static void AttachToGridXY(double *x, double *y, int unit);
         static void GetMatXY(int *x, int *y);
-        static bool CanMoveTo(double x, double y);
+        static bool CanMoveTo(double x, double y, EAngle toAng);
     };
 
 

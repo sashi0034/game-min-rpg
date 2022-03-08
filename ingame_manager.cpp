@@ -65,12 +65,26 @@ namespace ingame::main
 				std::string name = prop["name"].get_or(std::string("none"));
 				ETileName eName = magic_enum::enum_cast<ETileName>(name).value_or(ETileName::none);
 
+                /*
+                // プロパティ追加コード 1 / 2
+                */
 				bool isWall = prop["wall"].get_or(false);
+                bool isBridge = prop["bridge"].get_or(false);
+                bool isStepUp = prop["step_up"].get_or(false);
+                bool isStepRight = prop["step_right"].get_or(false);
+                bool isStepLeft = prop["step_left"].get_or(false);
 
 				int srcX = (id % tileCollums) * tileWidth;
 				int srcY = (id / tileCollums) * tileHeight;
 
-				mTilechips[id] = new TileMapChip{eName, isWall, srcX, srcY};
+				mTilechips[id] = new TileMapChip{
+                    eName, 
+                    isWall, 
+                    isBridge, 
+                    isStepUp,
+                    isStepLeft,
+                    isStepRight,
+                    srcX, srcY};
 			}
 			else
 			{
@@ -107,7 +121,24 @@ namespace ingame::main
 							
 							if (!doStartChip(x, y, chip->Name)) mMat[x][y]->Chips.push_back(chip);
 
-							if (chip->CanMoveTo) mMat[x][y]->CanMoveTo = true;
+                            /*
+                            // プロパティ追加コード 2 / 2
+                            */
+							if (chip->IsWall) mMat[x][y]->IsWall = true;
+                            if (chip->IsBridge) mMat[x][y]->IsBridge = true;
+
+                            if (chip->IsStepLeft && x - 1 >= 0) { 
+                                mMat[x][y]->IsStep[(int)EAngle::LEFT] = true;
+                                mMat[x - 1][y]->IsStep[(int)EAngle::RIGHT] = true; 
+                            }
+                            if (chip->IsStepRight && x + 1 <= mWidth - 1) { 
+                                mMat[x][y]->IsStep[(int)EAngle::RIGHT] = true;
+                                mMat[x + 1][y]->IsStep[(int)EAngle::LEFT] = true; 
+                            }
+                            if (chip->IsStepUp && y - 1 >= 0) { 
+                                mMat[x][y]->IsStep[(int)EAngle::DOWN] = true;
+                                mMat[x][y - 1]->IsStep[(int)EAngle::UP] = true; 
+                            }
 						}
 						else if (chipNo != -1)
 						{

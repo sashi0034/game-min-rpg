@@ -120,11 +120,32 @@ namespace ingame::main
         *x = *x / 16;
         *y = *y / 16;
     }
-    bool Character::CanMoveTo(double x, double y)
+    /// <summary>
+    /// キャラクターがすすめる場所か
+    /// </summary>
+    /// <param name="x">進みたい地点X</param>
+    /// <param name="y"></param>
+    /// <param name="toAng">進む方向</param>
+    /// <returns></returns>
+    bool Character::CanMoveTo(double x, double y, EAngle toAng)
     {
         int matX = x, matY = y;
         GetMatXY(&matX, &matY);
-        return MapManager::Sole->IsInRange(matX, matY) ? !MapManager::Sole->GetMatAt(matX, matY)->CanMoveTo : false;
+
+
+        if (!MapManager::Sole->IsInRange(matX, matY))
+        {
+            return true;
+        }
+        else
+        {
+            bool isStep = false;    // 崖のチェック
+
+            useful::XY moveXY = Angle::ToXY(toAng);
+
+            return  !MapManager::Sole->GetMatAt(matX-moveXY.X, matY-moveXY.Y)->IsStep[static_cast<int>(toAng)] &&
+                (MapManager::Sole->GetMatAt(matX, matY)->IsBridge || !MapManager::Sole->GetMatAt(matX, matY)->IsWall);
+        }
     }
 
 }
@@ -260,23 +281,23 @@ namespace ingame::main
             {
             case EAngle::RIGHT:
                 canMove =
-                    Character::CanMoveTo(mX + 16 * 3 / 4 + xy.X * moveUnit, mY + 16 * 1 / 4 + xy.Y * moveUnit) &&
-                    Character::CanMoveTo(mX + 16 * 3 / 4 + xy.X * moveUnit, mY + 16 * 3 / 4 + xy.Y * moveUnit);
+                    Character::CanMoveTo(mX + 16 * 3 / 4 + xy.X * moveUnit, mY + 16 * 1 / 4 + xy.Y * moveUnit, ang) &&
+                    Character::CanMoveTo(mX + 16 * 3 / 4 + xy.X * moveUnit, mY + 16 * 3 / 4 + xy.Y * moveUnit, ang);
                 break;
             case EAngle::DOWN:
                 canMove =
-                    Character::CanMoveTo(mX + 16 * 1 / 4 + xy.X * moveUnit, mY + 16 * 3 / 4 + xy.Y * moveUnit) &&
-                    Character::CanMoveTo(mX + 16 * 3 / 4 + xy.X * moveUnit, mY + 16 * 3 / 4 + xy.Y * moveUnit);
+                    Character::CanMoveTo(mX + 16 * 1 / 4 + xy.X * moveUnit, mY + 16 * 3 / 4 + xy.Y * moveUnit, ang) &&
+                    Character::CanMoveTo(mX + 16 * 3 / 4 + xy.X * moveUnit, mY + 16 * 3 / 4 + xy.Y * moveUnit, ang);
                 break;
             case EAngle::LEFT:
                 canMove =
-                    Character::CanMoveTo(mX + 16 * 1 / 4 + xy.X * moveUnit, mY + 16 * 1 / 4 + xy.Y * moveUnit) &&
-                    Character::CanMoveTo(mX + 16 * 1 / 4 + xy.X * moveUnit, mY + 16 * 3 / 4 + xy.Y * moveUnit);
+                    Character::CanMoveTo(mX + 16 * 1 / 4 + xy.X * moveUnit, mY + 16 * 1 / 4 + xy.Y * moveUnit, ang) &&
+                    Character::CanMoveTo(mX + 16 * 1 / 4 + xy.X * moveUnit, mY + 16 * 3 / 4 + xy.Y * moveUnit, ang);
                 break;
             case EAngle::UP:
                 canMove =
-                    Character::CanMoveTo(mX + 16 * 1 / 4 + xy.X * moveUnit, mY + 16 * 1 / 4 + xy.Y * moveUnit) &&
-                    Character::CanMoveTo(mX + 16 * 3 / 4 + xy.X * moveUnit, mY + 16 * 1 / 4 + xy.Y * moveUnit);
+                    Character::CanMoveTo(mX + 16 * 1 / 4 + xy.X * moveUnit, mY + 16 * 1 / 4 + xy.Y * moveUnit, ang) &&
+                    Character::CanMoveTo(mX + 16 * 3 / 4 + xy.X * moveUnit, mY + 16 * 1 / 4 + xy.Y * moveUnit, ang);
                 break;
             }
 

@@ -33,13 +33,17 @@ namespace ingame
 			grass,
 			tree,
 			house,
-			weed
+			weed,
 		};
 
 		struct TileMapChip
 		{
 			ETileName Name;
-			bool CanMoveTo;
+			bool IsWall;
+			bool IsBridge;
+			bool IsStepUp = false;
+			bool IsStepLeft = false;
+			bool IsStepRight = false;
 			int srcX;
 			int srcY;
 		};
@@ -49,7 +53,9 @@ namespace ingame
 		{
 			std::vector<TileMapChip*> Chips{};
 			std::vector<byte> HasChip{}; // std::vector<bool>ÇÕíxÇ¢ÇÁÇµÇ¢ÇÃÇ≈byteÇ≈ä«óù
-			bool CanMoveTo = false;
+			bool IsWall = false;
+			bool IsBridge = false;
+			bool IsStep[4] = {false, false, false, false};
 
 			void Update();
 			~MapMatElement();

@@ -66,7 +66,8 @@ return {
       id = 35,
       properties = {
         ["name"] = "grass"
-      }
+      },
+      probability = 0.2
     },
     {
       id = 36,
@@ -161,21 +162,67 @@ return {
       }
     },
     {
+      id = 129,
+      properties = {
+        ["bridge"] = true,
+        ["wall"] = false
+      }
+    },
+    {
+      id = 130,
+      properties = {
+        ["bridge"] = true,
+        ["wall"] = false
+      }
+    },
+    {
       id = 161,
       properties = {
-        ["wall"] = true
+        ["step_left"] = true,
+        ["step_up"] = true,
+        ["wall"] = false
       }
     },
     {
       id = 162,
       properties = {
-        ["wall"] = true
+        ["step"] = "",
+        ["step_up"] = true,
+        ["wall"] = false
       }
     },
     {
       id = 163,
       properties = {
-        ["wall"] = true
+        ["step"] = "",
+        ["step_right"] = true,
+        ["step_up"] = true,
+        ["wall"] = false
+      }
+    },
+    {
+      id = 164,
+      properties = {
+        ["step_left"] = true,
+        ["step_up"] = true,
+        ["wall"] = false
+      }
+    },
+    {
+      id = 165,
+      properties = {
+        ["step"] = "",
+        ["step_up"] = true,
+        ["wall"] = false
+      }
+    },
+    {
+      id = 166,
+      properties = {
+        ["step"] = "",
+        ["step_right"] = true,
+        ["step_up"] = true,
+        ["wall"] = false
       }
     },
     {
@@ -199,19 +246,45 @@ return {
     {
       id = 177,
       properties = {
-        ["wall"] = true
+        ["step_left"] = true,
+        ["wall"] = false
       }
     },
     {
       id = 178,
       properties = {
-        ["wall"] = true
+        ["step"] = "",
+        ["wall"] = false
       }
     },
     {
       id = 179,
       properties = {
-        ["wall"] = true
+        ["step"] = "",
+        ["step_right"] = true,
+        ["wall"] = false
+      }
+    },
+    {
+      id = 180,
+      properties = {
+        ["step_left"] = true,
+        ["wall"] = false
+      }
+    },
+    {
+      id = 181,
+      properties = {
+        ["step"] = "",
+        ["wall"] = false
+      }
+    },
+    {
+      id = 182,
+      properties = {
+        ["step"] = "",
+        ["step_right"] = true,
+        ["wall"] = false
       }
     },
     {
@@ -235,18 +308,42 @@ return {
     {
       id = 193,
       properties = {
+        ["step"] = "",
         ["wall"] = true
       }
     },
     {
       id = 194,
       properties = {
+        ["step"] = "",
         ["wall"] = true
       }
     },
     {
       id = 195,
       properties = {
+        ["step"] = "",
+        ["wall"] = true
+      }
+    },
+    {
+      id = 196,
+      properties = {
+        ["step"] = "",
+        ["wall"] = true
+      }
+    },
+    {
+      id = 197,
+      properties = {
+        ["step"] = "",
+        ["wall"] = true
+      }
+    },
+    {
+      id = 198,
+      properties = {
+        ["step"] = "",
         ["wall"] = true
       }
     },
@@ -271,19 +368,26 @@ return {
     {
       id = 209,
       properties = {
-        ["wall"] = true
+        ["step_left"] = true,
+        ["step_up"] = true,
+        ["wall"] = false
       }
     },
     {
       id = 210,
       properties = {
-        ["wall"] = true
+        ["step"] = "",
+        ["step_up"] = true,
+        ["wall"] = false
       }
     },
     {
       id = 211,
       properties = {
-        ["wall"] = true
+        ["step"] = "",
+        ["step_right"] = true,
+        ["step_up"] = true,
+        ["wall"] = false
       }
     },
     {
@@ -331,19 +435,23 @@ return {
     {
       id = 225,
       properties = {
-        ["wall"] = true
+        ["step_left"] = true,
+        ["wall"] = false
       }
     },
     {
       id = 226,
       properties = {
-        ["wall"] = true
+        ["step"] = "",
+        ["wall"] = false
       }
     },
     {
       id = 227,
       properties = {
-        ["wall"] = true
+        ["step"] = "",
+        ["step_right"] = true,
+        ["wall"] = false
       }
     },
     {
@@ -367,6 +475,27 @@ return {
     {
       id = 231,
       properties = {
+        ["wall"] = true
+      }
+    },
+    {
+      id = 241,
+      properties = {
+        ["step"] = "",
+        ["wall"] = true
+      }
+    },
+    {
+      id = 242,
+      properties = {
+        ["step"] = "",
+        ["wall"] = true
+      }
+    },
+    {
+      id = 243,
+      properties = {
+        ["step"] = "",
         ["wall"] = true
       }
     }
