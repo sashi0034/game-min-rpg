@@ -43,6 +43,8 @@ using namespace gameEngine;
 
 namespace ingame
 {
+    extern const char* GAME_TITLE_NAME;
+
     namespace resorce 
     {
         class Image
@@ -56,6 +58,7 @@ namespace ingame
             Graph* Weed = loadPng("weed_16x16");
             Graph* Tree = loadPng("tree_16x16");
             Graph* Kisaragi = loadPng("kisaragi_24x24");
+            Graph* Punicat = loadPng("punicat_24x24");
 
 
 #if 0

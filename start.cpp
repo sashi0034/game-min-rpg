@@ -31,6 +31,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 namespace ingame
 {
+    const char* GAME_TITLE_NAME = "Min RPG";
     useful::Random* Rand = nullptr;
     int GameState = 0;
     resorce::Image* Images = nullptr;
@@ -38,6 +39,8 @@ namespace ingame
 
     int doProcess()
     {
+        DxLib::SetMainWindowText(GAME_TITLE_NAME);
+
         // ウインドウモードで起動
         DxLib::ChangeWindowMode(TRUE);
 
@@ -151,7 +154,7 @@ namespace ingame
         {
             new ScrollManager();
             new MapManager(1);
-            new Player(16*8, 16*8);
+            //new Player(16*8, 16*8);
             //new Test();
             new BackGroundManager();
             

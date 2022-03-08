@@ -119,13 +119,13 @@
  </tile>
  <tile id="129">
   <properties>
-   <property name="name" value="bridge"/>
+   <property name="bridge" type="bool" value="true"/>
    <property name="wall" type="bool" value="false"/>
   </properties>
  </tile>
  <tile id="130">
   <properties>
-   <property name="name" value="bridge"/>
+   <property name="bridge" type="bool" value="true"/>
    <property name="wall" type="bool" value="false"/>
   </properties>
  </tile>
@@ -138,14 +138,12 @@
  </tile>
  <tile id="162">
   <properties>
-   <property name="step" value=""/>
    <property name="step_up" type="bool" value="true"/>
    <property name="wall" type="bool" value="false"/>
   </properties>
  </tile>
  <tile id="163">
   <properties>
-   <property name="step" value=""/>
    <property name="step_right" type="bool" value="true"/>
    <property name="step_up" type="bool" value="true"/>
    <property name="wall" type="bool" value="false"/>
@@ -160,14 +158,12 @@
  </tile>
  <tile id="165">
   <properties>
-   <property name="step" value=""/>
    <property name="step_up" type="bool" value="true"/>
    <property name="wall" type="bool" value="false"/>
   </properties>
  </tile>
  <tile id="166">
   <properties>
-   <property name="step" value=""/>
    <property name="step_right" type="bool" value="true"/>
    <property name="step_up" type="bool" value="true"/>
    <property name="wall" type="bool" value="false"/>
@@ -196,13 +192,11 @@
  </tile>
  <tile id="178">
   <properties>
-   <property name="step" value=""/>
    <property name="wall" type="bool" value="false"/>
   </properties>
  </tile>
  <tile id="179">
   <properties>
-   <property name="step" value=""/>
    <property name="step_right" type="bool" value="true"/>
    <property name="wall" type="bool" value="false"/>
   </properties>
@@ -215,13 +209,11 @@
  </tile>
  <tile id="181">
   <properties>
-   <property name="step" value=""/>
    <property name="wall" type="bool" value="false"/>
   </properties>
  </tile>
  <tile id="182">
   <properties>
-   <property name="step" value=""/>
    <property name="step_right" type="bool" value="true"/>
    <property name="wall" type="bool" value="false"/>
   </properties>
@@ -243,37 +235,31 @@
  </tile>
  <tile id="193">
   <properties>
-   <property name="step" value=""/>
    <property name="wall" type="bool" value="true"/>
   </properties>
  </tile>
  <tile id="194">
   <properties>
-   <property name="step" value=""/>
    <property name="wall" type="bool" value="true"/>
   </properties>
  </tile>
  <tile id="195">
   <properties>
-   <property name="step" value=""/>
    <property name="wall" type="bool" value="true"/>
   </properties>
  </tile>
  <tile id="196">
   <properties>
-   <property name="step" value=""/>
    <property name="wall" type="bool" value="true"/>
   </properties>
  </tile>
  <tile id="197">
   <properties>
-   <property name="step" value=""/>
    <property name="wall" type="bool" value="true"/>
   </properties>
  </tile>
  <tile id="198">
   <properties>
-   <property name="step" value=""/>
    <property name="wall" type="bool" value="true"/>
   </properties>
  </tile>
@@ -301,14 +287,12 @@
  </tile>
  <tile id="210">
   <properties>
-   <property name="step" value=""/>
    <property name="step_up" type="bool" value="true"/>
    <property name="wall" type="bool" value="false"/>
   </properties>
  </tile>
  <tile id="211">
   <properties>
-   <property name="step" value=""/>
    <property name="step_right" type="bool" value="true"/>
    <property name="step_up" type="bool" value="true"/>
    <property name="wall" type="bool" value="false"/>
@@ -357,13 +341,11 @@
  </tile>
  <tile id="226">
   <properties>
-   <property name="step" value=""/>
    <property name="wall" type="bool" value="false"/>
   </properties>
  </tile>
  <tile id="227">
   <properties>
-   <property name="step" value=""/>
    <property name="step_right" type="bool" value="true"/>
    <property name="wall" type="bool" value="false"/>
   </properties>
@@ -390,19 +372,16 @@
  </tile>
  <tile id="241">
   <properties>
-   <property name="step" value=""/>
    <property name="wall" type="bool" value="true"/>
   </properties>
  </tile>
  <tile id="242">
   <properties>
-   <property name="step" value=""/>
    <property name="wall" type="bool" value="true"/>
   </properties>
  </tile>
  <tile id="243">
   <properties>
-   <property name="step" value=""/>
    <property name="wall" type="bool" value="true"/>
   </properties>
  </tile>

@@ -148,6 +148,7 @@ namespace ingame::main
         }
     }
 
+
 }
 
 namespace ingame::main
@@ -159,7 +160,7 @@ namespace ingame::main
     /// </summary>
     /// <param name="startX"></param>
     /// <param name="startY"></param>
-    Player::Player(int startX, int startY) : LuaCollideActor("Player", false, new collider::Rectangle(8, 16, 16, 16), 1)
+    Player::Player(double startX, double startY) : LuaCollideActor("Player", false, new collider::Rectangle(8, 16, 16, 16), 1)
     {
         Sole = this;
 
@@ -323,6 +324,83 @@ namespace ingame::main
         }
     }
 }
+
+
+namespace ingame::main
+{
+    Punicat::Punicat(double startX, double startY, ECharacterKind characterKind, std::string uniqueName) : 
+        LuaCollideActor(uniqueName, true, new collider::Rectangle(4, 8, 16, 16), 1),
+        INonPlayerCharacter(characterKind, uniqueName)
+    {
+        mSpr->SetLinkXY(ScrollManager::Sole->GetSpr());
+        mSpr->SetImage(Images->Punicat, 0, 0, 24, 24);
+        mSpr->SetZ(ZIndex::CHARACTER);
+
+        mX = startX;
+        mY = startY;
+
+        mLuaData["doMove"] = [&](double x, double y)->bool {return this->doMove(x, y); };
+        mLuaData["getX"] = [&]()->double {return this->mX; };
+        mLuaData["getY"] = [&]()->double {return this->mY; };
+
+        mVel = mLuaData["vel"];
+        mFrameInterval = mLuaData["frameInterval"].get_or(0);
+    }
+
+    void Punicat::update()
+    {
+        luaManager::Lua[mLuaClassName]["update"](mLuaData);
+
+        mSpr->SetXY(mX - 4, mY - 8 - 4);
+
+        animation();
+    }
+    void Punicat::animation()
+    {
+        int frame = (mAnimTime / mFrameInterval);
+        mSpr->SetFlip(false);
+
+        switch (mAngle)
+        {
+        case EAngle::DOWN:
+            mSpr->SetImage((frame % 4) * 24, 0);
+            break;
+        case EAngle::RIGHT:
+            mSpr->SetImage((frame % 4) * 24, 24 * 3);
+            break;
+        case EAngle::UP:
+            mSpr->SetImage((frame % 4) * 24, 24 * 2);
+            break;
+        case EAngle::LEFT:
+            mSpr->SetImage((frame % 4) * 24, 24 * 1);
+            break;
+        }
+
+        mAnimTime += Time::DeltaMilli();
+    }
+    bool Punicat::doMove(double gotoX, double gotoY)
+    {
+       
+        if (Character::DoMove(&mX, &mY, gotoX, gotoY, mVel))
+        {
+            if (std::abs(mX - gotoX) > moveUnit / 2 || std::abs(mY - gotoY) > moveUnit/2)
+            {
+                mAngle = Angle::ToAng(gotoX - mX, gotoY - mY);
+            }
+            
+            return true;
+        }
+        else
+        {
+            mX += moveUnit / 2; mY += moveUnit / 2;
+            Character::AttachToGridXY(&mX, &mY, moveUnit);
+            return false;
+        }
+    }
+
+}
+
+
 
 namespace ingame::main
 {

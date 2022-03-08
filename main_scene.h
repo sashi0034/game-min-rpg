@@ -63,7 +63,7 @@ namespace ingame::main
 
     class Player : public LuaCollideActor, public ISingleton<Player>
     {
-        int moveUnit = 8;
+        const int moveUnit = 8;
         double mX, mY;
         double mGotoX=0, mGotoY=0;
         EAngle mAngle = EAngle::DOWN;
@@ -71,7 +71,7 @@ namespace ingame::main
         int mAnimTime = 0;
         int mWaitTime = 0;
     public:
-        Player(int startX, int startY);
+        Player(double startX, double startY);
         ~Player();
         double GetX();
         double GetY();
@@ -83,6 +83,24 @@ namespace ingame::main
         bool doWaitForMove();
         bool doMove();
     };
+
+    class Punicat : public LuaCollideActor, public INonPlayerCharacter
+    {
+        const int moveUnit = 16;
+        double mX, mY;
+        double mVel;
+        double mAnimTime = 0;
+        int mFrameInterval;
+        EAngle mAngle = EAngle::DOWN;
+    public:
+        Punicat(double startX, double startY, ECharacterKind characterKind, std::string uniqueName);
+    protected:
+        void update() override;
+        void animation();
+        bool doMove(double x, double y);
+    };
+
+
 
     class TestNPC : public LuaCollideActor
     {

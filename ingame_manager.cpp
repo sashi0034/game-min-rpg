@@ -108,44 +108,16 @@ namespace ingame::main
 			sol::table layers = fieldTable["layers"];
 			for (int i = 1; i <= layers.size(); ++i)
 			{
-				for (int y = 0; y < mHeight; ++y)
-				{
-					for (int x = 0; x < mWidth; ++x)
-					{
-						// Tiledのレイヤー要素のマップタイルのIDは+1加算されているので
-						// -1する必要がある
-						int chipNo = layers[i]["data"][x + y * mWidth + 1].get_or(0) - 1;
-						if (mTilechips.count(chipNo) != 0)
-						{
-							TileMapChip* chip = mTilechips[chipNo];
-							
-							if (!doStartChip(x, y, chip->Name)) mMat[x][y]->Chips.push_back(chip);
-
-                            /*
-                            // プロパティ追加コード 2 / 2
-                            */
-							if (chip->IsWall) mMat[x][y]->IsWall = true;
-                            if (chip->IsBridge) mMat[x][y]->IsBridge = true;
-
-                            if (chip->IsStepLeft && x - 1 >= 0) { 
-                                mMat[x][y]->IsStep[(int)EAngle::LEFT] = true;
-                                mMat[x - 1][y]->IsStep[(int)EAngle::RIGHT] = true; 
-                            }
-                            if (chip->IsStepRight && x + 1 <= mWidth - 1) { 
-                                mMat[x][y]->IsStep[(int)EAngle::RIGHT] = true;
-                                mMat[x + 1][y]->IsStep[(int)EAngle::LEFT] = true; 
-                            }
-                            if (chip->IsStepUp && y - 1 >= 0) { 
-                                mMat[x][y]->IsStep[(int)EAngle::DOWN] = true;
-                                mMat[x][y - 1]->IsStep[(int)EAngle::UP] = true; 
-                            }
-						}
-						else if (chipNo != -1)
-						{
-							std::cerr ERR_LOG "Invalid tile "<< chipNo <<" exits in "<< x << ", " << y << "\n";
-						}
-					}
-				}
+                std::string layerType = layers[i]["type"];
+                if (layerType =="tilelayer")
+                {// タイルレイヤー
+                    loadTileLayer(layers[i]);
+                }
+                else if (layerType == "objectgroup")
+                {
+                    loadObjectGroup(layers[i]);
+                }
+	
 			}
 
 		}
@@ -159,6 +131,94 @@ namespace ingame::main
 			for (auto& ele : row)
 				ele->Update();
 	}
+
+
+    /// <summary>
+    /// タイルレイヤー1枚の読み込み
+    /// </summary>
+    /// <param name="layer">Luaテーブル</param>
+    void MapManager::loadTileLayer(sol::table layer)
+    {
+        for (int y = 0; y < mHeight; ++y)
+        {
+            for (int x = 0; x < mWidth; ++x)
+            {
+                // Tiledのレイヤー要素のマップタイルのIDは+1加算されているので
+                // -1する必要がある
+                int chipNo = layer["data"][x + y * mWidth + 1].get_or(0) - 1;
+                if (mTilechips.count(chipNo) != 0)
+                {
+                    TileMapChip* chip = mTilechips[chipNo];
+
+                    if (!doStartChip(x, y, chip->Name)) mMat[x][y]->Chips.push_back(chip);
+
+                    /*
+                    // プロパティ追加コード 2 / 2
+                    */
+                    if (chip->IsWall) mMat[x][y]->IsWall = true;
+                    if (chip->IsBridge) mMat[x][y]->IsBridge = true;
+
+                    if (chip->IsStepLeft && x - 1 >= 0) {
+                        mMat[x][y]->IsStep[(int)EAngle::LEFT] = true;
+                        mMat[x - 1][y]->IsStep[(int)EAngle::RIGHT] = true;
+                    }
+                    if (chip->IsStepRight && x + 1 <= mWidth - 1) {
+                        mMat[x][y]->IsStep[(int)EAngle::RIGHT] = true;
+                        mMat[x + 1][y]->IsStep[(int)EAngle::LEFT] = true;
+                    }
+                    if (chip->IsStepUp && y - 1 >= 0) {
+                        mMat[x][y]->IsStep[(int)EAngle::DOWN] = true;
+                        mMat[x][y - 1]->IsStep[(int)EAngle::UP] = true;
+                    }
+                }
+                else if (chipNo != -1)
+                {
+                    std::cerr ERR_LOG "Invalid tile " << chipNo << " exits in " << x << ", " << y << "\n";
+                }
+            }
+        }
+    }
+
+    void MapManager::loadObjectGroup(sol::table layer)
+    {
+        sol::table objects = layer["objects"];
+
+        for (int i = 1; i <= objects.size(); ++i)
+        {
+            std::string name = objects[i]["name"].get_or(std::string(""));
+            std::string typeName = objects[i]["type"].get_or(std::string(""));
+            
+            if (typeName == "character")
+            {
+                std::string characterName = objects[i]["properties"]["character"].get_or(std::string(""));
+                double x = objects[i]["x"].get_or(0);
+                double y = objects[i]["y"].get_or(0);
+
+                installCharacter(x, y, characterName, name);
+            }
+
+        }
+
+    }
+
+    void MapManager::installCharacter(double x, double y, std::string character, std::string name)
+    {
+        ECharacterKind kind = magic_enum::enum_cast<ECharacterKind>(character).value_or(ECharacterKind::none);
+        switch ( kind)
+        {
+        case ECharacterKind::player:
+            new Player(x, y);
+            break;
+        case ECharacterKind::punicat:
+            new Punicat(x, y, kind, name);
+            break;
+        default:
+            std::cerr ERR_LOG "Invalid character name exit.\n";
+            break;
+        }
+    }
+
+
 
 	MapManager::~MapManager()
 	{
@@ -198,6 +258,7 @@ namespace ingame::main
 		return false;
 	}
 
+
 	Graph* MapManager::GetTilesetGraph()
 	{
 		return mTilesetGraph;
@@ -220,6 +281,12 @@ namespace ingame::main
 			0<=y && y<=mHeight-1;
 	}
 
+
+    INonPlayerCharacter::INonPlayerCharacter(ECharacterKind characterKind, std::string uniqueName)
+    {
+        mCharacterKind = characterKind;
+        mUniqueName = uniqueName;
+    }
 
 }
 
