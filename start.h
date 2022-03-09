@@ -52,13 +52,14 @@ namespace ingame
         private:
             Graph* loadPng(std::string fileName);
         public:
-            Graph* Test = Graph::LoadGraph(R"(.\asset\image\cloud_128x64.png)");
-            Graph* Chicken = Graph::LoadGraph(R"(.\asset\image\chicken_32x32.png)");
+            Graph* Cloud = loadPng("cloud_128x64");
+            Graph* Chicken = loadPng("chicken_32x32");
             Graph* NaturalTile = loadPng("natural_playground_16x16");
             Graph* Weed = loadPng("weed_16x16");
             Graph* Tree = loadPng("tree_16x16");
             Graph* Kisaragi = loadPng("kisaragi_24x24");
             Graph* Punicat = loadPng("punicat_24x24");
+            Graph* UiWindows = loadPng("ui/window_black");
 
 
 #if 0
@@ -97,14 +98,20 @@ namespace ingame{
     void LoopBasicUpdate();
 
 
+    class SceneBase
+    {
+    protected:
+        void loop();
+    public:
+        SceneBase();
+    };
 
     namespace main 
     {
-        class Scene
+        class MainScene : public SceneBase
         {
         public:
-            Scene();
-            void Loop();
+            MainScene();
         };
 
 
@@ -115,24 +122,6 @@ namespace ingame{
         };
 
 
-
-
-        class Test : public Actor
-        {
-        public:
-            static Test* Sole;
-
-            Sprite* OtherSp;
-
-            sol::table SolState;
-
-            Test();
-
-            
-
-        protected:
-            void update() override;
-        };
 
 
 

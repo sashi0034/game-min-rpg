@@ -100,7 +100,7 @@ namespace ingame
         while (LOOP)
         {
             //new top::Scene();
-            new main::Scene();
+            new main::MainScene();
         }
 
         return 0;
@@ -142,6 +142,19 @@ namespace ingame::resorce
 namespace ingame
 {
 
+    SceneBase::SceneBase()
+    {
+
+    }
+
+    void SceneBase::loop()
+    {
+        Time::Sole->Restart();
+        while (LOOP)
+        {
+            LoopBasicUpdate();
+        }
+    }
 
 
 
@@ -150,31 +163,17 @@ namespace ingame
     //メインシーン
     namespace main
     {
-        Scene::Scene()
+        MainScene::MainScene() : SceneBase()
         {
             new ScrollManager();
             new MapManager(1);
-            //new Player(16*8, 16*8);
-            //new Test();
             new BackGroundManager();
             
-            Loop();
+            SceneBase::loop();
 
             delete MapManager::Sole;
             delete this;
         }
-        void Scene::Loop()
-        {
-            Time::Sole->Restart();
-            while (LOOP)
-            {
-                LoopBasicUpdate();
-            }
-        }
-
-
-
-
     }
 
 
@@ -185,69 +184,6 @@ namespace ingame
         BLUE = 2,
     };
 
-
-
-
-
-    // Test
-    namespace main
-    {
-        Test* Test::Sole = nullptr;
-
-
-        // テスト
-        Test::Test() : Actor()
-        {
-            Test::Sole = this;
-            mSpr->SetImage(Images->Chicken, 0, 0, 32, 32);
-            mSpr->SetXY(20, 20);
-            mSpr->SetZ(-20);
-
-            OtherSp = new Sprite(Images->Test, 0, 0, 128, 64);
-            OtherSp->SetXY(100, 50);
-            OtherSp->SetZ(-200);
-
-            SolState = luaManager::Lua.create_table();
-            SolState = luaManager::Lua["Test"]["new"](static_cast<Actor*>(this));
-            //std::cout << res;
-
-            //std::string testLoad = luaManager::Lua["Field"]["layers"][1]["type"];
-            //std::cout << testLoad << "\n";
-
-            //sol::table testLoad = luaManager::Lua["Field"]["layers"];
-            //std::cout << testLoad.size() << "\n";
-
-            //sol::table testLoadVec = luaManager::Lua["Field"]["layers"][1]["data"];
-            //std::cout << testLoadVec.size() << " " << (int)(testLoadVec[15]) << "\n";
-
-            
-        }
-
-        void Test::update()
-        {
-            std::string res = luaManager::Lua["Test"]["update"](SolState);
-            //std::cout << res;
-
-            ETest color = ETest::RED;
-            auto name = magic_enum::enum_name(color);
-            //std::cout << name;
-
-            std::string str{ "BLUE" };
-            auto casted_str = magic_enum::enum_cast<ETest>(str);
-            if (casted_str.has_value())
-            {
-                if (casted_str.value() == ETest::BLUE)
-                {
-                    //std::cout << "ok\n";
-                }
-            }
-            //std::cout << "\n" << DxLib::GetFPS() << "\n";
-
-            //std::cout OUT_LOG Time::DeltaMilli() << " " << Time::DeltaSec() << "\n";
-
-            Actor::update();
-        }
-    }
 
 
 
