@@ -2,6 +2,7 @@
 #include "sprite.h"
 #include "game_utils.h"
 #include <chrono>
+#include <functional>
 
 namespace gameEngine
 {
@@ -24,6 +25,8 @@ namespace gameEngine
 		static int DeltaMilli();
 		static double DeltaSec();
 	};
+
+
 
 	/// <summary>
 	/// ゲームオブジェクト基底
@@ -125,6 +128,28 @@ namespace gameEngine
 		CollideActor* GetHitCollideActor(CollideActor* actor);
 
 	}
+
+
+
+
+	/// <summary>
+	/// イベント発生タイマー
+	/// </summary>
+	class EventTimer
+	{
+	private:
+		std::function<bool()> mDoEvent;
+		int mInterval;
+		bool mIsAlive = true;
+		int mCountTime = 0;
+	public:
+		EventTimer();
+		EventTimer(std::function<bool()> doEvent, int intervalMilliSec);
+		void Update();
+		void SetInterval(int interval);
+		bool IsAlive();
+	};
+
 };
 
 

@@ -37,6 +37,48 @@ namespace gameEngine {
 	{
 		return Time::Sole->GetDeltaMilli();;
 	}
+
+	EventTimer::EventTimer()
+	{
+		mIsAlive = false;
+		mDoEvent = []() {return false; };
+		mInterval = 1;
+	}
+
+	/// <summary>
+	/// タイマーの設定
+	/// ループ毎にUpdateを呼ぶこと
+	/// </summary>
+	/// <param name="doEvent">生きているときはtrue, 死んだときはfalseを返すイベント</param>
+	/// <param name="intervalMilliSec"></param>
+	EventTimer::EventTimer(std::function<bool()> doEvent, int intervalMilliSec)
+	{
+		mDoEvent = doEvent;
+		mInterval = intervalMilliSec;
+	}
+	void EventTimer::Update()
+	{
+		if (!mIsAlive) return;
+
+		mCountTime += Time::DeltaMilli();
+		while (mCountTime > mInterval)
+		{
+			mCountTime -= mInterval;
+			if (mDoEvent()==false)
+			{
+				mIsAlive = false;
+				break;
+			}
+		}
+	}
+	void EventTimer::SetInterval(int interval)
+	{
+		mInterval = interval;
+	}
+	bool EventTimer::IsAlive()
+	{
+		return mIsAlive;
+	}
 }
 
 

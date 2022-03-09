@@ -59,24 +59,39 @@ namespace ingame::main
     };
 
 
-    class UiWindow : public Actor
+    class NinePatchImage : public Actor
     {
     private:
         Graph* mSrcGraph;
-        Graph* mRenderGraph;
-        
+        Graph* mRenderGraph = nullptr;
+
         useful::Vec2<int> mSrcSize{};
-        useful::Vec2<int> mDrawSize{};
+        useful::Vec2<int> mSpriteSize{};
+        useful::Vec2<double> mSpriteCenterPos{};
+        useful::Vec2<double> mSpritePos{};
+
         useful::Vec2<int> mDivLineSrc[4];
         useful::Vec2<int> mRenderLine[4];
         useful::Vec2<double> mSideRatio{};
-        useful::Vec2<double> mDrawScreenLeftTop{};
+
+        void renderWindow();
+    public:
+        NinePatchImage(double drawCenterX, double drawCenterY, double roughWidth, double roughHeight, double sideRatioX, double sideRatioY, Graph* srcGraph);
+        ~NinePatchImage();
+        void SetSize(useful::Vec2<double> size);
+    };
+
+
+    class UiWindow : public NinePatchImage
+    {
+    private:
+        double mCurWidth = 0;
+        double mToWidth;
+        double mHeight;
     public:
         UiWindow(double drawCenterX, double drawCenterY, int roughWidth, int roughHeight, double sideRatioX, double sideRatioY);
-        ~UiWindow();
     protected:
         void update() override;
-        void renderWindow();
     };
 
 
@@ -89,6 +104,7 @@ namespace ingame::main
         double mVel = 0;
         int mAnimTime = 0;
         int mWaitTime = 0;
+        EventTimer debugTimer;
     public:
         Player(double startX, double startY);
         ~Player();

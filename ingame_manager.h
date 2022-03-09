@@ -21,7 +21,6 @@ using namespace gameEngine;
 namespace ingame
 {
 
-
 	namespace main
 	{
 		enum class ETileName

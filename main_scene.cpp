@@ -149,54 +149,66 @@ namespace ingame::main
     }
 
 
-
-
-    UiWindow::UiWindow(double drawCenterX, double drawCenterY, int roughWidth, int roughHeight, double sideRatioX, double sideRatioY) : Actor()
+    /// <summary>
+    /// 9 pach imageのスプライトを生成する基底クラス
+    /// </summary>
+    /// <param name="drawCenterX">配置する中央原点X</param>
+    /// <param name="drawCenterY">配置する中央原点Y</param>
+    /// <param name="roughWidth">幅</param>
+    /// <param name="roughHeight">高さ</param>
+    /// <param name="sideRatioX">端の比率</param>
+    /// <param name="sideRatioY"><端の比率/param>
+    /// <param name="srcGraph"></param>
+    NinePatchImage::NinePatchImage(double drawCenterX, double drawCenterY, double roughWidth, double roughHeight, double sideRatioX, double sideRatioY, Graph* srcGraph)
     {
-        mSrcGraph = Images->UiWindows;
+        mSrcGraph = srcGraph;
         DxLib::GetGraphSize(mSrcGraph->GetHandler(), &mSrcSize.X, &mSrcSize.Y);
 
-        mDrawSize = useful::Vec2<int>{ roughWidth * ROUGH_SCALE, roughHeight * ROUGH_SCALE };
         mSideRatio = useful::Vec2<double>{ sideRatioX, sideRatioY };
-
         mDivLineSrc[0] = useful::Vec2<int>{ 0,0 };
         mDivLineSrc[1] = useful::Vec2<int>{ int(sideRatioX * mSrcSize.X),int(sideRatioY * mSrcSize.Y) };
         mDivLineSrc[2] = useful::Vec2<int>{ int((1 - sideRatioX) * mSrcSize.X),int((1 - sideRatioY) * mSrcSize.Y) };
         mDivLineSrc[3] = useful::Vec2<int>{ mSrcSize.X, mSrcSize.Y };
 
-        mDrawScreenLeftTop = useful::Vec2<double>{drawCenterX-roughWidth/2.0, drawCenterY-roughHeight/2.0};
+        mSpriteCenterPos = useful::Vec2<double>{ drawCenterX, drawCenterY };
 
-        int cornerLength = (std::min)(mDrawSize.X*mSideRatio.X, mDrawSize.Y * mSideRatio.Y);
-        mRenderLine[0] = useful::Vec2<int>{ 0,0 };
-        mRenderLine[1] = useful::Vec2<int>{ cornerLength, cornerLength };
-        mRenderLine[2] = useful::Vec2<int>{ mDrawSize.X - cornerLength, mDrawSize.Y - cornerLength };
-        mRenderLine[3] = useful::Vec2<int>{ mDrawSize.X, mDrawSize.Y };
-
-
-        DxLib::SetCreateDrawValidGraphMultiSample(4, 2);
-        mRenderGraph = new Graph(DxLib::MakeScreen(mDrawSize.X, mDrawSize.Y, TRUE));
-        DxLib::SetCreateDrawValidGraphMultiSample(0, 0);
-
-        renderWindow();
+        SetSize(useful::Vec2<double>{roughWidth, roughHeight});
+    
 
         mSpr->SetZ(ZIndex::UI);
-        mSpr->SetXY(mDrawScreenLeftTop.X, mDrawScreenLeftTop.Y);
-        mSpr->SetImage(mRenderGraph, 0, 0, mDrawSize.X, mDrawSize.Y);
         mSpr->SetDrawingMethod(Sprite::DrawingKind::DotByDot);
     }
 
-    UiWindow::~UiWindow()
+    NinePatchImage::~NinePatchImage()
     {
         delete mRenderGraph;
     }
 
-
-    void UiWindow::update()
+    void NinePatchImage::SetSize(useful::Vec2<double> size)
     {
-        Actor::update();
+
+        mSpriteSize = (size * ROUGH_SCALE).EachTo<int>();
+        mSpritePos = mSpriteCenterPos - (size / 2.0).EachTo<double>();
+        int cornerLength = (std::min)(mSpriteSize.X * mSideRatio.X, mSpriteSize.Y * mSideRatio.Y);
+        mRenderLine[0] = useful::Vec2<int>{ 0,0 };
+        mRenderLine[1] = useful::Vec2<int>{ cornerLength, cornerLength };
+        mRenderLine[2] = useful::Vec2<int>{ mSpriteSize.X - cornerLength, mSpriteSize.Y - cornerLength };
+        mRenderLine[3] = useful::Vec2<int>{ mSpriteSize.X, mSpriteSize.Y };
+
+        DxLib::SetCreateDrawValidGraphMultiSample(8, 4);
+        {// アンチエイリアスをかけて描画できるように
+            if (mRenderGraph != nullptr) delete mRenderGraph;
+            mRenderGraph = new Graph(DxLib::MakeScreen(mSpriteSize.X, mSpriteSize.Y, TRUE));
+        }
+        DxLib::SetCreateDrawValidGraphMultiSample(0, 0);
+
+        renderWindow();
+
+        mSpr->SetXY(mSpritePos.X, mSpritePos.Y);
+        mSpr->SetImage(mRenderGraph, 0, 0, mSpriteSize.X, mSpriteSize.Y);
     }
 
-    void UiWindow::renderWindow()
+    void NinePatchImage::renderWindow()
     {
         DxLib::SetDrawScreen(mRenderGraph->GetHandler());
         for (int x = 0; x < 3; ++x)
@@ -210,11 +222,34 @@ namespace ingame::main
 
                 DxLib::DrawExtendGraph(mRenderLine[x].X, mRenderLine[y].Y, mRenderLine[x + 1].X, mRenderLine[y + 1].Y,
                     handler, true);
-                
+
                 DxLib::DeleteGraph(handler);
             }
         }
         DxLib::SetDrawScreen(DX_SCREEN_BACK);
+    }
+
+
+
+    UiWindow::UiWindow(double drawCenterX, double drawCenterY, int roughWidth, int roughHeight, double sideRatioX, double sideRatioY)
+        : NinePatchImage(drawCenterX, drawCenterY, 8, roughHeight, sideRatioX, sideRatioY, Images->UiWindows)
+    {
+        mCurWidth = 8;
+        mToWidth = roughWidth;
+        mHeight = roughHeight;
+    }
+
+
+    void UiWindow::update()
+    {
+        if (mCurWidth < mToWidth)
+        {
+            mCurWidth += Time::DeltaMilli();
+            mCurWidth = (std::min)(mCurWidth, mToWidth);
+            NinePatchImage::SetSize(useful::Vec2<double>{mCurWidth, mHeight});
+        }
+
+        NinePatchImage::update();
     }
 
 }
@@ -245,6 +280,13 @@ namespace ingame::main
 
         mVel = mLuaData["vel"];
 
+        debugTimer = EventTimer([&]() {
+            std::cout OUT_LOG 
+                "プレイヤー座標: " << mX << ", "<< mY << "\n" << 
+                "プレイヤー経過時間: " << mTime/1000.0 << "\n";
+            return true; }
+        , 1000 * 15);
+
         new UiWindow(ROUGH_WIDTH/2, ROUGH_HEIGHT-120, 200,120,0.2, 0.2);
     }
     Player::~Player()
@@ -266,7 +308,7 @@ namespace ingame::main
     void Player::update()
     {
         LuaCollideActor::update();
-
+        debugTimer.Update();
     }
     void Player::luaUpdate()
     {
