@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 9,
-  nextobjectid = 21,
+  nextobjectid = 28,
   properties = {},
   tilesets = {
     {
@@ -294,7 +294,7 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["character"] = "punicat"
+            ["kind"] = "punicat"
           }
         },
         {
@@ -309,7 +309,7 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["character"] = "punicat"
+            ["kind"] = "punicat"
           }
         },
         {
@@ -324,8 +324,96 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["character"] = "player"
+            ["kind"] = "player"
           }
+        },
+        {
+          id = 21,
+          name = "house_1",
+          type = "event",
+          shape = "rectangle",
+          x = 240,
+          y = 32,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "reach"
+          }
+        },
+        {
+          id = 22,
+          name = "tree_secret",
+          type = "event",
+          shape = "rectangle",
+          x = 304,
+          y = 224,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "touch"
+          }
+        },
+        {
+          id = 24,
+          name = "cat_1_move_1",
+          type = "event",
+          shape = "rectangle",
+          x = 560,
+          y = 240,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 25,
+          name = "cat_1_move_2",
+          type = "event",
+          shape = "rectangle",
+          x = 432,
+          y = 240,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 26,
+          name = "cat_1_move_3",
+          type = "event",
+          shape = "rectangle",
+          x = 432,
+          y = 160,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 27,
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 368,
+          y = -48,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          properties = {}
         }
       }
     }

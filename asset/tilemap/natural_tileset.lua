@@ -92,7 +92,7 @@ return {
       id = 67,
       properties = {
         ["name"] = "house",
-        ["wall"] = true
+        ["wall"] = false
       }
     },
     {
@@ -186,7 +186,6 @@ return {
     {
       id = 162,
       properties = {
-        ["step"] = "",
         ["step_up"] = true,
         ["wall"] = false
       }
@@ -194,7 +193,6 @@ return {
     {
       id = 163,
       properties = {
-        ["step"] = "",
         ["step_right"] = true,
         ["step_up"] = true,
         ["wall"] = false
@@ -211,7 +209,6 @@ return {
     {
       id = 165,
       properties = {
-        ["step"] = "",
         ["step_up"] = true,
         ["wall"] = false
       }
@@ -219,7 +216,6 @@ return {
     {
       id = 166,
       properties = {
-        ["step"] = "",
         ["step_right"] = true,
         ["step_up"] = true,
         ["wall"] = false
@@ -253,14 +249,12 @@ return {
     {
       id = 178,
       properties = {
-        ["step"] = "",
         ["wall"] = false
       }
     },
     {
       id = 179,
       properties = {
-        ["step"] = "",
         ["step_right"] = true,
         ["wall"] = false
       }
@@ -275,14 +269,12 @@ return {
     {
       id = 181,
       properties = {
-        ["step"] = "",
         ["wall"] = false
       }
     },
     {
       id = 182,
       properties = {
-        ["step"] = "",
         ["step_right"] = true,
         ["wall"] = false
       }
@@ -308,42 +300,36 @@ return {
     {
       id = 193,
       properties = {
-        ["step"] = "",
         ["wall"] = true
       }
     },
     {
       id = 194,
       properties = {
-        ["step"] = "",
         ["wall"] = true
       }
     },
     {
       id = 195,
       properties = {
-        ["step"] = "",
         ["wall"] = true
       }
     },
     {
       id = 196,
       properties = {
-        ["step"] = "",
         ["wall"] = true
       }
     },
     {
       id = 197,
       properties = {
-        ["step"] = "",
         ["wall"] = true
       }
     },
     {
       id = 198,
       properties = {
-        ["step"] = "",
         ["wall"] = true
       }
     },
@@ -376,7 +362,6 @@ return {
     {
       id = 210,
       properties = {
-        ["step"] = "",
         ["step_up"] = true,
         ["wall"] = false
       }
@@ -384,7 +369,6 @@ return {
     {
       id = 211,
       properties = {
-        ["step"] = "",
         ["step_right"] = true,
         ["step_up"] = true,
         ["wall"] = false
@@ -442,14 +426,12 @@ return {
     {
       id = 226,
       properties = {
-        ["step"] = "",
         ["wall"] = false
       }
     },
     {
       id = 227,
       properties = {
-        ["step"] = "",
         ["step_right"] = true,
         ["wall"] = false
       }
@@ -481,21 +463,18 @@ return {
     {
       id = 241,
       properties = {
-        ["step"] = "",
         ["wall"] = true
       }
     },
     {
       id = 242,
       properties = {
-        ["step"] = "",
         ["wall"] = true
       }
     },
     {
       id = 243,
       properties = {
-        ["step"] = "",
         ["wall"] = true
       }
     }

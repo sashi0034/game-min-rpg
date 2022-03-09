@@ -187,14 +187,36 @@ namespace ingame::main
         {
             std::string name = objects[i]["name"].get_or(std::string(""));
             std::string typeName = objects[i]["type"].get_or(std::string(""));
-            
+            int x = static_cast<int>(objects[i]["x"].get_or(0));
+            int y = static_cast<int>(objects[i]["y"].get_or(0));
+            int matX = x / 16;
+            int matY = y / 16;
+
             if (typeName == "character")
-            {
-                std::string characterName = objects[i]["properties"]["character"].get_or(std::string(""));
-                double x = objects[i]["x"].get_or(0);
-                double y = objects[i]["y"].get_or(0);
+            {// キャラクター
+                std::string characterName = objects[i]["properties"]["kind"].get_or(std::string(""));
 
                 installCharacter(x, y, characterName, name);
+            }
+            else if (typeName == "event")
+            {// イベント
+                std::string kind = objects[i]["properties"]["kind"].get_or(std::string(""));
+                if (kind == "reach")
+                {
+                    mMat[matX][matY]->Events.ReachEvents.push_back(name);
+                }
+                else if (kind == "touch")
+                {
+                    mMat[matX][matY]->Events.TouchEvents.push_back(name);
+                }
+                else if (kind == "unique")
+                {
+                    mUniqueEvents[name] = new UniqueEventValue{x, y};
+                }
+                else
+                {
+                    std::cerr ERR_LOG "Invalid event kind exist in " << x << ", " << y << "\n";
+                }
             }
 
         }
@@ -235,6 +257,10 @@ namespace ingame::main
 				delete element;
 			}
 		}
+        for (auto iter = mUniqueEvents.begin(); iter != mUniqueEvents.end(); ++iter)
+        {
+            delete iter->second;
+        }
 
 	}
 	MapMatElement* MapManager::GetMatAt(int x, int y)

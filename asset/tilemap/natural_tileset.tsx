@@ -59,7 +59,7 @@
  <tile id="67">
   <properties>
    <property name="name" value="house"/>
-   <property name="wall" type="bool" value="true"/>
+   <property name="wall" type="bool" value="false"/>
   </properties>
  </tile>
  <tile id="81">

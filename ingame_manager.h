@@ -62,6 +62,11 @@ namespace ingame
 			int srcY;
 		};
 
+		struct EventElement
+		{
+			std::vector<std::string> TouchEvents{};
+			std::vector<std::string> ReachEvents{};
+		};
 
 		struct MapMatElement
 		{
@@ -70,9 +75,17 @@ namespace ingame
 			bool IsWall = false;
 			bool IsBridge = false;
 			bool IsStep[4] = {false, false, false, false};
+			
+			EventElement Events{};
 
 			void Update();
 			~MapMatElement();
+		};
+
+		struct UniqueEventValue
+		{
+			int X{};
+			int Y{};
 		};
 
 		class MapManager : public Singleton<MapManager>
@@ -84,6 +97,7 @@ namespace ingame
 			int mWidth;
 			int mHeight;
 			std::vector<std::vector<MapMatElement*>> mMat{};
+			std::map<std::string, UniqueEventValue*> mUniqueEvents;
 		private:
 			bool doStartChip(int x, int y, ETileName tile);
 			void loadTileLayer(sol::table layer);
