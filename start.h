@@ -119,6 +119,7 @@ namespace ingame{
         {
             FLOOR = 1000,
             CHARACTER = 0,
+            UI = -2000,
         };
 
 

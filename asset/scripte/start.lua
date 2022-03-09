@@ -24,3 +24,8 @@ loadfile([[./asset/scripte/module/test_npc.lua]])()
 -- event関連はそれ専用のクラスをC++で作ってLuaで呼ぶのがよさそう
 -- 座標などはマップデータで読み込んだものをC++で管理してLuaで呼ぶ
 
+-- @memo
+-- eventKindには[check, reach, unique]の3種類があり、
+-- checkとreachはそれぞれクラスで管理する
+-- イベントフラグはFlagData: tableというテーブルで管理
+

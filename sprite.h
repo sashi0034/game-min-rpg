@@ -89,7 +89,7 @@ public:
     static void DrawingAll();
 
 
-    class DrawingProcess
+    class DrawingKind
     {
     public:
         static void Rough(Sprite* hSpr, int hX, int hY);

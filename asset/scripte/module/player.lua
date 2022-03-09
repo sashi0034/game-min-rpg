@@ -11,6 +11,7 @@ Player = {
             move = COROUTINE_DEAD,
         }
         self.vel = 50
+        self.isFixed = false
 
         OutLog("Player in Lua is initilaized.\n")
         return self
@@ -20,7 +21,7 @@ Player = {
         IngameEventBase.update(self)
 
         if (coroutine.status(self.events.move)=="dead") then
-            if (self.doWaitForMove()) then
+            if (self.isFixed==false and self.doWaitForMove()) then
                 --OutLog("Player is prepareing for move.\n")
                 self.events.move = coroutine.create(self.move)
                 coroutine.resume(self.events.move, self)

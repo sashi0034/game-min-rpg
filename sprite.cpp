@@ -38,7 +38,7 @@ Sprite::Sprite(Graph* image, int u, int v, int w, int h)
     this->v = v;
     this->width = w;
     this->height = h;
-    this->drawingMethod = Sprite::DrawingProcess::Rough;
+    this->drawingMethod = Sprite::DrawingKind::Rough;
 
     sprites.push_back(this);
 }
@@ -303,19 +303,19 @@ void Sprite::DrawingAll()
 
 
 
-void Sprite::DrawingProcess::Rough(Sprite* hSpr, int hX, int hY)
+void Sprite::DrawingKind::Rough(Sprite* hSpr, int hX, int hY)
 {
     Draw(hSpr, hX, hY, ROUGH_SCALE);
 }
-void Sprite::DrawingProcess::Twice(Sprite* hSpr, int hX, int hY)
+void Sprite::DrawingKind::Twice(Sprite* hSpr, int hX, int hY)
 {
     Draw(hSpr, hX, hY, 2);
 }
-void Sprite::DrawingProcess::DotByDot(Sprite* hSpr, int hX, int hY)
+void Sprite::DrawingKind::DotByDot(Sprite* hSpr, int hX, int hY)
 {
     Draw(hSpr, hX, hY, 1);
 }
-void Sprite::DrawingProcess::Draw(Sprite* hSpr, int x, int y, int scale)
+void Sprite::DrawingKind::Draw(Sprite* hSpr, int x, int y, int scale)
 {
     hSpr->image->DrawGraph(x, y, hSpr->u, hSpr->v, hSpr->width, hSpr->height, scale, hSpr->rotationRad, hSpr->isFlip);
 }

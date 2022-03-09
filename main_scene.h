@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include <iostream>
 #include <string.h>
 #include <map>
@@ -28,7 +27,7 @@ namespace ingame::main
     class Angle
     {
     public:
-        static useful::XY<int> ToXY(EAngle ang);
+        static useful::Vec2<int> ToXY(EAngle ang);
         static EAngle ToAng(double x, double y);
     };
 
@@ -60,6 +59,26 @@ namespace ingame::main
     };
 
 
+    class UiWindow : public Actor
+    {
+    private:
+        Graph* mSrcGraph;
+        Graph* mRenderGraph;
+        
+        useful::Vec2<int> mSrcSize{};
+        useful::Vec2<int> mDrawSize{};
+        useful::Vec2<int> mDivLineSrc[4];
+        useful::Vec2<int> mRenderLine[4];
+        useful::Vec2<double> mSideRatio{};
+        useful::Vec2<double> mDrawScreenLeftTop{};
+    public:
+        UiWindow(double drawCenterX, double drawCenterY, int roughWidth, int roughHeight, double sideRatioX, double sideRatioY);
+        ~UiWindow();
+    protected:
+        void update() override;
+        void renderWindow();
+    };
+
 
     class Player : public LuaCollideActor, public ISingleton<Player>
     {
@@ -75,6 +94,7 @@ namespace ingame::main
         ~Player();
         double GetX();
         double GetY();
+        void SetFixed(bool isFixed);
     protected:
         void update() override;
         void luaUpdate() override;

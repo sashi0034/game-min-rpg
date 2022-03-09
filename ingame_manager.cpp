@@ -367,26 +367,26 @@ namespace ingame::main
         Graph* srcImage, int srcX, int srcY, std::function<bool(int x, int y)> canConnect)
     {
         const int unit = 16;
-        useful::XY<int> clipXY[16] = {
-            useful::XY<int>{0 * unit, 0 * unit}, //        
-            useful::XY<int>{0 * unit, 3 * unit}, //       D
-            useful::XY<int>{0 * unit, 1 * unit}, //     U  
-            useful::XY<int>{1 * unit, 2 * unit}, //     U D
+        useful::Vec2<int> clipXY[16] = {
+            useful::Vec2<int>{0 * unit, 0 * unit}, //        
+            useful::Vec2<int>{0 * unit, 3 * unit}, //       D
+            useful::Vec2<int>{0 * unit, 1 * unit}, //     U  
+            useful::Vec2<int>{1 * unit, 2 * unit}, //     U D
 
-            useful::XY<int>{1 * unit, 0 * unit}, //   R    
-            useful::XY<int>{1 * unit, 1 * unit}, //   R   D
-            useful::XY<int>{1 * unit, 3 * unit}, //   R U  
-            useful::XY<int>{1 * unit, 2 * unit}, //   R U D
+            useful::Vec2<int>{1 * unit, 0 * unit}, //   R    
+            useful::Vec2<int>{1 * unit, 1 * unit}, //   R   D
+            useful::Vec2<int>{1 * unit, 3 * unit}, //   R U  
+            useful::Vec2<int>{1 * unit, 2 * unit}, //   R U D
 
-            useful::XY<int>{3 * unit, 0 * unit}, // L      
-            useful::XY<int>{3 * unit, 1 * unit}, // L     D
-            useful::XY<int>{3 * unit, 3 * unit}, // L   U  
-            useful::XY<int>{3 * unit, 2 * unit}, // L   U D
+            useful::Vec2<int>{3 * unit, 0 * unit}, // L      
+            useful::Vec2<int>{3 * unit, 1 * unit}, // L     D
+            useful::Vec2<int>{3 * unit, 3 * unit}, // L   U  
+            useful::Vec2<int>{3 * unit, 2 * unit}, // L   U D
 
-            useful::XY<int>{2 * unit, 0 * unit}, // L R    
-            useful::XY<int>{2 * unit, 1 * unit}, // L R   D
-            useful::XY<int>{2 * unit, 3 * unit}, // L R U  
-            useful::XY<int>{2 * unit, 2 * unit}, // L R U D
+            useful::Vec2<int>{2 * unit, 0 * unit}, // L R    
+            useful::Vec2<int>{2 * unit, 1 * unit}, // L R   D
+            useful::Vec2<int>{2 * unit, 3 * unit}, // L R U  
+            useful::Vec2<int>{2 * unit, 2 * unit}, // L R U D
         };
 
         int left = static_cast<int>(canConnect(matX - 1, matY));

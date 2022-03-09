@@ -5,21 +5,21 @@
 namespace ingame::main
 {
 
-    useful::XY<int> Angle::ToXY(EAngle ang)
+    useful::Vec2<int> Angle::ToXY(EAngle ang)
     {
         switch (ang)
         {
         case(EAngle::UP):
-            return useful::XY<int>{0, -1};
+            return useful::Vec2<int>{0, -1};
         case(EAngle::RIGHT):
-            return useful::XY<int>{1, 0};
+            return useful::Vec2<int>{1, 0};
         case(EAngle::DOWN):
-            return useful::XY<int>{0, 1};
+            return useful::Vec2<int>{0, 1};
         case(EAngle::LEFT):
-            return useful::XY<int>{-1, 0};
+            return useful::Vec2<int>{-1, 0};
         default:
             std::cerr ERR_LOG "Invalid angle exit.\n";
-            return useful::XY<int>{};
+            return useful::Vec2<int>{};
         }
     }
 
@@ -141,13 +141,81 @@ namespace ingame::main
         {
             bool isStep = false;    // 崖のチェック
 
-            useful::XY moveXY = Angle::ToXY(toAng);
+            useful::Vec2 moveXY = Angle::ToXY(toAng);
 
             return  !MapManager::Sole->GetMatAt(matX-moveXY.X, matY-moveXY.Y)->IsStep[static_cast<int>(toAng)] &&
                 (MapManager::Sole->GetMatAt(matX, matY)->IsBridge || !MapManager::Sole->GetMatAt(matX, matY)->IsWall);
         }
     }
 
+
+
+
+    UiWindow::UiWindow(double drawCenterX, double drawCenterY, int roughWidth, int roughHeight, double sideRatioX, double sideRatioY) : Actor()
+    {
+        mSrcGraph = Images->UiWindows;
+        DxLib::GetGraphSize(mSrcGraph->GetHandler(), &mSrcSize.X, &mSrcSize.Y);
+
+        mDrawSize = useful::Vec2<int>{ roughWidth * ROUGH_SCALE, roughHeight * ROUGH_SCALE };
+        mSideRatio = useful::Vec2<double>{ sideRatioX, sideRatioY };
+
+        mDivLineSrc[0] = useful::Vec2<int>{ 0,0 };
+        mDivLineSrc[1] = useful::Vec2<int>{ int(sideRatioX * mSrcSize.X),int(sideRatioY * mSrcSize.Y) };
+        mDivLineSrc[2] = useful::Vec2<int>{ int((1 - sideRatioX) * mSrcSize.X),int((1 - sideRatioY) * mSrcSize.Y) };
+        mDivLineSrc[3] = useful::Vec2<int>{ mSrcSize.X, mSrcSize.Y };
+
+        mDrawScreenLeftTop = useful::Vec2<double>{drawCenterX-roughWidth/2.0, drawCenterY-roughHeight/2.0};
+
+        int cornerLength = (std::min)(mDrawSize.X*mSideRatio.X, mDrawSize.Y * mSideRatio.Y);
+        mRenderLine[0] = useful::Vec2<int>{ 0,0 };
+        mRenderLine[1] = useful::Vec2<int>{ cornerLength, cornerLength };
+        mRenderLine[2] = useful::Vec2<int>{ mDrawSize.X - cornerLength, mDrawSize.Y - cornerLength };
+        mRenderLine[3] = useful::Vec2<int>{ mDrawSize.X, mDrawSize.Y };
+
+
+        DxLib::SetCreateDrawValidGraphMultiSample(4, 2);
+        mRenderGraph = new Graph(DxLib::MakeScreen(mDrawSize.X, mDrawSize.Y, TRUE));
+        DxLib::SetCreateDrawValidGraphMultiSample(0, 0);
+
+        renderWindow();
+
+        mSpr->SetZ(ZIndex::UI);
+        mSpr->SetXY(mDrawScreenLeftTop.X, mDrawScreenLeftTop.Y);
+        mSpr->SetImage(mRenderGraph, 0, 0, mDrawSize.X, mDrawSize.Y);
+        mSpr->SetDrawingMethod(Sprite::DrawingKind::DotByDot);
+    }
+
+    UiWindow::~UiWindow()
+    {
+        delete mRenderGraph;
+    }
+
+
+    void UiWindow::update()
+    {
+        Actor::update();
+    }
+
+    void UiWindow::renderWindow()
+    {
+        DxLib::SetDrawScreen(mRenderGraph->GetHandler());
+        for (int x = 0; x < 3; ++x)
+        {
+            for (int y = 0; y < 3; ++y)
+            {
+                int w = mDivLineSrc[x + 1].X - mDivLineSrc[x].X;
+                int h = mDivLineSrc[y + 1].Y - mDivLineSrc[y].Y;
+
+                int handler = DxLib::DerivationGraph(mDivLineSrc[x].X, mDivLineSrc[y].Y, w, h, mSrcGraph->GetHandler());
+
+                DxLib::DrawExtendGraph(mRenderLine[x].X, mRenderLine[y].Y, mRenderLine[x + 1].X, mRenderLine[y + 1].Y,
+                    handler, true);
+                
+                DxLib::DeleteGraph(handler);
+            }
+        }
+        DxLib::SetDrawScreen(DX_SCREEN_BACK);
+    }
 
 }
 
@@ -176,6 +244,8 @@ namespace ingame::main
         mLuaData["doMove"] = [&]()->bool {return this->doMove(); };
 
         mVel = mLuaData["vel"];
+
+        new UiWindow(ROUGH_WIDTH/2, ROUGH_HEIGHT-120, 200,120,0.2, 0.2);
     }
     Player::~Player()
     {
@@ -188,6 +258,10 @@ namespace ingame::main
     double Player::GetY()
     {
         return mY;
+    }
+    void Player::SetFixed(bool isFixed)
+    {
+        mLuaData["isFixed"] = isFixed;
     }
     void Player::update()
     {
@@ -274,7 +348,7 @@ namespace ingame::main
         if (ang != EAngle::NONE)
         {
             mAngle = ang;
-            useful::XY xy = Angle::ToXY(ang);
+            useful::Vec2 xy = Angle::ToXY(ang);
 
             bool canMove = false;
 

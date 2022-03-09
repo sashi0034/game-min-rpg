@@ -113,10 +113,10 @@ namespace gameUtils
 
 
 		template<typename T>
-		struct XY { T X; T Y; };
+		struct Vec2 { T X; T Y; };
 
 		template<typename T>
-		struct XYZ { T X; T Y; T Z; };
+		struct Vec3 { T X; T Y; T Z; };
 	}
 }
 
