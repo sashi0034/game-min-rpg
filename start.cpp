@@ -39,6 +39,8 @@ namespace ingame
 
     int doProcess()
     {
+        setlocale(LC_CTYPE, "");
+
         DxLib::SetMainWindowText(GAME_TITLE_NAME);
 
         // ウインドウモードで起動
@@ -169,6 +171,7 @@ namespace ingame
             new MapManager(1);
             new BackGroundManager();
             new MapEventManager();
+            MessageWindow::Init();
             
             SceneBase::loop();
 

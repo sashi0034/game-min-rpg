@@ -61,7 +61,7 @@ namespace ingame
             Graph* Punicat = loadPng("punicat_24x24");
             Graph* UiWindows = loadPng("ui/window_black");
 
-
+            Graph* Font18Edged = new Graph(DxLib::CreateFontToHandle("", 18, 1, DX_FONTTYPE_EDGE));
 #if 0
             int Templa = LoadGraph(R"(.png)");
 #endif // 0

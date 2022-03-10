@@ -47,6 +47,7 @@ namespace gameEngine
 		static void callDestructor(Sprite* hSpr);
 	public:
 		Actor();
+		virtual ~Actor();
 	};
 
 	

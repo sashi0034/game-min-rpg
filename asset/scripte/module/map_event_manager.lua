@@ -21,21 +21,22 @@ MapEventManager = {
         if (self.mapEvents[key]==nil) then
             ErrLog("Event function: "..key.."is not exit.");
             return
+        elseif (self.events[key]~=nil) then
+            ErrLog("Event function: "..key.."is already running.")
+            return
         end
         
         self.events[key] = coroutine.create(self.mapEvents[key])
         coroutine.resume(self.events[key], self, e)
     end,
 
+    mapEvents = {},
 
-    mapEvents = {
-        house_1 = function (self, e)
-            OutLog("Enter house.\n")
-            local c = coroutine.create( self.doSleep )
-            while coroutine.resume(c, 2.5) do Yield() end
-            OutLog("Ok.\n")
+    addMapEvents = function (self, table)
+        for key, value in pairs(table) do
+            self.mapEvents[key] = value
         end
-    },
+    end,
 }
 
 

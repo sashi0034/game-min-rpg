@@ -103,6 +103,30 @@ namespace ingame::main
     };
 
 
+    class MessageWindow : public LuaActor
+    {
+        EventTimer mWriteLetterTimer;
+        int mWidth, mHeight;
+        int mNextLetterX{}, mNextLetterY{};
+        Graph* mTextField;
+        UiWindow* mTextWindow;
+        std::wstring mTextBuffer{};
+        int mTextReadIndex = 0;
+        bool mIsRunning = false;
+        bool hasUnreadText();
+        bool writeLetter();
+    protected:
+        void update() override;
+    public:
+        MessageWindow();
+        ~MessageWindow();
+        bool GetIsRunning();
+        void StreamText(std::string text);
+        //void InputChoices(std::vector<std::string> choices);
+        static const std::string CLASS_NAME;
+        static void Init();
+    };
+
     class MapEventManager : public LuaActor, public ISingleton<MapEventManager>
     {
         void trigger(std::string eventName, sol::table e);

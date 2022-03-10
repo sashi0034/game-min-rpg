@@ -270,7 +270,90 @@ namespace ingame::main
 
         NinePatchImage::update();
     }
+}
 
+namespace ingame::main
+{
+    const std::string MessageWindow::CLASS_NAME = "MessageWindow";
+
+    MessageWindow::MessageWindow() : LuaActor("MessageWindowLuaData", true)
+    {
+        mWidth = mLuaData["width"].get_or(0) * ROUGH_SCALE / 2;
+        mHeight = mLuaData["height"].get_or(0) * ROUGH_SCALE / 2;
+        //new UiWindow(ROUGH_WIDTH / 2, mLuaData["centerY"].get_or(0), mLuaData["width"].get_or(0), mLuaData["height"].get_or(0), 0.2, 0.2);
+        mTextWindow = new UiWindow(ROUGH_WIDTH / 2, mLuaData["centerY"].get_or(0), mLuaData["width"].get_or(0), mLuaData["height"].get_or(0), 0.2, 0.2);
+        
+        mTextField = new Graph(DxLib::MakeScreen(mWidth, mHeight, TRUE));
+        mSpr->SetImage(mTextField, 0, 0, mWidth, mHeight);
+        mSpr->SetDrawingMethod(Sprite::DrawingKind::Twice);
+        mSpr->SetXY(ROUGH_WIDTH / 2 - mLuaData["width"].get_or(0) / 2, mLuaData["centerY"].get_or(0) - mLuaData["height"].get_or(0) / 2);
+        mSpr->SetZ(ZIndex::UI-1);
+    }
+
+    MessageWindow::~MessageWindow()
+    {
+        // @memo: このままではスプライトの2重解放のバグが発生します
+        // 近日中にisProtectメンバを削除し、linkActive, linkedChiildActivesを追加してください
+        Sprite::Dispose(mTextWindow->GetSpr());
+        delete mTextField;
+    }
+    bool MessageWindow::GetIsRunning()
+    {
+        return mIsRunning;
+    }
+    void MessageWindow::StreamText(std::string text)
+    {
+        mTextReadIndex = 0;
+        mTextBuffer = std::wstring{};
+        useful::NarrowStrToWideStr(text, mTextBuffer);
+        mIsRunning = true;
+        mNextLetterX = 0; mNextLetterY = 0;
+
+        this->mWriteLetterTimer = EventTimer([&]()->bool { return writeLetter(); }, 200);
+    }
+    bool MessageWindow::hasUnreadText()
+    {
+        return mTextReadIndex != mTextBuffer.size();
+    }
+    bool MessageWindow::writeLetter()
+    {
+        DxLib::SetDrawScreen(mTextField->GetHandler());
+        {
+            std::string str{};
+            std::wstring wstr = mTextBuffer.substr(mTextReadIndex, 1);
+            useful::WideStrToNarrowStr(wstr, str);
+            char* c = const_cast<char*>(str.c_str());
+
+            DxLib::DrawStringToHandle(mNextLetterX, mNextLetterY, c, DxLib::GetColor(255, 255, 255), Images->Font18Edged->GetHandler(), DxLib::GetColor(64, 64, 64));
+            mNextLetterX += (int)(DxLib::GetDrawStringWidthToHandle(c, (int)(DxLib::strlenDx(c)), Images->Font18Edged->GetHandler()) * 0.9);
+            mTextReadIndex++;
+        }
+        DxLib::SetDrawScreen(DX_SCREEN_BACK);
+        if (hasUnreadText())
+        {
+            return true;
+        }
+        else
+        {
+            mIsRunning = false;
+            return false;
+        }
+    }
+    void MessageWindow::update()
+    {
+        LuaActor::update();
+        mWriteLetterTimer.Update();
+    }
+    void MessageWindow::Init()
+    {
+        luaManager::Lua.new_usertype<MessageWindow>(
+            "MessageWindow",
+            sol::constructors<MessageWindow()>(),
+            "open", []()->MessageWindow* {return new MessageWindow(); },
+            "streamText", &MessageWindow::StreamText,
+            "isRunning", &MessageWindow::GetIsRunning,
+            "close", [](MessageWindow* self) {Sprite::Dispose(self->GetSpr()); });
+    }
 }
 
 namespace ingame::main
@@ -350,7 +433,7 @@ namespace ingame::main
             return true; }
         , 1000 * 15);
 
-        new UiWindow(ROUGH_WIDTH/2, ROUGH_HEIGHT-120, 200,120,0.2, 0.2);
+        //new UiWindow(ROUGH_WIDTH/2, ROUGH_HEIGHT-120, 200,120,0.2, 0.2);
     }
     Player::~Player()
     {

@@ -98,6 +98,10 @@ namespace gameEngine{
 		mTime += Time::DeltaMilli();
 	}
 	void Actor::destructor()
+	{
+		mSpr = nullptr;
+	}
+	Actor::~Actor()
 	{}
 
 	void Actor::callUpdate(Sprite* hSpr)

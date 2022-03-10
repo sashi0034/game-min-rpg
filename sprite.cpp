@@ -185,7 +185,6 @@ void Sprite::Dispose(Sprite* spr)
     {
         spr->destructorMethod(spr);
     }
-
     spr->sprites[findIndex(spr)] = nullptr;
 }
 

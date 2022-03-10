@@ -1,4 +1,5 @@
 {
+    "files.encoding": "shiftjis",
     "Lua.diagnostics.globals": [
         "Cout",
         "Cerr",

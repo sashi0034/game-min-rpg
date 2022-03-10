@@ -49,7 +49,8 @@ namespace gameUtils
 		};
 
 		bool Between(double n, double min, double max);
-
+		void WideStrToNarrowStr(const std::wstring& src, std::string& dest);
+		void NarrowStrToWideStr(const std::string& src, std::wstring& dest);
 	}
 
 	

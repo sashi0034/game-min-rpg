@@ -1,4 +1,4 @@
-
+#define _CRT_SECURE_NO_WARNINGS
 #include "game_utils.h"
 
 
@@ -92,6 +92,33 @@ namespace gameUtils
 		bool Between(double n, double min, double max)
 		{
 			return (min <= n && n <= max);
+		}
+
+		/// <summary>
+		/// ワイド文字列からマルチバイト文字列へ
+		/// 参考: https://kryozahiro.hateblo.jp/entry/20080809/1218295912
+		/// setlocale(LC_CTYPE, ""); する必要あり
+		/// </summary>
+		/// <param name="src"></param>
+		/// <param name="dest"></param>
+		void WideStrToNarrowStr(const std::wstring& src, std::string& dest) 
+		{
+			char* mbs = new char[src.length() * MB_CUR_MAX + 1];
+			wcstombs(mbs, src.c_str(), src.length() * MB_CUR_MAX + 1);
+			dest = mbs;
+			delete[] mbs;
+		}
+		/// <summary>
+		/// マルチバイト文字列からワイド文字列
+		/// </summary>
+		/// <param name="src"></param>
+		/// <param name="dest"></param>
+		void NarrowStrToWideStr(const std::string& src, std::wstring& dest) 
+		{
+			wchar_t* wcs = new wchar_t[src.length() + 1];
+			mbstowcs(wcs, src.c_str(), src.length() + 1);
+			dest = wcs;
+			delete[] wcs;
 		}
 
 	}
