@@ -38,7 +38,7 @@ Sprite::Sprite(Graph* image, int u, int v, int w, int h)
     this->v = v;
     this->width = w;
     this->height = h;
-    this->drawingMethod = Sprite::DrawingKind::Rough;
+    this->drawingMethod = Sprite::DrawingKind::AlignGrid;
 
     sprites.push_back(this);
 }
@@ -281,8 +281,8 @@ void Sprite::DrawingAll()
             x1 = (spr->x + x1);
             y1 = (spr->y + y1);
 
-            x1 *= ROUGH_SCALE;
-            y1 *= ROUGH_SCALE;
+            x1 *= PX_PER_GRID;
+            y1 *= PX_PER_GRID;
 
             x = int(x1);
             y = int(y1);
@@ -302,11 +302,11 @@ void Sprite::DrawingAll()
 
 
 
-void Sprite::DrawingKind::Rough(Sprite* hSpr, int hX, int hY)
+void Sprite::DrawingKind::AlignGrid(Sprite* hSpr, int hX, int hY)
 {
-    Draw(hSpr, hX, hY, ROUGH_SCALE);
+    Draw(hSpr, hX, hY, PX_PER_GRID);
 }
-void Sprite::DrawingKind::Twice(Sprite* hSpr, int hX, int hY)
+void Sprite::DrawingKind::TwoDots(Sprite* hSpr, int hX, int hY)
 {
     Draw(hSpr, hX, hY, 2);
 }

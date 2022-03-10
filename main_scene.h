@@ -84,7 +84,7 @@ namespace ingame::main
 
         void renderWindow();
     public:
-        NinePatchImage(double drawCenterX, double drawCenterY, double roughWidth, double roughHeight, double sideRatioX, double sideRatioY, Graph* srcGraph);
+        NinePatchImage(double drawCenterX, double drawCenterY, double gridUnitWidth, double gridUnitHeight, double sideRatioX, double sideRatioY, Graph* srcGraph);
         ~NinePatchImage();
         void SetSize(useful::Vec2<double> size);
     };
@@ -97,7 +97,7 @@ namespace ingame::main
         double mToWidth;
         double mHeight;
     public:
-        UiWindow(double drawCenterX, double drawCenterY, int roughWidth, int roughHeight, double sideRatioX, double sideRatioY);
+        UiWindow(double drawCenterX, double drawCenterY, int gridUnitWidth, int gridUnitHeight, double sideRatioX, double sideRatioY);
     protected:
         void update() override;
     };

@@ -9,7 +9,7 @@ using namespace gameUtils;
 
 class Sprite
 {
-    static const int ROUGH_SCALE = 3;
+    static const int PX_PER_GRID = 3;
 
     static std::vector<Sprite*> sprites;
 
@@ -92,8 +92,8 @@ public:
     class DrawingKind
     {
     public:
-        static void Rough(Sprite* hSpr, int hX, int hY);
-        static void Twice(Sprite* hSpr, int hX, int hY);
+        static void AlignGrid(Sprite* hSpr, int hX, int hY);
+        static void TwoDots(Sprite* hSpr, int hX, int hY);
         static void DotByDot(Sprite* hSpr, int hX, int hY);
         static void Draw(Sprite* hSpr, int x, int y, int scale);
     };

@@ -334,12 +334,12 @@ namespace ingame::main
     }
     void ScrollManager::update()
     {
-        mX = -(Player::Sole->GetX() + 8) + ROUGH_WIDTH / 2;
-        mY = -(Player::Sole->GetY() + 8) + ROUGH_HEIGHT / 2;
+        mX = -(Player::Sole->GetX() + 8) + GRID_WIDTH / 2;
+        mY = -(Player::Sole->GetY() + 8) + GRID_HEIGHT / 2;
         if (mX > 0) mX = 0;
         if (mY > 0) mY = 0;
-        if (mX < -(MapManager::Sole->GetWidth() * 16 - ROUGH_WIDTH)) mX = -(MapManager::Sole->GetWidth() * 16 - ROUGH_WIDTH);
-        if (mY < -(MapManager::Sole->GetHeight() * 16 - ROUGH_HEIGHT)) mY = -(MapManager::Sole->GetHeight() * 16 - ROUGH_HEIGHT);
+        if (mX < -(MapManager::Sole->GetWidth() * 16 - GRID_WIDTH)) mX = -(MapManager::Sole->GetWidth() * 16 - GRID_WIDTH);
+        if (mY < -(MapManager::Sole->GetHeight() * 16 - GRID_HEIGHT)) mY = -(MapManager::Sole->GetHeight() * 16 - GRID_HEIGHT);
 
         mSpr->SetXY(mX, mY);
     }
@@ -374,18 +374,18 @@ namespace ingame::main
     }
     void FieldLayerBase::drawing(int hX, int hY)
     {
-        double hX1 = hX / ROUGH_SCALE;
-        double hY1 = hY / ROUGH_SCALE;
+        double hX1 = hX / PX_PER_GRID;
+        double hY1 = hY / PX_PER_GRID;
 
         int x0 = (-hX1 / mGridUnit) - (-hX1 < 0 ? 1 : 0);
         int y0 = (-hY1 / mGridUnit) - (-hY1 < 0 ? 1 : 0);
 
-        for (int y = std::max(y0, 0); y <= std::min(y0 + (ROUGH_HEIGHT / mGridUnit), MapManager::Sole->GetHeight() - 1); ++y)
+        for (int y = std::max(y0, 0); y <= std::min(y0 + (GRID_HEIGHT / mGridUnit), MapManager::Sole->GetHeight() - 1); ++y)
         {
-            for (int x = std::max(x0, 0); x <= std::min(x0 + (ROUGH_WIDTH / mGridUnit), MapManager::Sole->GetWidth() - 1); ++x)
+            for (int x = std::max(x0, 0); x <= std::min(x0 + (GRID_WIDTH / mGridUnit), MapManager::Sole->GetWidth() - 1); ++x)
             {
-                int displayX = hX + x * mGridUnit * ROUGH_SCALE;
-                int displayY = hY + y * mGridUnit * ROUGH_SCALE;
+                int displayX = hX + x * mGridUnit * PX_PER_GRID;
+                int displayY = hY + y * mGridUnit * PX_PER_GRID;
 
                 MapMatElement* element = MapManager::Sole->GetMatAt(x, y);
                 std::vector<TileMapChip*> chips = element->Chips;
@@ -430,23 +430,23 @@ namespace ingame::main
         int down = static_cast<int>(canConnect(matX, matY + 1));
         int index = (left << 3) + (right << 2) + (up << 1) + (down << 0);
 
-        srcImage->DrawGraph(dpX, dpY, srcX + clipXY[index].X, srcY + clipXY[index].Y, unit, unit, ROUGH_SCALE);
+        srcImage->DrawGraph(dpX, dpY, srcX + clipXY[index].X, srcY + clipXY[index].Y, unit, unit, PX_PER_GRID);
 
         if (left != 0 && up != 0 && !canConnect(matX - 1, matY - 1))
         {
-            srcImage->DrawGraph(dpX, dpY, srcX, srcY + unit * 4, unit, unit, ROUGH_SCALE);
+            srcImage->DrawGraph(dpX, dpY, srcX, srcY + unit * 4, unit, unit, PX_PER_GRID);
         }
         else if (right != 0 && up != 0 && !canConnect(matX + 1, matY - 1))
         {
-            srcImage->DrawGraph(dpX, dpY, srcX + unit * 1, srcY + unit * 4, unit, unit, ROUGH_SCALE);
+            srcImage->DrawGraph(dpX, dpY, srcX + unit * 1, srcY + unit * 4, unit, unit, PX_PER_GRID);
         }
         else if (left != 0 && down != 0 && !canConnect(matX - 1, matY + 1))
         {
-            srcImage->DrawGraph(dpX, dpY, srcX + unit * 0, srcY + unit * 5, unit, unit, ROUGH_SCALE);
+            srcImage->DrawGraph(dpX, dpY, srcX + unit * 0, srcY + unit * 5, unit, unit, PX_PER_GRID);
         }
         else if (right != 0 && down != 0 && !canConnect(matX + 1, matY + 1))
         {
-            srcImage->DrawGraph(dpX, dpY, srcX + unit * 1, srcY + unit * 5, unit, unit, ROUGH_SCALE);
+            srcImage->DrawGraph(dpX, dpY, srcX + unit * 1, srcY + unit * 5, unit, unit, PX_PER_GRID);
         }
 
     }
@@ -511,7 +511,7 @@ namespace ingame::main
                 [&](int x, int y) {return canConnect(x, y, ETileName::meadows); });
             break;
         default:
-            MapManager::Sole->GetTilesetGraph()->DrawGraph(dpX, dpY, chip->srcX, chip->srcY, 16, 16, ROUGH_SCALE);
+            MapManager::Sole->GetTilesetGraph()->DrawGraph(dpX, dpY, chip->srcX, chip->srcY, 16, 16, PX_PER_GRID);
             break;
         }
 

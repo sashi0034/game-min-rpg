@@ -80,10 +80,10 @@ namespace ingame
 
 namespace ingame{
     
-    const int ROUGH_WIDTH = 416, ROUGH_HEIGHT = 240;
-    const int ROUGH_SCALE = 3;
-    const int FULL_WIDTH = ROUGH_WIDTH * ROUGH_SCALE;
-    const int FULL_HEIGHT = ROUGH_HEIGHT * ROUGH_SCALE;
+    const int GRID_WIDTH = 416, GRID_HEIGHT = 240;
+    const int PX_PER_GRID = 3;
+    const int FULL_WIDTH = GRID_WIDTH * PX_PER_GRID;
+    const int FULL_HEIGHT = GRID_HEIGHT * PX_PER_GRID;
 
     extern useful::Random* Rand;
 

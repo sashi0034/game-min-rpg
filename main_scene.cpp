@@ -173,12 +173,12 @@ namespace ingame::main
     /// </summary>
     /// <param name="drawCenterX">配置する中央原点X</param>
     /// <param name="drawCenterY">配置する中央原点Y</param>
-    /// <param name="roughWidth">幅</param>
-    /// <param name="roughHeight">高さ</param>
+    /// <param name="gridUnitWidth">幅</param>
+    /// <param name="gridUnitHeight">高さ</param>
     /// <param name="sideRatioX">端の比率</param>
     /// <param name="sideRatioY"><端の比率/param>
     /// <param name="srcGraph"></param>
-    NinePatchImage::NinePatchImage(double drawCenterX, double drawCenterY, double roughWidth, double roughHeight, double sideRatioX, double sideRatioY, Graph* srcGraph)
+    NinePatchImage::NinePatchImage(double drawCenterX, double drawCenterY, double gridUnitWidth, double gridUnitHeight, double sideRatioX, double sideRatioY, Graph* srcGraph)
     {
         mSrcGraph = srcGraph;
         DxLib::GetGraphSize(mSrcGraph->GetHandler(), &mSrcSize.X, &mSrcSize.Y);
@@ -191,7 +191,7 @@ namespace ingame::main
 
         mSpriteCenterPos = useful::Vec2<double>{ drawCenterX, drawCenterY };
 
-        SetSize(useful::Vec2<double>{roughWidth, roughHeight});
+        SetSize(useful::Vec2<double>{gridUnitWidth, gridUnitHeight});
 
 
         mSpr->SetZ(ZIndex::UI);
@@ -206,7 +206,7 @@ namespace ingame::main
     void NinePatchImage::SetSize(useful::Vec2<double> size)
     {
 
-        mSpriteSize = (size * ROUGH_SCALE).EachTo<int>();
+        mSpriteSize = (size * PX_PER_GRID).EachTo<int>();
         mSpritePos = mSpriteCenterPos - (size / 2.0).EachTo<double>();
         int cornerLength = (std::min)(mSpriteSize.X * mSideRatio.X, mSpriteSize.Y * mSideRatio.Y);
         mRenderLine[0] = useful::Vec2<int>{ 0,0 };
@@ -250,12 +250,12 @@ namespace ingame::main
 
 
 
-    UiWindow::UiWindow(double drawCenterX, double drawCenterY, int roughWidth, int roughHeight, double sideRatioX, double sideRatioY)
-        : NinePatchImage(drawCenterX, drawCenterY, 8, roughHeight, sideRatioX, sideRatioY, Images->UiWindows)
+    UiWindow::UiWindow(double drawCenterX, double drawCenterY, int gridUnitWidth, int gridUnitHeight, double sideRatioX, double sideRatioY)
+        : NinePatchImage(drawCenterX, drawCenterY, 8, gridUnitHeight, sideRatioX, sideRatioY, Images->UiWindows)
     {
         mCurWidth = 8;
-        mToWidth = roughWidth;
-        mHeight = roughHeight;
+        mToWidth = gridUnitWidth;
+        mHeight = gridUnitHeight;
     }
 
 
@@ -278,15 +278,15 @@ namespace ingame::main
 
     MessageWindow::MessageWindow() : LuaActor("MessageWindowLuaData", true)
     {
-        mWidth = mLuaData["width"].get_or(0) * ROUGH_SCALE / 2;
-        mHeight = mLuaData["height"].get_or(0) * ROUGH_SCALE / 2;
-        //new UiWindow(ROUGH_WIDTH / 2, mLuaData["centerY"].get_or(0), mLuaData["width"].get_or(0), mLuaData["height"].get_or(0), 0.2, 0.2);
-        mTextWindow = new UiWindow(ROUGH_WIDTH / 2, mLuaData["centerY"].get_or(0), mLuaData["width"].get_or(0), mLuaData["height"].get_or(0), 0.2, 0.2);
+        mWidth = mLuaData["width"].get_or(0) * PX_PER_GRID / 2;
+        mHeight = mLuaData["height"].get_or(0) * PX_PER_GRID / 2;
+        //new UiWindow(GRID_WIDTH / 2, mLuaData["centerY"].get_or(0), mLuaData["width"].get_or(0), mLuaData["height"].get_or(0), 0.2, 0.2);
+        mTextWindow = new UiWindow(GRID_WIDTH / 2, mLuaData["centerY"].get_or(0), mLuaData["width"].get_or(0), mLuaData["height"].get_or(0), 0.2, 0.2);
         
         mTextField = new Graph(DxLib::MakeScreen(mWidth, mHeight, TRUE));
         mSpr->SetImage(mTextField, 0, 0, mWidth, mHeight);
-        mSpr->SetDrawingMethod(Sprite::DrawingKind::Twice);
-        mSpr->SetXY(ROUGH_WIDTH / 2 - mLuaData["width"].get_or(0) / 2, mLuaData["centerY"].get_or(0) - mLuaData["height"].get_or(0) / 2);
+        mSpr->SetDrawingMethod(Sprite::DrawingKind::TwoDots);
+        mSpr->SetXY(GRID_WIDTH / 2 - mLuaData["width"].get_or(0) / 2, mLuaData["centerY"].get_or(0) - mLuaData["height"].get_or(0) / 2);
         mSpr->SetZ(ZIndex::UI-1);
 
         if (Player::Sole!=nullptr)Player::Sole->IncreaseFixed();
@@ -502,7 +502,7 @@ namespace ingame::main
             return true; }
         , 1000 * 15);
 
-        //new UiWindow(ROUGH_WIDTH/2, ROUGH_HEIGHT-120, 200,120,0.2, 0.2);
+        //new UiWindow(GRID_WIDTH/2, GRID_HEIGHT-120, 200,120,0.2, 0.2);
     }
     Player::~Player()
     {
