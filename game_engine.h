@@ -21,7 +21,7 @@ namespace gameEngine
 		int GetDeltaMilli();
 		double GetDeletaSec();
 		void Restart();
-		void Update();
+		void update();
 		static int DeltaMilli();
 		static double DeltaSec();
 	};

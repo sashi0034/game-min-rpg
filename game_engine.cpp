@@ -11,7 +11,7 @@ namespace gameEngine {
 		mDeletaSec = 0;
 		mOldTime = std::chrono::system_clock::now();
 	}
-	void Time::Update()
+	void Time::update()
 	{
 		auto cur = std::chrono::system_clock::now();
 		auto dur = cur - mOldTime;

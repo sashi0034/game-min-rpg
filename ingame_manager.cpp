@@ -19,7 +19,7 @@
 */
 namespace ingame::main
 {
-	void MapMatElement::Update()
+	void MapMatElement::update()
 	{
 		HasChip = std::vector<byte>(magic_enum::enum_count<ETileName>(), 0);
 		for (auto &chip : Chips)
@@ -129,7 +129,7 @@ namespace ingame::main
 
 		for (auto& row : mMat)
 			for (auto& ele : row)
-				ele->Update();
+				ele->update();
 	}
 
 

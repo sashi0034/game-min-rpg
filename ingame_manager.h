@@ -78,7 +78,7 @@ namespace ingame
 			
 			EventElement Events{};
 
-			void Update();
+			void update();
 			~MapMatElement();
 		};
 

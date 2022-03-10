@@ -114,7 +114,7 @@ namespace ingame
         DxLib::ClearDrawScreen();
         Sprite::DrawingAll();
         DxLib::ScreenFlip();
-        Time::Sole->Update();
+        Time::Sole->update();
     }
 }
 

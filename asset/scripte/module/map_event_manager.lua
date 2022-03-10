@@ -19,7 +19,6 @@ MapEventManager = {
 
     trigger = function (self, key, e)
         if (self.mapEvents[key]==nil) then
-            OutLog("dsfsfsdfs")
             ErrLog("Event function: "..key.."is not exit.");
             return
         end
@@ -34,7 +33,7 @@ MapEventManager = {
             OutLog("Enter house.\n")
             local c = coroutine.create( self.doSleep )
             while coroutine.resume(c, 2.5) do Yield() end
-            OutLog("OK.\n")
+            OutLog("Ok.\n")
         end
     },
 }
