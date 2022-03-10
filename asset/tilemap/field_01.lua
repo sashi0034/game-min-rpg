@@ -8,8 +8,8 @@ return {
   height = 64,
   tilewidth = 16,
   tileheight = 16,
-  nextlayerid = 9,
-  nextobjectid = 29,
+  nextlayerid = 11,
+  nextobjectid = 30,
   properties = {},
   tilesets = {
     {
@@ -409,6 +409,21 @@ return {
           shape = "rectangle",
           x = 144,
           y = 96,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "reach"
+          }
+        },
+        {
+          id = 29,
+          name = "stones_1",
+          type = "event",
+          shape = "rectangle",
+          x = 272,
+          y = 256,
           width = 16,
           height = 16,
           rotation = 0,

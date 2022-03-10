@@ -16,12 +16,32 @@ MapEventManager:addMapEvents({
         --w:streamText("Here is House 2.")
         --while w:isRunning() do Yield() end
 
-        OutLog("Ç±ÇÍÇÕâ∆Ç≈Ç∑\n")
         local c = coroutine.create( self.doSleep )
         while coroutine.resume(c, 2.5) do Yield() end
 
+        w:close()
+    end,
 
-        OutLog("Ok.\n")
+    
+    stones_1 = function (self, e)
+        local w = MessageWindow.open()
+
+        w:streamText("êŒÇ±ÇÎÇ™ì]Ç™Ç¡ÇƒÇ¢ÇÈ")
+
+        
+        local c = coroutine.create( self.doSleep )
+        while coroutine.resume(c, 2.5) do Yield() end
+
+        while w:isRunning() do Yield() end
+        w:close()
+
+        w = MessageWindow.open()
+        w:streamText("ñ∞Ç¢\nÇÀÇﬁÇ¢Ç≈Ç∑\nÇÀÇ‹Ç∑")
+        while w:isRunning() do Yield() end
+
+        local c = coroutine.create( self.doSleep )
+        while coroutine.resume(c, 2.5) do Yield() end
+
         w:close()
     end
 })

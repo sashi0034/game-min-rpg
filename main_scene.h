@@ -156,13 +156,16 @@ namespace ingame::main
         double mVel = 0;
         int mAnimTime = 0;
         int mWaitTime = 0;
+        int mFixedCount = 0;
+        bool isFixed();
         EventTimer debugTimer;
     public:
         Player(double startX, double startY);
         ~Player();
         double GetX();
         double GetY();
-        void SetFixed(bool isFixed);
+        void IncreaseFixed();
+        void DecreaseFixed();
     protected:
         void update() override;
         void luaUpdate() override;

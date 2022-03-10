@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="29">
+<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="30">
  <editorsettings>
   <export target="field_01.lua" format="lua"/>
  </editorsettings>
@@ -250,6 +250,11 @@
    </properties>
   </object>
   <object id="28" name="house_2" type="event" x="144" y="96" width="16" height="16">
+   <properties>
+    <property name="kind" value="reach"/>
+   </properties>
+  </object>
+  <object id="29" name="stones_1" type="event" x="272" y="256" width="16" height="16">
    <properties>
     <property name="kind" value="reach"/>
    </properties>

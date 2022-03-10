@@ -288,14 +288,17 @@ namespace ingame::main
         mSpr->SetDrawingMethod(Sprite::DrawingKind::Twice);
         mSpr->SetXY(ROUGH_WIDTH / 2 - mLuaData["width"].get_or(0) / 2, mLuaData["centerY"].get_or(0) - mLuaData["height"].get_or(0) / 2);
         mSpr->SetZ(ZIndex::UI-1);
+
+        if (Player::Sole!=nullptr)Player::Sole->IncreaseFixed();
     }
 
     MessageWindow::~MessageWindow()
     {
         // @memo: このままではスプライトの2重解放のバグが発生します
         // 近日中にisProtectメンバを削除し、linkActive, linkedChiildActivesを追加してください
-        //Sprite::Dispose(mTextWindow->GetSpr());
+        Sprite::Dispose(mTextWindow->GetSpr());
         delete mTextField;
+        if (Player::Sole != nullptr)Player::Sole->DecreaseFixed();
     }
     bool MessageWindow::GetIsRunning()
     {
@@ -488,6 +491,7 @@ namespace ingame::main
         mLuaData = luaManager::Lua[mLuaClassName]["new"]();
         mLuaData["doWaitForMove"] = [&]()->bool {return this->doWaitForMove(); };
         mLuaData["doMove"] = [&]()->bool {return this->doMove(); };
+        mLuaData["isFixed"] = [&]()->bool {return this->isFixed(); };
 
         mVel = mLuaData["vel"];
 
@@ -512,10 +516,20 @@ namespace ingame::main
     {
         return mY;
     }
-    void Player::SetFixed(bool isFixed)
+    void Player::IncreaseFixed()
     {
-        mLuaData["isFixed"] = isFixed;
+        mFixedCount++;
     }
+    void Player::DecreaseFixed()
+    {
+        mFixedCount--;
+    }
+    bool Player::isFixed()
+    {
+        return mFixedCount>0;
+    }
+
+  
     void Player::update()
     {
         LuaCollideActor::update();
