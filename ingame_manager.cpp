@@ -284,6 +284,15 @@ namespace ingame::main
 		return false;
 	}
 
+    UniqueEventValue* MapManager::GetUniqueEvent(std::string key)
+    {
+        if (mUniqueEvents.count(key) != 0)
+            return mUniqueEvents[key];
+        else
+            std::cerr ERR_LOG "Event vent key `" << key << "` is not exit.\n";
+            return nullptr;
+    }
+
 
 	Graph* MapManager::GetTilesetGraph()
 	{

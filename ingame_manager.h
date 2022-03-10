@@ -112,6 +112,7 @@ namespace ingame
 			bool IsInRange(int x, int y);
 			MapMatElement* GetMatAt(int x, int y);
 			Graph* GetTilesetGraph();
+			UniqueEventValue* GetUniqueEvent(std::string key);
 		};
 
 

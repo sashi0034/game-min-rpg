@@ -14,6 +14,8 @@ IngameEventBase = {
         for key, value in pairs(self.events) do
             if (coroutine.status(value))~="dead" then
                 coroutine.resume(value)
+            else
+                self.events[key] = nil
             end
         end
 

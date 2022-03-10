@@ -7,7 +7,7 @@ TestNPC = {
         self.actor = actor
         self.time = 0
         self.events = {
-            move = COROUTINE_DEAD
+            move = nil
         }
         
         return self
@@ -17,7 +17,7 @@ TestNPC = {
     update = function(self)
         IngameEventBase.update(self)
 
-        if (coroutine.status(self.events.move)=="dead" and self.time>200) then
+        if (self.events.move==nil and self.time>200) then
             self.events.move = coroutine.create( self.move )
             coroutine.resume(self.events.move, self, self.getX(), self.getY())
         end

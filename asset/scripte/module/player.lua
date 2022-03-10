@@ -8,7 +8,7 @@ Player = {
         local self = Instantiate(Player, IngameEventBase)
         
         self.events = {
-            move = COROUTINE_DEAD,
+            move = nil,
         }
         self.vel = 50
         self.isFixed = false
@@ -20,7 +20,7 @@ Player = {
     update = function(self)
         IngameEventBase.update(self)
 
-        if (coroutine.status(self.events.move)=="dead") then
+        if (self.events.move==nil) then
             if (self.isFixed==false and self.doWaitForMove()) then
                 --OutLog("Player is prepareing for move.\n")
                 self.events.move = coroutine.create(self.move)

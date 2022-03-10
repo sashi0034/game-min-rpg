@@ -17,6 +17,7 @@ loadfile([[.\asset\scripte\module\npc\punicat.lua]])()
 loadfile([[.\asset\scripte\module\npc\cat_1.lua]])()
 loadfile([[.\asset\scripte\module\npc\cat_2.lua]])()
 
+loadfile([[.\asset\scripte\module\map_event_manager.lua]])()
 
 loadfile([[./asset/scripte/module/test_npc.lua]])()
 
@@ -25,7 +26,7 @@ loadfile([[./asset/scripte/module/test_npc.lua]])()
 -- 座標などはマップデータで読み込んだものをC++で管理してLuaで呼ぶ
 
 -- @memo
--- eventKindには[check, reach, unique]の3種類があり、
+-- eventKindには[touch, reach, unique]の3種類があり、
 -- checkとreachはそれぞれクラスで管理する
 -- イベントフラグはFlagData: tableというテーブルで管理
 

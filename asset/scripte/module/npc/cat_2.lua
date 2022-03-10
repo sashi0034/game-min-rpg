@@ -8,7 +8,7 @@ cat_2 = {
         local self = Instantiate(cat_2, Punicat)
         
         self.events = {
-            move = COROUTINE_DEAD,
+            move = nil,
         }
 
         OutLog("cat_2 is created.\n")
@@ -19,7 +19,7 @@ cat_2 = {
     update = function(self)
         Punicat.update(self)
 
-        if (coroutine.status(self.events.move)=="dead") then
+        if (self.events.move==nil) then
             self.events.move = coroutine.create(self.move)
             coroutine.resume(self.events.move, self)
         end

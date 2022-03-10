@@ -49,6 +49,25 @@ namespace ingame::main
         }
     }
 
+    LuaActor::LuaActor(std::string luaClass, bool canLuaConstruct)
+    {
+        mLuaClassName = luaClass;
+        mLuaData = luaManager::Lua.create_table();
+        if (canLuaConstruct) luaConstructor();
+    }
+    void LuaActor::update()
+    {
+        luaUpdate();
+        Actor::update();
+    }
+    void LuaActor::luaConstructor()
+    {
+        mLuaData = luaManager::Lua[mLuaClassName]["new"]();
+    }
+    void LuaActor::luaUpdate()
+    {
+        luaManager::Lua[mLuaClassName]["update"](mLuaData);
+    }
 
 
     LuaCollideActor::LuaCollideActor(std::string luaClass, bool canLuaConstruct, collider::Shape* col, UINT mask) : CollideActor(col, mask)
@@ -59,7 +78,7 @@ namespace ingame::main
     }
     void LuaCollideActor::luaConstructor()
     {
-        mLuaData = luaManager::Lua[mLuaClassName]["new"](static_cast<CollideActor*>(this));
+        mLuaData = luaManager::Lua[mLuaClassName]["new"]();
 
     }
     void LuaCollideActor::luaUpdate()
@@ -81,7 +100,7 @@ namespace ingame::main
     /// <param name="toY"></param>
     /// <param name="vel">速度</param>
     /// <returns>完了したらtrue</returns>
-    bool Character::DoMove(double *curX, double *curY, double toX, double toY, double vel)
+    bool Character::DoMove(double* curX, double* curY, double toX, double toY, double vel)
     {
         double vx = 0, vy = 0;
         double delta = 0.1;
@@ -115,7 +134,7 @@ namespace ingame::main
         *x = int(*x / unit) * unit;
         *y = int(*y / unit) * unit;
     }
-    void Character::GetMatXY(int *x, int *y)
+    void Character::GetMatXY(int* x, int* y)
     {
         *x = *x / 16;
         *y = *y / 16;
@@ -143,7 +162,7 @@ namespace ingame::main
 
             useful::Vec2 moveXY = Angle::ToXY(toAng);
 
-            return  !MapManager::Sole->GetMatAt(matX-moveXY.X, matY-moveXY.Y)->IsStep[static_cast<int>(toAng)] &&
+            return  !MapManager::Sole->GetMatAt(matX - moveXY.X, matY - moveXY.Y)->IsStep[static_cast<int>(toAng)] &&
                 (MapManager::Sole->GetMatAt(matX, matY)->IsBridge || !MapManager::Sole->GetMatAt(matX, matY)->IsWall);
         }
     }
@@ -173,7 +192,7 @@ namespace ingame::main
         mSpriteCenterPos = useful::Vec2<double>{ drawCenterX, drawCenterY };
 
         SetSize(useful::Vec2<double>{roughWidth, roughHeight});
-    
+
 
         mSpr->SetZ(ZIndex::UI);
         mSpr->SetDrawingMethod(Sprite::DrawingKind::DotByDot);
@@ -256,6 +275,50 @@ namespace ingame::main
 
 namespace ingame::main
 {
+
+    MapEventManager::MapEventManager() : LuaActor("MapEventManager", true)
+    {
+        Sole = this;
+    }
+
+    void MapEventManager::update()
+    {
+        LuaActor::update();
+    }
+    MapEventManager::~MapEventManager()
+    {
+        Sole = nullptr;
+    }
+
+    void MapEventManager::DriveReachEvent(int x, int y)
+    {
+        if (!MapManager::Sole->IsInRange(x, y)) return;
+        for (auto &eventName : MapManager::Sole->GetMatAt(x, y)->Events.ReachEvents)
+        {
+            sol::table e = luaManager::Lua.create_table_with("x", x, "y", y);
+            trigger(eventName, e);
+        }
+    }
+
+    void MapEventManager::DriveTouchEvent(int x, int y)
+    {
+        if (!MapManager::Sole->IsInRange(x, y)) return;
+        for (auto& eventName : MapManager::Sole->GetMatAt(x, y)->Events.TouchEvents)
+        {
+            sol::table e = luaManager::Lua.create_table_with("x", x, "y", y);
+            trigger(eventName, e);
+        }
+    }
+    void MapEventManager::trigger(std::string eventName, sol::table e)
+    {
+        mLuaData["trigger"](mLuaData, eventName, e);
+    }
+
+    
+}
+
+namespace ingame::main
+{
     /// <summary>
     /// プレイヤー
     /// 中心に16*16pxの板があるイメージでそれの左上が原点
@@ -308,14 +371,15 @@ namespace ingame::main
     void Player::update()
     {
         LuaCollideActor::update();
+
+        mSpr->SetXY(mX - 8, mY - 16 - 4);
+        animation();
+
         debugTimer.Update();
     }
     void Player::luaUpdate()
     {
         luaManager::Lua[mLuaClassName]["update"](mLuaData);
-
-        mSpr->SetXY(mX - 8, mY - 16 - 4);
-        animation();
     }
 
     bool Player::doMove()
@@ -328,6 +392,12 @@ namespace ingame::main
         {
             mX += moveUnit/2; mY += moveUnit/2;
             Character::AttachToGridXY(&mX, &mY, moveUnit);
+
+            if ((int(mX)) % 16 == 0 && (int(mY)) % 16 == 0)
+            {
+                MapEventManager::Sole->DriveReachEvent(int(mX)/16, int(mY)/16);
+            }
+
             return false;
         }
     }

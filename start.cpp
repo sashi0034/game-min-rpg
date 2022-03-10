@@ -168,6 +168,7 @@ namespace ingame
             new ScrollManager();
             new MapManager(1);
             new BackGroundManager();
+            new MapEventManager();
             
             SceneBase::loop();
 

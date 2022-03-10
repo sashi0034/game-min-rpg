@@ -40,6 +40,14 @@ namespace ingame::main
         virtual void luaUpdate() = 0;
     };
 
+    class LuaActor : public Actor, public ILuaUser
+    {
+    protected:
+        LuaActor(std::string luaClass, bool canLuaConstruct);
+        void update() override;
+        void luaConstructor() override;
+        virtual void luaUpdate() override;
+    };
     class LuaCollideActor: public CollideActor, public ILuaUser
     {
     protected:
@@ -92,6 +100,19 @@ namespace ingame::main
         UiWindow(double drawCenterX, double drawCenterY, int roughWidth, int roughHeight, double sideRatioX, double sideRatioY);
     protected:
         void update() override;
+    };
+
+
+    class MapEventManager : public LuaActor, public ISingleton<MapEventManager>
+    {
+        void trigger(std::string eventName, sol::table e);
+    protected:
+        void update() override;
+    public:
+        MapEventManager();
+        ~MapEventManager();
+        void DriveReachEvent(int x, int y);
+        void DriveTouchEvent(int x, int y);
     };
 
 
