@@ -10,6 +10,10 @@ MessageWindowLuaData = {
         self.centerY = 192
         self.width = 280
         self.height = 80
+        self.paddingX = 24
+        self.paddingY = 16
+        self.lineMargin = 16
+        self.letterReadInterval = 50
 
         OutLog("MessageWindow in Lua is initilaized.\n")
         return self

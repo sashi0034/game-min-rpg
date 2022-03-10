@@ -105,16 +105,23 @@ namespace ingame::main
 
     class MessageWindow : public LuaActor
     {
+        const int fontSize = 18;
         EventTimer mWriteLetterTimer;
+        EventTimer mScrollTimer;
         int mWidth, mHeight;
         int mNextLetterX{}, mNextLetterY{};
         Graph* mTextField;
         UiWindow* mTextWindow;
         std::wstring mTextBuffer{};
         int mTextReadIndex = 0;
+
+        int mScrollRemainAmount = 0;
+
         bool mIsRunning = false;
+
         bool hasUnreadText();
         bool writeLetter();
+        bool scrollLine();
     protected:
         void update() override;
     public:

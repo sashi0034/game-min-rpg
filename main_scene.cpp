@@ -294,7 +294,7 @@ namespace ingame::main
     {
         // @memo: このままではスプライトの2重解放のバグが発生します
         // 近日中にisProtectメンバを削除し、linkActive, linkedChiildActivesを追加してください
-        Sprite::Dispose(mTextWindow->GetSpr());
+        //Sprite::Dispose(mTextWindow->GetSpr());
         delete mTextField;
     }
     bool MessageWindow::GetIsRunning()
@@ -307,25 +307,64 @@ namespace ingame::main
         mTextBuffer = std::wstring{};
         useful::NarrowStrToWideStr(text, mTextBuffer);
         mIsRunning = true;
-        mNextLetterX = 0; mNextLetterY = 0;
+        mNextLetterX = mLuaData["paddingX"]; mNextLetterY = mLuaData["paddingY"];
 
-        this->mWriteLetterTimer = EventTimer([&]()->bool { return writeLetter(); }, 200);
+        this->mWriteLetterTimer = EventTimer([&]()->bool {
+            this->mWriteLetterTimer = EventTimer([&]()->bool { return writeLetter(); }, mLuaData["letterReadInterval"]);
+            return true;
+            }, 500);
+        
     }
     bool MessageWindow::hasUnreadText()
     {
         return mTextReadIndex != mTextBuffer.size();
     }
+    /// <summary>
+    /// 文字を1文字ずつ打っていく
+    /// </summary>
+    /// <returns></returns>
     bool MessageWindow::writeLetter()
     {
         DxLib::SetDrawScreen(mTextField->GetHandler());
         {
+            if (mScrollTimer.IsAlive()) return true;
+
             std::string str{};
             std::wstring wstr = mTextBuffer.substr(mTextReadIndex, 1);
-            useful::WideStrToNarrowStr(wstr, str);
-            char* c = const_cast<char*>(str.c_str());
 
-            DxLib::DrawStringToHandle(mNextLetterX, mNextLetterY, c, DxLib::GetColor(255, 255, 255), Images->Font18Edged->GetHandler(), DxLib::GetColor(64, 64, 64));
-            mNextLetterX += (int)(DxLib::GetDrawStringWidthToHandle(c, (int)(DxLib::strlenDx(c)), Images->Font18Edged->GetHandler()) * 0.9);
+            auto returnLine = [&]() {
+                mNextLetterX = mLuaData["paddingX"].get_or(0);
+                int lineHeight = fontSize + mLuaData["lineMargin"].get_or(0);
+
+                if (mNextLetterY + lineHeight < mHeight - fontSize - mLuaData["paddingY"].get_or(0))
+                {// 改行
+                    mNextLetterY += lineHeight;
+                }
+                else
+                {// スクロールする
+                    mScrollRemainAmount = (lineHeight)*2;
+                    mNextLetterY -= lineHeight;
+                    mScrollTimer = EventTimer([&]() {return scrollLine(); }, 8);
+                }
+            };
+
+            if (wstr == L"\n")
+            {// 改行
+                returnLine();  
+            }
+            else
+            {
+                useful::WideStrToNarrowStr(wstr, str);
+                char* c = const_cast<char*>(str.c_str());
+
+                DxLib::DrawStringToHandle(mNextLetterX, mNextLetterY, c, DxLib::GetColor(255, 255, 255), Images->Font18Edged->GetHandler(), DxLib::GetColor(32, 32, 32));
+                mNextLetterX += (int)(DxLib::GetDrawStringWidthToHandle(c, (int)(DxLib::strlenDx(c)), Images->Font18Edged->GetHandler()) * 0.9);
+
+                if (mNextLetterX > mWidth - mLuaData["paddingX"].get_or(0) - fontSize)
+                {// 文が端まで行った
+                    returnLine();
+                }
+            }
             mTextReadIndex++;
         }
         DxLib::SetDrawScreen(DX_SCREEN_BACK);
@@ -334,15 +373,41 @@ namespace ingame::main
             return true;
         }
         else
-        {
+        {// プロセス終了
             mIsRunning = false;
             return false;
         }
+    }
+    /// <summary>
+    /// 行のスクロール
+    /// </summary>
+    /// <returns></returns>
+    bool MessageWindow::scrollLine()
+    {
+        DxLib::SetDrawScreen(mTextField->GetHandler());
+        {
+            int top = mLuaData["paddingY"].get_or(0);
+            int handler = DxLib::MakeScreen(mWidth, mHeight-top-1, TRUE);
+            {
+                int a = GetDrawScreenGraph(0, top+1, mWidth, mHeight, handler);
+                DxLib::ClearDrawScreen();
+                DxLib::DrawGraph(0, top, handler, TRUE);
+                //const RECT rect = RECT{ 0, 0, mWidth, mLuaData["paddingY"].get_or(0) };
+                //DxLib::ClearDrawScreen(&rect);
+            }
+            DxLib::DeleteGraph(handler);
+        }
+        DxLib::SetDrawScreen(DX_SCREEN_BACK);
+
+        mScrollRemainAmount--;
+        if (mScrollRemainAmount == 0) return false;
+        return true;
     }
     void MessageWindow::update()
     {
         LuaActor::update();
         mWriteLetterTimer.Update();
+        mScrollTimer.Update();
     }
     void MessageWindow::Init()
     {
