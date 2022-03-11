@@ -4,6 +4,8 @@
         "Cout",
         "Cerr",
         "Images",
-        "Time"
+        "Time",
+        "MessageWindow"
     ],
+    "lua.targetVersion": "5.3",
 }

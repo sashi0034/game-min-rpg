@@ -64,6 +64,7 @@ namespace ingame
         Sprite::Init();
 
         new Time();
+        new Input();
         Rand = new useful::Random();
         Images = new resorce::Image(); //‰æ‘œ“Ç‚İ‚İ
 

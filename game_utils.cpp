@@ -124,5 +124,13 @@ namespace gameUtils
 	}
 
 
+	Input::Input() : Singleton<Input>()
+	{}
+
+	bool Input::GetKeyDown(int key)
+	{
+		return DxLib::CheckHitKey(key);
+	}
+
 }
 

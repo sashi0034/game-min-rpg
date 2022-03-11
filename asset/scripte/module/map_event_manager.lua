@@ -19,10 +19,10 @@ MapEventManager = {
 
     trigger = function (self, key, e)
         if (self.mapEvents[key]==nil) then
-            ErrLog("Event function: "..key.."is not exit.");
+            ErrLog("Event function: "..key.."is not exit.\n");
             return
         elseif (self.events[key]~=nil) then
-            ErrLog("Event function: "..key.."is already running.")
+            ErrLog("Event function: "..key.."is already running.\n")
             return
         end
         

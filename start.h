@@ -59,7 +59,7 @@ namespace ingame
             Graph* Tree = loadPng("tree_16x16");
             Graph* Kisaragi = loadPng("kisaragi_24x24");
             Graph* Punicat = loadPng("punicat_24x24");
-            Graph* UiWindows = loadPng("ui/window_black");
+            Graph* UiWindowBlack = loadPng("ui/window_black");
 
             Graph* Font18Edged = new Graph(DxLib::CreateFontToHandle("", 18, 1, DX_FONTTYPE_EDGE));
 #if 0
@@ -114,13 +114,6 @@ namespace ingame{
             MainScene();
         };
 
-
-        enum ZIndex
-        {
-            FLOOR = 1000,
-            CHARACTER = 0,
-            UI = -2000,
-        };
 
 
 

@@ -13,6 +13,7 @@ MessageWindowLuaData = {
         self.paddingX = 24
         self.paddingY = 16
         self.lineMargin = 16
+        self.letterReadMinInterval = 5
         self.letterReadInterval = 50
 
         OutLog("MessageWindow in Lua is initilaized.\n")

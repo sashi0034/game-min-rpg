@@ -12,10 +12,20 @@
 #include "lua_manager.h"
 
 #include "ingame_manager.h"
+#include "ingame_base.h"
+
+#include "main_scene_ui.h"
 
 
 namespace ingame::main
 {
+    enum ZIndex
+    {
+        FLOOR = 1000,
+        CHARACTER = 0,
+        UI = -2000,
+    };
+
     enum class EAngle
     {
         NONE = -1,
@@ -31,31 +41,6 @@ namespace ingame::main
         static EAngle ToAng(double x, double y);
     };
 
-    class ILuaUser
-    {
-    protected:
-        std::string mLuaClassName = "";
-        sol::table mLuaData{};
-        virtual void luaConstructor() = 0;
-        virtual void luaUpdate() = 0;
-    };
-
-    class LuaActor : public Actor, public ILuaUser
-    {
-    protected:
-        LuaActor(std::string luaClass, bool canLuaConstruct);
-        void update() override;
-        void luaConstructor() override;
-        virtual void luaUpdate() override;
-    };
-    class LuaCollideActor: public CollideActor, public ILuaUser
-    {
-    protected:
-        LuaCollideActor(std::string luaClass, bool canLuaConstruct, collider::Shape* col, UINT mask);
-        void update() override;
-        void luaConstructor() override;
-        virtual void luaUpdate() override;
-    };
 
     class Character
     {
@@ -66,73 +51,6 @@ namespace ingame::main
         static bool CanMoveTo(double x, double y, EAngle toAng);
     };
 
-
-    class NinePatchImage : public Actor
-    {
-    private:
-        Graph* mSrcGraph;
-        Graph* mRenderGraph = nullptr;
-
-        useful::Vec2<int> mSrcSize{};
-        useful::Vec2<int> mSpriteSize{};
-        useful::Vec2<double> mSpriteCenterPos{};
-        useful::Vec2<double> mSpritePos{};
-
-        useful::Vec2<int> mDivLineSrc[4];
-        useful::Vec2<int> mRenderLine[4];
-        useful::Vec2<double> mSideRatio{};
-
-        void renderWindow();
-    public:
-        NinePatchImage(double drawCenterX, double drawCenterY, double gridUnitWidth, double gridUnitHeight, double sideRatioX, double sideRatioY, Graph* srcGraph);
-        ~NinePatchImage();
-        void SetSize(useful::Vec2<double> size);
-    };
-
-
-    class UiWindow : public NinePatchImage
-    {
-    private:
-        double mCurWidth = 0;
-        double mToWidth;
-        double mHeight;
-    public:
-        UiWindow(double drawCenterX, double drawCenterY, int gridUnitWidth, int gridUnitHeight, double sideRatioX, double sideRatioY);
-    protected:
-        void update() override;
-    };
-
-
-    class MessageWindow : public LuaActor
-    {
-        const int fontSize = 18;
-        EventTimer mWriteLetterTimer;
-        EventTimer mScrollTimer;
-        int mWidth, mHeight;
-        int mNextLetterX{}, mNextLetterY{};
-        Graph* mTextField;
-        UiWindow* mTextWindow;
-        std::wstring mTextBuffer{};
-        int mTextReadIndex = 0;
-
-        int mScrollRemainAmount = 0;
-
-        bool mIsRunning = false;
-
-        bool hasUnreadText();
-        bool writeLetter();
-        bool scrollLine();
-    protected:
-        void update() override;
-    public:
-        MessageWindow();
-        ~MessageWindow();
-        bool GetIsRunning();
-        void StreamText(std::string text);
-        //void InputChoices(std::vector<std::string> choices);
-        static const std::string CLASS_NAME;
-        static void Init();
-    };
 
     class MapEventManager : public LuaActor, public ISingleton<MapEventManager>
     {
@@ -210,15 +128,6 @@ namespace ingame::main
 
 
 
-    class FieldDecorationBase : public Actor
-    {
-    protected:
-        int mAnimTime{};
-    public:
-        FieldDecorationBase(int x, int y);
-    protected :
-        void update() override;
-    };
 
     class Weed : public FieldDecorationBase
     {
