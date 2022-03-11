@@ -282,6 +282,7 @@ namespace ingame::main
         mHeight = mLuaData["height"].get_or(0) * PX_PER_GRID / 2;
         //new UiWindow(GRID_WIDTH / 2, mLuaData["centerY"].get_or(0), mLuaData["width"].get_or(0), mLuaData["height"].get_or(0), 0.2, 0.2);
         mTextWindow = new UiWindow(GRID_WIDTH / 2, mLuaData["centerY"].get_or(0), mLuaData["width"].get_or(0), mLuaData["height"].get_or(0), 0.2, 0.2);
+        mTextWindow->GetSpr()->SetLinkActive(this->mSpr);
         
         mTextField = new Graph(DxLib::MakeScreen(mWidth, mHeight, TRUE));
         mSpr->SetImage(mTextField, 0, 0, mWidth, mHeight);
@@ -294,9 +295,9 @@ namespace ingame::main
 
     MessageWindow::~MessageWindow()
     {
-        // @memo: このままではスプライトの2重解放のバグが発生します
+        // @: このままではスプライトの2重解放のバグが発生します
         // 近日中にisProtectメンバを削除し、linkActive, linkedChiildActivesを追加してください
-        Sprite::Dispose(mTextWindow->GetSpr());
+        // :done
         delete mTextField;
         if (Player::Sole != nullptr)Player::Sole->DecreaseFixed();
     }

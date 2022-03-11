@@ -10,7 +10,7 @@ MapEventManager:addMapEvents({
     house_2 = function (self, e)
         local w = MessageWindow.open()
 
-        w:streamText("これは家です！\n日本語わいわい。日本語わいわい。日本語わいわい。日本語わいわい。日本語わいわい。日本語わいわい。日本語わいわい。日本語わいわい。日本語わいわい。日本語わいわい。")
+        w:streamText("これは家です！\n日本語わいわい。日本語わいわい。")
         while w:isRunning() do Yield() end
 
         --w:streamText("Here is House 2.")

@@ -23,8 +23,9 @@ class Sprite
     int width = 0;
     int height = 0;
     bool isFlip = false;
-    bool isProtect = false;
     const Sprite* linkXY = nullptr;
+    const Sprite* linkActive = nullptr;
+    std::vector<const Sprite*> linkedChildActives = std::vector<const Sprite*>{};
     double rotationRad = 0;
     int blendMode = DX_BLENDMODE_ALPHA;
     int blendPal = 255;
@@ -65,6 +66,7 @@ public:
     std::any GetBelong();
 
     void SetLinkXY(const Sprite* linkSpr);
+    void SetLinkActive(const Sprite* linkSpr);
 
     void GetLinkDifferenceXY(double* x, double* y);
 
@@ -76,13 +78,10 @@ public:
     void SetDrawingMethod(void (*drawingMethod)(Sprite* hSp, int hX, int hY));
     void SetDestructorMethod(void (*destructorMethod)(Sprite* hSp));
 
-    void SetProtect(bool isProtect);
-
     static void Dispose(Sprite* spr);
-    static void Dispose(Sprite* spr, bool isProtectOnly);
+    static void Dispose(Sprite* spr, bool isParentOnly);
 
     static void DisposeAll();
-    static void DisposeAll(bool isProtectOnly);
 
 
     static void UpdateAll();

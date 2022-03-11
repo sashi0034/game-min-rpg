@@ -122,6 +122,23 @@ void Sprite::SetLinkXY(const Sprite* linkSpr)
 {
     this->linkXY = linkSpr;
 }
+/// <summary>
+/// Disposeするタイミングの同期
+/// 1回のみ呼ぶこと
+/// </summary>
+/// <param name="linkSpr"></param>
+void Sprite::SetLinkActive(const Sprite* linkSpr)
+{
+    if (linkActive != nullptr)
+    {
+        std::cerr ERR_LOG this << " has already linkActive.";
+        return;
+    }
+
+    this->linkActive = linkSpr;
+    Sprite* parent = const_cast<Sprite*>(linkSpr);
+    parent->linkedChildActives.push_back(this);
+}
 
 
 void Sprite::GetLinkDifferenceXY(double* x, double* y)
@@ -173,10 +190,6 @@ void Sprite::SetDestructorMethod(void (*destructorMethod)(Sprite* hSp))
 }
 
 
-void Sprite::SetProtect(bool isProtect)
-{
-    this->isProtect = isProtect;
-}
 
 void Sprite::Dispose(Sprite* spr)
 {
@@ -186,14 +199,19 @@ void Sprite::Dispose(Sprite* spr)
         spr->destructorMethod(spr);
     }
     spr->sprites[findIndex(spr)] = nullptr;
+    for (auto& child : spr->linkedChildActives)
+    {
+        const_cast<Sprite*>(child)->linkActive = nullptr; // 親が死んだことを通知
+        Dispose(const_cast<Sprite*>(child), true);
+    }
 }
 
 
-void Sprite::Dispose(Sprite* spr, bool isUnprotectOnly)
+void Sprite::Dispose(Sprite* spr, bool isRootParentOnly)
 {
-    if (isUnprotectOnly)
+    if (isRootParentOnly)
     {
-        if (!spr->isProtect) Dispose(spr);
+        if (spr->linkActive==nullptr) Dispose(spr);
     }
     else
     {
@@ -203,20 +221,9 @@ void Sprite::Dispose(Sprite* spr, bool isUnprotectOnly)
 
 void Sprite::DisposeAll()
 {
-    DisposeAll(false);
-}
-void Sprite::DisposeAll(bool isProtectOnly)
-{
     for (Sprite* spr : sprites)
     {
-        if (isProtectOnly)
-        {
-            if (!spr->isProtect) Dispose(spr);
-        }
-        else
-        {
-            Dispose(spr);
-        }
+        Dispose(spr, true);
     }
     collectGarbageSprites();
 }
