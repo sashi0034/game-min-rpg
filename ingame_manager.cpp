@@ -155,7 +155,7 @@ namespace ingame::main
                     /*
                     // プロパティ追加コード 2 / 2
                     */
-                    if (chip->IsWall) mMat[x][y]->IsWall = true;
+                    mMat[x][y]->IsWall = chip->IsWall;
                     if (chip->IsBridge) mMat[x][y]->IsBridge = true;
 
                     if (chip->IsStepLeft && x - 1 >= 0) {
