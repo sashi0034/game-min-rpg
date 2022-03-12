@@ -193,30 +193,30 @@ void Sprite::SetDestructorMethod(void (*destructorMethod)(Sprite* hSp))
 
 void Sprite::Dispose(Sprite* spr)
 {
+    Dispose(spr, false);
+}
+
+
+void Sprite::Dispose(Sprite* spr, bool isRootParentOnly)
+{
     if (spr == nullptr) return;
+
+    if (isRootParentOnly)
+    {
+        if (spr->linkActive != nullptr) return; // 子なら返る
+    }
+
     if (spr->destructorMethod != nullptr)
     {
         spr->destructorMethod(spr);
     }
     spr->sprites[findIndex(spr)] = nullptr;
     for (auto& child : spr->linkedChildActives)
-    {
+    {// 子もすべて消す
         const_cast<Sprite*>(child)->linkActive = nullptr; // 親が死んだことを通知
         Dispose(const_cast<Sprite*>(child), true);
     }
-}
 
-
-void Sprite::Dispose(Sprite* spr, bool isRootParentOnly)
-{
-    if (isRootParentOnly)
-    {
-        if (spr->linkActive==nullptr) Dispose(spr);
-    }
-    else
-    {
-        Dispose(spr);
-    }
 }
 
 void Sprite::DisposeAll()

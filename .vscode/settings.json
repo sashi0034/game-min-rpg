@@ -5,7 +5,8 @@
         "Cerr",
         "Images",
         "Time",
-        "MessageWindow"
+        "MessageWindow",
+        "SelectionWindow"
     ],
     "lua.targetVersion": "5.3",
 }

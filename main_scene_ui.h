@@ -61,11 +61,12 @@ namespace ingame::main
         EventTimer mScrollTimer;
         int mWidth, mHeight;
         int mNextLetterX{}, mNextLetterY{};
-        Graph* mTextField;
+        Graph* mTextFieldGraph;
         UiWindow* mTextWindow;
         std::wstring mTextBuffer{};
         int mTextReadIndex = 0;
         int mReadIntervalTimeBuffer = 0;
+        bool mIsPusedSkipButtonOnStart = false;
 
         int mScrollRemainAmount = 0;
 
@@ -81,7 +82,38 @@ namespace ingame::main
         ~MessageWindow();
         bool GetIsRunning();
         void StreamText(std::string text);
-        //void InputChoices(std::vector<std::string> choices);
+        static const std::string CLASS_NAME;
+        static void Init();
+    };
+
+    class SelectionWindow : public LuaActor
+    {
+        const int fontSize = 18;
+        EventTimer mInputTimer;
+        ButtonInTimer mButton{};
+
+        int mGridUnitWidth, mGridUnitHeight;
+        int mWindowHeight;
+        Graph* mTextFieldGraph;
+        UiWindow* mWindow;
+        std::vector<std::string> mOptions{};
+        int mOptionNum = 0;
+
+        Sprite* mCursorSpr = nullptr;
+ 
+        bool mIsRunning = false;
+        int mSelectedIndex = 0;
+
+        void renderText();
+        bool inputOptions();
+        void resetCursor();
+    protected:
+        void update() override;
+    public:
+        SelectionWindow(sol::table table);
+        ~SelectionWindow();
+        bool GetIsRunning();
+        int GetSelectedIndex();
         static const std::string CLASS_NAME;
         static void Init();
     };

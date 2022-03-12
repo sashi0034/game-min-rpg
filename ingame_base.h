@@ -13,6 +13,29 @@
 namespace ingame
 {
 
+    class ButtonInTimer
+    {
+        std::map<int, int> mButtonTime{};
+        bool notKeyOrAppend(int keyCode);
+    public:
+        ButtonInTimer();
+        bool CheckJustAfterPress(int keyCode);
+        bool ChackIntervalPress(int keyCode, int firstTime, int intervalTime);
+        void Update();
+    };
+
+    //class ButtonEmbeddedTimer
+    //{
+    //    EventTimer eventTimer{};
+    //    ButtonInTimer buttonInTimer{};
+    //public:
+    //    ButtonEmbeddedTimer();
+    //    ButtonEmbeddedTimer(std::function<bool()> doEvent, int intervalMilliSec);
+    //    ButtonInTimer* GetButton();
+    //    void Update();
+    //};
+
+
     class ILuaUser
     {
     protected:

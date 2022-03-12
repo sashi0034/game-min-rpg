@@ -82,7 +82,7 @@ namespace ingame
         {// Ä‹N“®
             luaManager::CanRestartProgram = false;
             Sprite::DisposeAll();
-            printfDx("Hot Reload Š®—¹\n");
+            printfDx("Hot reloaded.\n");
             goto restart;
         }
 
@@ -131,7 +131,7 @@ namespace ingame::resorce
         Graph* ret = Graph::LoadGraph(filePath.c_str());
         if (ret->GetHandler() == -1)
         {
-            std::cerr ERR_LOG fileName << "cannot be loaded.";
+            std::cerr ERR_LOG fileName << " cannot be loaded.";
         }
         return ret;
     }
@@ -173,6 +173,7 @@ namespace ingame
             new BackGroundManager();
             new MapEventManager();
             MessageWindow::Init();
+            SelectionWindow::Init();
             
             SceneBase::loop();
 

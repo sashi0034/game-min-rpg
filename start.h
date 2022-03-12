@@ -60,6 +60,7 @@ namespace ingame
             Graph* Kisaragi = loadPng("kisaragi_24x24");
             Graph* Punicat = loadPng("punicat_24x24");
             Graph* UiWindowBlack = loadPng("ui/window_black");
+            Graph* UiArrow = loadPng("ui/arrow_16x16");
 
             Graph* Font18Edged = new Graph(DxLib::CreateFontToHandle("", 18, 1, DX_FONTTYPE_EDGE));
 #if 0

@@ -106,6 +106,7 @@ namespace ingame::main
 
         NinePatchImage::update();
     }
+
 };
 
 
@@ -125,8 +126,8 @@ namespace ingame::main
         mTextReadIndex = 0;
         mNextLetterX = mLuaData["paddingX"]; mNextLetterY = mLuaData["paddingY"];
 
-        mTextField = new Graph(DxLib::MakeScreen(mWidth, mHeight, TRUE));
-        mSpr->SetImage(mTextField, 0, 0, mWidth, mHeight);
+        mTextFieldGraph = new Graph(DxLib::MakeScreen(mWidth, mHeight, TRUE));
+        mSpr->SetImage(mTextFieldGraph, 0, 0, mWidth, mHeight);
         mSpr->SetDrawingMethod(Sprite::DrawingKind::TwoDots);
         mSpr->SetXY(GRID_WIDTH / 2 - mLuaData["width"].get_or(0) / 2, mLuaData["centerY"].get_or(0) - mLuaData["height"].get_or(0) / 2);
         mSpr->SetZ(ZIndex::UI - 1);
@@ -139,7 +140,7 @@ namespace ingame::main
         // @: このままではスプライトの2重解放のバグが発生します
         // 近日中にisProtectメンバを削除し、linkActive, linkedChiildActivesを追加してください
         // :done
-        delete mTextField;
+        delete mTextFieldGraph;
         if (Player::Sole != nullptr)Player::Sole->DecreaseFixed();
     }
     bool MessageWindow::GetIsRunning()
@@ -152,6 +153,7 @@ namespace ingame::main
         mTextBuffer = std::wstring{};
         useful::NarrowStrToWideStr(text, mTextBuffer);
         mIsRunning = true;
+        mIsPusedSkipButtonOnStart = false;
 
         this->mWriteLetterTimer = EventTimer([&]()->bool { return writeLetter(); }, mLuaData["letterReadMinInterval"]);
     }
@@ -171,17 +173,21 @@ namespace ingame::main
 
         if (Input::Sole->GetKeyDown(KEY_INPUT_SPACE) == 0)
         {// スキップボタンを押していないときの処理
-            if (mReadIntervalTimeBuffer < mLuaData["letterReadInterval"].get_or(1))
-            {// 普通のスピードで読むように間隔をあける
-                return true;
-            }
-            else
+            if (mIsPusedSkipButtonOnStart)
             {
-                mReadIntervalTimeBuffer -= mLuaData["letterReadInterval"].get_or(1);
+                if (mReadIntervalTimeBuffer < mLuaData["letterReadInterval"].get_or(1))
+                {// 普通のスピードで読むように間隔をあける
+                    return true;
+                }
+                else
+                {
+                    mReadIntervalTimeBuffer -= mLuaData["letterReadInterval"].get_or(1);
+                }
             }
+            mIsPusedSkipButtonOnStart = true;
         }
 
-        DxLib::SetDrawScreen(mTextField->GetHandler());
+        DxLib::SetDrawScreen(mTextFieldGraph->GetHandler());
         {
             std::string str{};
             std::wstring wstr = mTextBuffer.substr(mTextReadIndex, 1);
@@ -253,7 +259,7 @@ namespace ingame::main
     /// <returns></returns>
     bool MessageWindow::scrollLine()
     {
-        DxLib::SetDrawScreen(mTextField->GetHandler());
+        DxLib::SetDrawScreen(mTextFieldGraph->GetHandler());
         {
             int top = mLuaData["paddingY"].get_or(0);
             int handler = DxLib::MakeScreen(mWidth, mHeight - top - 1, TRUE);
@@ -290,6 +296,145 @@ namespace ingame::main
             "streamText", &MessageWindow::StreamText,
             "isRunning", &MessageWindow::GetIsRunning,
             "close", [](MessageWindow* self) {Sprite::Dispose(self->GetSpr()); });
+    }
+}
+
+
+
+
+
+
+namespace ingame::main
+{
+    SelectionWindow::SelectionWindow(sol::table table) : LuaActor("SelectionWindowLuaData", true)
+    {
+        for (int i = 1; i <= table.size(); ++i)
+        {
+            mOptions.push_back(table[i].get_or(std::string("(null)")));
+        }
+        mOptionNum = mOptions.size();
+
+        mGridUnitWidth = mLuaData["width"].get_or(0);
+        mGridUnitHeight = 2 * mLuaData["paddingY"].get_or(0) * 2 / PX_PER_GRID
+            + mOptionNum * mLuaData["lineHeight"].get_or(0) * 2 / PX_PER_GRID;
+
+        // ウィンドウ
+        mWindow = new UiWindow(
+            mLuaData["centerX"].get_or(0), 
+            mLuaData["bottomY"].get_or(0)- mGridUnitHeight /2,
+            mGridUnitWidth,
+            mGridUnitHeight,
+            0.2, 0.2);
+        mWindow->GetSpr()->SetLinkActive(this->mSpr);
+        mWindow->GetSpr()->SetZ(ZIndex::UI - 10);
+
+        // テキスト
+        mTextFieldGraph = new Graph(DxLib::MakeScreen(mGridUnitWidth * 2, mGridUnitHeight * 2, TRUE));
+        mSpr->SetImage(mTextFieldGraph, 0, 0, mGridUnitWidth * 2, mGridUnitHeight * 2);
+        mSpr->SetDrawingMethod(Sprite::DrawingKind::TwoDots);
+        mSpr->SetXY(
+            mLuaData["centerX"].get_or(0) - mGridUnitWidth / 2,
+            mLuaData["bottomY"].get_or(0) - mGridUnitHeight);
+        mSpr->SetZ(ZIndex::UI - 11);
+
+        // カーソル
+        mCursorSpr = new Sprite();
+        mCursorSpr->SetLinkXY(this->mSpr);
+        mCursorSpr->SetLinkActive(this->mSpr);
+        mCursorSpr->SetZ(ZIndex::UI - 12);
+        //mCursorSpr->SetDrawingMethod(Sprite::DrawingKind::TwoDots);
+        resetCursor();
+
+        if (Player::Sole != nullptr)Player::Sole->IncreaseFixed();
+
+        renderText();
+        this->mInputTimer = EventTimer([&]()->bool {
+            renderText();
+            mInputTimer = EventTimer([&]()->bool {
+                return inputOptions(); 
+                }, 1000 / 60);
+            return true;
+            }, 500);
+        mIsRunning = true;
+    }
+
+    SelectionWindow::~SelectionWindow()
+    {
+        delete mTextFieldGraph;
+        if (Player::Sole != nullptr)Player::Sole->DecreaseFixed();
+    }
+
+    bool SelectionWindow::GetIsRunning()
+    {
+        return mIsRunning;
+    }
+
+    int SelectionWindow::GetSelectedIndex()
+    {
+        return mSelectedIndex;
+    }
+
+    void SelectionWindow::renderText()
+    {
+        DxLib::SetDrawScreen(mTextFieldGraph->GetHandler());
+        for (int i = 0; i < mOptionNum; ++i)
+        {
+            int x = mLuaData["paddingX"].get_or(0);
+            int y = mLuaData["paddingY"].get_or(0) + i * mLuaData["lineHeight"].get_or(0);
+            
+            DxLib::DrawStringToHandle(x, y, mOptions[i].c_str(), DxLib::GetColor(255, 255, 255), Images->Font18Edged->GetHandler(), DxLib::GetColor(32, 32, 32));
+        }
+        DxLib::SetDrawScreen(DX_SCREEN_BACK);
+    }
+
+    bool SelectionWindow::inputOptions()
+    {
+        mButton.Update();
+        if (mButton.ChackIntervalPress(KEY_INPUT_W, mLuaData["buttonIntervalFirst"].get_or(1), mLuaData["buttonIntervalSecond"].get_or(1)))
+        {
+            mSelectedIndex--;
+        }
+        else if (mButton.ChackIntervalPress(KEY_INPUT_S, mLuaData["buttonIntervalFirst"].get_or(1), mLuaData["buttonIntervalSecond"].get_or(1)))
+        {
+            mSelectedIndex++;
+        }
+        mSelectedIndex = (mSelectedIndex + mOptionNum) % mOptionNum;
+
+        if (mButton.CheckJustAfterPress(KEY_INPUT_SPACE))
+        {
+            mIsRunning = false;
+            return false;
+        }
+        
+        resetCursor();
+
+        return true;
+    }
+    void SelectionWindow::resetCursor()
+    {
+        mCursorSpr->SetImage(Images->UiArrow, 0, 0, 16, 16);
+        mCursorSpr->SetXY(
+            mLuaData["cursolLeftX"].get_or(0),
+            (mLuaData["paddingY"].get_or(0) + mSelectedIndex * mLuaData["lineHeight"].get_or(0)) * 2 / PX_PER_GRID
+        );
+    }
+    void SelectionWindow::update()
+    {
+        LuaActor::update();
+        //if (mTime > 500)
+        {// ウインドウの展開のためちょっと待つ
+            mInputTimer.Update();
+        }
+    }
+    void SelectionWindow::Init()
+    {
+        luaManager::Lua.new_usertype<SelectionWindow>(
+            "SelectionWindow",
+            sol::constructors<SelectionWindow(sol::table table)>(),
+            "open", [](sol::table table)->SelectionWindow* {return new SelectionWindow(table); },
+            "isRunning", &SelectionWindow::GetIsRunning,
+            "selectedIndex", &SelectionWindow::GetSelectedIndex,
+            "close", [](SelectionWindow* self) {Sprite::Dispose(self->GetSpr()); });
     }
 }
 

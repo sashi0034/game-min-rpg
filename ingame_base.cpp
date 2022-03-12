@@ -6,6 +6,9 @@
 
 namespace ingame
 {
+    
+
+
 
     LuaActor::LuaActor(std::string luaClass, bool canLuaConstruct)
     {
@@ -69,6 +72,96 @@ namespace ingame
             Actor::update();
         }
     }
+
+
+
+    /// <summary>
+    /// ボタンはstd::mapで管理しているので
+    /// 初期化を気にしなくて良い
+    /// </summary>
+    bool ButtonInTimer::notKeyOrAppend(int keyCode)
+    {
+        if (mButtonTime.count(keyCode) == 0)
+        {// キーが存在していないなら初期化
+            mButtonTime[keyCode] = Input::Sole->GetKeyDown(keyCode)==true ? 1 : 0;
+            return true; // 直後はCheckJustAfterPressが発火しないように
+        }
+        return false;
+    }
+
+    ButtonInTimer::ButtonInTimer()
+    {
+    }
+
+    bool ButtonInTimer::CheckJustAfterPress(int keyCode)
+    {
+        if (notKeyOrAppend(keyCode)) return false;
+        if (mButtonTime[keyCode] == 1) return true;
+        return false;
+    }
+
+    bool ButtonInTimer::ChackIntervalPress(int keyCode, int firstTime, int intervalTime)
+    {
+        notKeyOrAppend(keyCode);
+
+        if (mButtonTime[keyCode] == 1) 
+        { 
+            return true; 
+        }
+        else if (mButtonTime[keyCode] >= firstTime)
+        {
+            int time = mButtonTime[keyCode] - firstTime;
+            if (time % intervalTime == 0)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// 押しているボタンの経過時間を+1する
+    /// EventTimerの内部で使われることを前提
+    /// </summary>
+    void ButtonInTimer::Update()
+    {
+        mButtonTime;
+        for (auto itr = mButtonTime.begin(); itr != mButtonTime.end(); ++itr)
+        {
+            if (Input::Sole->GetKeyDown(itr->first) != false)
+            {
+                itr->second += 1;
+            }
+            else
+            {
+                itr->second = 0;
+            }
+        }
+    }
+
+ /*   ButtonEmbeddedTimer::ButtonEmbeddedTimer()
+    {
+    }
+
+    ButtonEmbeddedTimer::ButtonEmbeddedTimer(std::function<bool()> doEvent, int intervalMilliSec)
+    {
+        eventTimer = EventTimer([&]()->bool{
+            buttonInTimer.Update();
+            return doEvent();
+            }, intervalMilliSec);
+    }
+
+
+    ButtonInTimer* ButtonEmbeddedTimer::GetButton()
+    {
+        return &buttonInTimer;
+    }
+
+    void ButtonEmbeddedTimer::Update()
+    {
+        eventTimer.Update();
+    }*/
+
 }
 
 

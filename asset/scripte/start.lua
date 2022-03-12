@@ -21,6 +21,7 @@ loadfile([[.\asset\scripte\module\map_event_manager.lua]])()
 loadfile([[.\asset\scripte\module\map_events.lua]])()
 
 loadfile([[./asset\scripte\module\message_window.lua]])()
+loadfile([[./asset\scripte\module\selection_window.lua]])()
 
 loadfile([[./asset/scripte/module/test_npc.lua]])()
 

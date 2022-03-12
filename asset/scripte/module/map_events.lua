@@ -8,28 +8,34 @@ MapEventManager:addMapEvents({
     end,
 
     house_2 = function (self, e)
-        local w = MessageWindow.open()
+        local m = MessageWindow.open()
 
-        w:streamText("これは家です！\nほげほげ")
-        while w:isRunning() do Yield() end
+        m:streamText("おはようございます")
+        while m:isRunning() do Yield() end
 
-        w:streamText("\n2a行目どうなるか")
-        while w:isRunning() do Yield() end
+        local s = SelectionWindow.open({"こんにちは", "おはよう", "眠い", "いいえ", "ありがとう"})
+        while s:isRunning() do Yield() end
+        local index=s:selectedIndex()
+        s:close()
 
-        w:streamText("\n\nスクロールしてますね")
-        while w:isRunning() do Yield() end
+        if index==0 then
+            m:streamText("\n"..[[こんにちはこんにちは]])
+            while m:isRunning() do Yield() end
+        elseif index==1 then
+            m:streamText("\n"..[[おはようございます、おはようございます、おはようございます]])
+            while m:isRunning() do Yield() end
+        elseif index==2 then
+            m:streamText("\n"..[[眠いですね]])
+            while m:isRunning() do Yield() end
+        elseif index==3 then
+            m:streamText("\n"..[[いいえこちらこそ]].."\n"..[[なにこれ??]])
+            while m:isRunning() do Yield() end
+        elseif index==4 then
+            m:streamText("\n"..[[感謝の気持ちを持ちましょう]])
+            while m:isRunning() do Yield() end
+        end
 
-        w:close()
-
-        w = MessageWindow.open()
-        
-        w:streamText([[ウインドウ再構築してみた]])
-        while w:isRunning() do Yield() end
-
-        w:streamText("\n\n\nやったぜ")
-        while w:isRunning() do Yield() end
-
-        w:close()
+        m:close()
     end,
 
     
@@ -37,11 +43,14 @@ MapEventManager:addMapEvents({
         local w = MessageWindow.open()
 
         w:streamText("石ころが転がっている")
-
-        
-        local c = coroutine.create( self.doSleep )
-
         while w:isRunning() do Yield() end
+        
+        local s = SelectionWindow.open({"はい", "いいえ"})
+        while s:isRunning() do Yield() end
+        s:close()
+
+        Yield()
+        
         w:close()
 
         w = MessageWindow.open()
