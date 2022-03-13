@@ -169,6 +169,7 @@
     <ClCompile Include="lua_manager.cpp" />
     <ClCompile Include="main_scene.cpp" />
     <ClCompile Include="ingame_base.cpp" />
+    <ClCompile Include="main_scene_player.cpp" />
     <ClCompile Include="main_scene_ui.cpp" />
     <ClCompile Include="start.cpp" />
     <ClCompile Include="ingame_manager.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="magic_enum.h" />
     <ClInclude Include="main_scene.h" />
     <ClInclude Include="ingame_base.h" />
+    <ClInclude Include="main_scene_player.h" />
     <ClInclude Include="main_scene_ui.h" />
     <ClInclude Include="start.h" />
     <ClInclude Include="ingame_manager.h" />

@@ -1,7 +1,7 @@
 #include "ingame_manager.h"
 #include "start.h"
 #include "main_scene.h"
-
+#include "main_scene_player.h"
 
 
 
