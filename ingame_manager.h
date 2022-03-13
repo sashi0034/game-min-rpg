@@ -77,6 +77,7 @@ namespace ingame
 			bool IsWall = false;
 			bool IsBridge = false;
 			bool IsStep[4] = {false, false, false, false};
+			short CharacterCount = 0;
 			
 			EventElement Events{};
 

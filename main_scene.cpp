@@ -144,6 +144,20 @@ namespace ingame::main
         }
     }
 
+    void Character::IncCharacterCountOnMap(double gridX, double gridY)
+    {
+        int matX = gridX, matY = gridY;
+        GetMatXY(&matX, &matY);
+        MapManager::Sole->GetMatAt(matX, matY)->CharacterCount++;
+    }
+
+    void Character::DecCharacterCountOnMap(double gridX, double gridY)
+    {
+        int matX = gridX, matY = gridY;
+        GetMatXY(&matX, &matY);
+        MapManager::Sole->GetMatAt(matX, matY)->CharacterCount--;
+    }
+
 
 }
 
@@ -205,6 +219,7 @@ namespace ingame::main
 
         mX = startX;
         mY = startY;
+        Character::IncCharacterCountOnMap(mX+8, mY+8);
 
         mLuaData["doMove"] = [&](double x, double y)->bool {return this->doMove(x, y); };
         mLuaData["getX"] = [&]()->double {return this->mX; };
@@ -247,20 +262,37 @@ namespace ingame::main
     }
     bool Punicat::doMove(double gotoX, double gotoY)
     {
-       
+        auto onMoved = [&]() {
+            mX += moveUnit / 2; mY += moveUnit / 2;
+            Character::AttachToGridXY(&mX, &mY, moveUnit);
+            IsMovingNow = false; 
+        };
+
+
+        if (!IsMovingNow)
+        {// “®‚«Žn‚ß‚Ìˆ—
+            mAngle = Angle::ToAng(gotoX - mX, gotoY - mY);
+            if (!Character::CanMoveTo(gotoX+moveUnit/2, gotoY+moveUnit/2, mAngle))
+            {// i‚ß‚È‚¢
+                onMoved();
+                return false;
+            }
+            Character::DecCharacterCountOnMap(mX + moveUnit/2, mY + moveUnit / 2);
+            Character::IncCharacterCountOnMap(gotoX + moveUnit / 2, gotoY + moveUnit / 2);
+            IsMovingNow = true;
+        }
+
         if (Character::DoMove(&mX, &mY, gotoX, gotoY, mVel))
         {
-            if (std::abs(mX - gotoX) > moveUnit / 2 || std::abs(mY - gotoY) > moveUnit/2)
-            {
-                mAngle = Angle::ToAng(gotoX - mX, gotoY - mY);
-            }
-            
+            //if (std::abs(mX - gotoX) > moveUnit / 2 || std::abs(mY - gotoY) > moveUnit/2)
+            //{
+            //    mAngle = Angle::ToAng(gotoX - mX, gotoY - mY);
+            //}
             return true;
         }
         else
         {
-            mX += moveUnit / 2; mY += moveUnit / 2;
-            Character::AttachToGridXY(&mX, &mY, moveUnit);
+            onMoved();
             return false;
         }
     }

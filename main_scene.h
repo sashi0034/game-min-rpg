@@ -56,8 +56,10 @@ namespace ingame::main
         static bool DoMove(double *curX, double *curY, double toX, double toY, double vel);
         static void AttachToGridXY(double *x, double *y, int unit);
         static void GetMatXY(int *x, int *y);
-        static bool CanMoveTo(double x, double y, EAngle toAng);
+        static bool CanMoveTo(double x, double y, EAngle toAng);    // å¸Ç´ÇÕäRëŒçÙ
         static void DriveTalkEvent(int x, int y, sol::table luaData);
+        static void IncCharacterCountOnMap(double gridX, double gridY);
+        static void DecCharacterCountOnMap(double gridX, double gridY);
     };
 
 
@@ -85,6 +87,7 @@ namespace ingame::main
         double mAnimTime = 0;
         int mFrameInterval;
         EAngle mAngle = EAngle::DOWN;
+        bool IsMovingNow = false;
     public:
         Punicat(double startX, double startY, ECharacterKind characterKind, std::string uniqueName);
     protected:

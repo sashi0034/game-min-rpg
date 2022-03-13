@@ -380,8 +380,8 @@ namespace ingame::main
         double hX1 = hX / PX_PER_GRID;
         double hY1 = hY / PX_PER_GRID;
 
-        int x0 = (-hX1 / mGridUnit) - (-hX1 < 0 ? 1 : 0);
-        int y0 = (-hY1 / mGridUnit) - (-hY1 < 0 ? 1 : 0);
+        int x0 = int((-hX1 / mGridUnit) - (-hX1 < 0 ? 1 : 0));
+        int y0 = int((-hY1 / mGridUnit) - (-hY1 < 0 ? 1 : 0));
 
         for (int y = std::max(y0, 0); y <= std::min(y0 + (GRID_HEIGHT / mGridUnit), MapManager::Sole->GetHeight() - 1); ++y)
         {
