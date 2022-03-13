@@ -12,6 +12,7 @@ class Sprite
     static const int PX_PER_GRID = 3;
 
     static std::vector<Sprite*> sprites;
+    // @todo: std::map ‚àg‚Á‚ÄŒŸõŠÔ‚ª’Zk‚Å‚«‚»‚¤
 
     bool isUsed = false;
     double x = 0;

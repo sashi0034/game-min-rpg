@@ -31,5 +31,18 @@ IngameEventBase = {
         end
         return false
     end,
+
+    eventDrive = function (self, key, e)
+        if (self.key==nil) then
+            ErrLog("Event function: "..key.." is not exit.\n");
+            return
+        elseif (self.events[key]~=nil) then
+            ErrLog("Event function: "..key.." is already running.\n")
+            return
+        end
+        
+        self.events[key] = coroutine.create(self.key)
+        coroutine.resume(self.events[key], self, e)
+    end
 }
 

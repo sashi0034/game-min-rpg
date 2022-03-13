@@ -42,6 +42,14 @@ namespace ingame::main
     };
 
 
+    struct TouchEventProps
+    {
+        bool HasValue = false;
+        int X;
+        int Y;
+    };
+
+
     class Character
     {
     public:
@@ -49,20 +57,23 @@ namespace ingame::main
         static void AttachToGridXY(double *x, double *y, int unit);
         static void GetMatXY(int *x, int *y);
         static bool CanMoveTo(double x, double y, EAngle toAng);
+        static void DriveTalkEvent(int x, int y, sol::table luaData);
     };
 
 
     class MapEventManager : public LuaActor, public ISingleton<MapEventManager>
     {
         void trigger(std::string eventName, sol::table e);
+        
     protected:
         void update() override;
     public:
         MapEventManager();
         ~MapEventManager();
-        void DriveReachEvent(int x, int y);
-        void DriveTouchEvent(int x, int y);
+        void DrivePlayerReachEvent(int x, int y);
+        void DrivePlayerTouchEvent(int x, int y);
     };
+
 
 
     class Player : public LuaCollideActor, public ISingleton<Player>
@@ -77,6 +88,9 @@ namespace ingame::main
         int mFixedCount = 0;
         bool isFixed();
         EventTimer debugTimer;
+        EventTimer mRegularTimer;
+        ButtonInTimer mButton;
+        TouchEventProps mSenddingTouchEvent{};
     public:
         Player(double startX, double startY);
         ~Player();
@@ -84,10 +98,13 @@ namespace ingame::main
         double GetY();
         void IncreaseFixed();
         void DecreaseFixed();
+        bool CanPopTouchEvent(int x, int y);
+        TouchEventProps PopTouchEvent();
     protected:
         void update() override;
         void luaUpdate() override;
     private:
+        void touchSomething();
         void animation();
         bool doWaitForMove();
         bool doMove();

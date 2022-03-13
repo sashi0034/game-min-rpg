@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="40" height="28" tilewidth="16" tileheight="16" infinite="0" nextlayerid="21" nextobjectid="34">
+<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="40" height="28" tilewidth="16" tileheight="16" infinite="0" nextlayerid="22" nextobjectid="42">
  <editorsettings>
   <export target="field_01.lua" format="lua"/>
  </editorsettings>
@@ -141,6 +141,41 @@
   <object id="32" name="cat_1" type="character" x="272" y="192" width="16" height="16">
    <properties>
     <property name="kind" value="punicat"/>
+   </properties>
+  </object>
+  <object id="34" name="slime_on_bridge" type="character" x="336" y="224" width="16" height="16">
+   <properties>
+    <property name="kind" value="slime"/>
+   </properties>
+  </object>
+  <object id="35" name="chicken_fence" type="character" x="576" y="400" width="16" height="16">
+   <properties>
+    <property name="kind" value="chicken"/>
+   </properties>
+  </object>
+  <object id="36" name="house_1" type="event" x="224" y="272" width="16" height="16">
+   <properties>
+    <property name="kind" value="reach"/>
+   </properties>
+  </object>
+  <object id="37" name="house_2" type="event" x="272" y="272" width="16" height="16">
+   <properties>
+    <property name="kind" value="reach"/>
+   </properties>
+  </object>
+  <object id="38" name="cat_2" type="character" x="304" y="240" width="16" height="16">
+   <properties>
+    <property name="kind" value="punicat"/>
+   </properties>
+  </object>
+  <object id="40" name="house_3" type="event" x="160" y="176" width="16" height="16">
+   <properties>
+    <property name="kind" value="reach"/>
+   </properties>
+  </object>
+  <object id="41" name="tree_1" type="event" x="80" y="272" width="16" height="16">
+   <properties>
+    <property name="kind" value="touch"/>
    </properties>
   </object>
  </objectgroup>

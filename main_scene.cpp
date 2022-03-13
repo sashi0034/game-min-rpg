@@ -95,6 +95,8 @@ namespace ingame::main
     {
         *x = int(*x / unit) * unit;
         *y = int(*y / unit) * unit;
+        *x = (std::min)((std::max)(0.0, *x), (MapManager::Sole->GetWidth()-1) * 16.0);
+        *y = (std::min)((std::max)(0.0, *y), (MapManager::Sole->GetHeight()-1) * 16.0);
     }
     void Character::GetMatXY(int* x, int* y)
     {
@@ -129,6 +131,18 @@ namespace ingame::main
         }
     }
 
+    void Character::DriveTalkEvent(int checkX, int checkY, sol::table luaData)
+    {
+        if (Player::Sole->CanPopTouchEvent(checkX, checkY))
+        {
+            auto e = Player::Sole->PopTouchEvent();
+            int x = e.X;
+            int y = e.Y;
+            sol::table eve = luaManager::Lua.create_table_with("x", x, "y", y);
+            luaData["trigger"](luaData, "talk", e);
+        }
+    }
+
 
 }
 
@@ -150,7 +164,7 @@ namespace ingame::main
         Sole = nullptr;
     }
 
-    void MapEventManager::DriveReachEvent(int x, int y)
+    void MapEventManager::DrivePlayerReachEvent(int x, int y)
     {
         if (!MapManager::Sole->IsInRange(x, y)) return;
         for (auto &eventName : MapManager::Sole->GetMatAt(x, y)->Events.ReachEvents)
@@ -160,7 +174,7 @@ namespace ingame::main
         }
     }
 
-    void MapEventManager::DriveTouchEvent(int x, int y)
+    void MapEventManager::DrivePlayerTouchEvent(int x, int y)
     {
         if (!MapManager::Sole->IsInRange(x, y)) return;
         for (auto& eventName : MapManager::Sole->GetMatAt(x, y)->Events.TouchEvents)
@@ -211,6 +225,11 @@ namespace ingame::main
             return true; }
         , 1000 * 15);
 
+        mRegularTimer = EventTimer([&]() {
+            mButton.Update();
+            return true;
+            }, 1000/60);
+
         //new UiWindow(GRID_WIDTH/2, GRID_HEIGHT-120, 200,120,0.2, 0.2);
     }
     Player::~Player()
@@ -233,6 +252,23 @@ namespace ingame::main
     {
         mFixedCount--;
     }
+    bool Player::CanPopTouchEvent(int x, int y)
+    {
+        if (mSenddingTouchEvent.HasValue)
+        {
+            if (std::abs(mSenddingTouchEvent.X - x) + std::abs(mSenddingTouchEvent.Y - y) <= 16 + 0.1)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    TouchEventProps Player::PopTouchEvent()
+    {
+        TouchEventProps ret = mSenddingTouchEvent;
+        mSenddingTouchEvent.HasValue = false;
+        return ret;
+    }
     bool Player::isFixed()
     {
         return mFixedCount>0;
@@ -241,11 +277,13 @@ namespace ingame::main
   
     void Player::update()
     {
+        mSenddingTouchEvent.HasValue = false;
         LuaCollideActor::update();
 
         mSpr->SetXY(mX - 8, mY - 16 - 4);
         animation();
 
+        mRegularTimer.Update();
         debugTimer.Update();
     }
     void Player::luaUpdate()
@@ -266,10 +304,23 @@ namespace ingame::main
 
             if ((int(mX)) % 16 == 0 && (int(mY)) % 16 == 0)
             {
-                MapEventManager::Sole->DriveReachEvent(int(mX)/16, int(mY)/16);
+                MapEventManager::Sole->DrivePlayerReachEvent(int(mX)/16, int(mY)/16);
             }
 
             return false;
+        }
+    }
+
+    void Player::touchSomething()
+    {
+        if (mButton.CheckJustAfterPress(KEY_INPUT_SPACE))
+        {
+            if ((int(mX)) % 16 == 0 && (int(mY)) % 16 == 0)
+            {
+                auto way = Angle::ToXY(mAngle);
+                MapEventManager::Sole->DrivePlayerTouchEvent(int(mX) / 16 + way.X, int(mY) / 16 + way.Y);
+            }
+            mSenddingTouchEvent = TouchEventProps{true, int(mX), int(mY) };
         }
     }
 
@@ -377,6 +428,7 @@ namespace ingame::main
         else
         {
             mWaitTime += Time::DeltaMilli();
+            touchSomething();
             return false;
         }
     }

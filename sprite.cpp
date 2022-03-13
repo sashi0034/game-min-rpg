@@ -10,6 +10,7 @@
 
 std::vector<Sprite*> Sprite::sprites = std::vector<Sprite*>();
 
+
 void Sprite::Init()
 {
     sprites = std::vector<Sprite*>();

@@ -235,7 +235,7 @@ namespace ingame::main
             new Punicat(x, y, kind, name);
             break;
         default:
-            std::cerr ERR_LOG "Invalid character name exit.\n";
+            std::cerr ERR_LOG "Invalid character name `" <<  character << "` exit.\n";
             break;
         }
     }

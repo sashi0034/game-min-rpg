@@ -61,6 +61,15 @@ MapEventManager:addMapEvents({
         while coroutine.resume(c, 2.5) do Yield() end
 
         w:close()
+    end,
+
+    tree_1 = function (self, e)
+        local w = MessageWindow.open()
+
+        w:streamText("•’Ê‚Ì–Ø‚ª‚ ‚é")
+        while w:isRunning() do Yield() end
+   
+        w:close()
     end
 })
 

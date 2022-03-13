@@ -8,8 +8,8 @@ return {
   height = 28,
   tilewidth = 16,
   tileheight = 16,
-  nextlayerid = 21,
-  nextobjectid = 34,
+  nextlayerid = 22,
+  nextobjectid = 42,
   properties = {},
   tilesets = {
     {
@@ -249,6 +249,111 @@ return {
           visible = true,
           properties = {
             ["kind"] = "punicat"
+          }
+        },
+        {
+          id = 34,
+          name = "slime_on_bridge",
+          type = "character",
+          shape = "rectangle",
+          x = 336,
+          y = 224,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "slime"
+          }
+        },
+        {
+          id = 35,
+          name = "chicken_fence",
+          type = "character",
+          shape = "rectangle",
+          x = 576,
+          y = 400,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "chicken"
+          }
+        },
+        {
+          id = 36,
+          name = "house_1",
+          type = "event",
+          shape = "rectangle",
+          x = 224,
+          y = 272,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "reach"
+          }
+        },
+        {
+          id = 37,
+          name = "house_2",
+          type = "event",
+          shape = "rectangle",
+          x = 272,
+          y = 272,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "reach"
+          }
+        },
+        {
+          id = 38,
+          name = "cat_2",
+          type = "character",
+          shape = "rectangle",
+          x = 304,
+          y = 240,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "punicat"
+          }
+        },
+        {
+          id = 40,
+          name = "house_3",
+          type = "event",
+          shape = "rectangle",
+          x = 160,
+          y = 176,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "reach"
+          }
+        },
+        {
+          id = 41,
+          name = "tree_1",
+          type = "event",
+          shape = "rectangle",
+          x = 80,
+          y = 272,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "touch"
           }
         }
       }
