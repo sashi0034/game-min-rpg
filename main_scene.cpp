@@ -111,7 +111,7 @@ namespace ingame::main
     /// <param name="y"></param>
     /// <param name="toAng">êiÇﬁï˚å¸</param>
     /// <returns></returns>
-    bool Character::CanMoveTo(double x, double y, EAngle toAng)
+    bool Character::CanMappinglyMoveTo(double x, double y, EAngle toAng)
     {
         int matX = x, matY = y;
         GetMatXY(&matX, &matY);
@@ -130,9 +130,15 @@ namespace ingame::main
             auto gotoMat = MapManager::Sole->GetMatAt(matX, matY);
 
             return  !MapManager::Sole->GetMatAt(matX - moveXY.X, matY - moveXY.Y)->IsStep[static_cast<int>(toAng)] &&
-                (gotoMat->IsBridge || !gotoMat->IsWall) &&
-                gotoMat->CharacterCount == 0;
+                (gotoMat->IsBridge || !gotoMat->IsWall);
         }
+    }
+
+    bool Character::CanCharacterPutIn(double x, double y)
+    {
+        double delta = 0.1;
+        return (hit::GetHitRect(x + ScrollManager::Sole->GetX() + delta, y + ScrollManager::Sole->GetY() + delta,
+            16 - delta * 2, 16 - delta * 2, 1) == nullptr);
     }
 
     void Character::DriveTalkEvent(int checkX, int checkY, sol::table luaData)
@@ -147,29 +153,29 @@ namespace ingame::main
         }
     }
 
-    void Character::IncCharacterCountOnMap(double gridX, double gridY)
-    {
-        int matX = gridX, matY = gridY;
-        GetMatXY(&matX, &matY);
-        MapManager::Sole->GetMatAt(matX, matY)->CharacterCount++;
-    }
+    //void Character::IncCharacterCountOnMap(double gridX, double gridY)
+    //{
+    //    int matX = gridX, matY = gridY;
+    //    GetMatXY(&matX, &matY);
+    //    MapManager::Sole->GetMatAt(matX, matY)->CharacterCount++;
+    //}
 
-    void Character::DecCharacterCountOnMap(double gridX, double gridY)
-    {
-        int matX = gridX, matY = gridY;
-        GetMatXY(&matX, &matY);
-        MapManager::Sole->GetMatAt(matX, matY)->CharacterCount--;
-    }
+    //void Character::DecCharacterCountOnMap(double gridX, double gridY)
+    //{
+    //    int matX = gridX, matY = gridY;
+    //    GetMatXY(&matX, &matY);
+    //    MapManager::Sole->GetMatAt(matX, matY)->CharacterCount--;
+    //}
 
-    void Character::IncCharacterCountOnMapByMatXY(int matX, int matY)
-    {
-        MapManager::Sole->GetMatAt(matX, matY)->CharacterCount++;
-    }
+    //void Character::IncCharacterCountOnMapByMatXY(int matX, int matY)
+    //{
+    //    MapManager::Sole->GetMatAt(matX, matY)->CharacterCount++;
+    //}
 
-    void Character::DecCharacterCountOnMapByMatXY(int matX, int matY)
-    {
-        MapManager::Sole->GetMatAt(matX, matY)->CharacterCount--;
-    }
+    //void Character::DecCharacterCountOnMapByMatXY(int matX, int matY)
+    //{
+    //    MapManager::Sole->GetMatAt(matX, matY)->CharacterCount--;
+    //}
 
     double Character::GetZFromY(double gridY)
     {
@@ -229,7 +235,7 @@ namespace ingame::main
 namespace ingame::main
 {
     Punicat::Punicat(double startX, double startY, ECharacterKind characterKind, std::string uniqueName) : 
-        LuaCollideActor(uniqueName, true, new collider::Rectangle(4, 8, 16, 16), 1),
+        LuaCollideActor(uniqueName, true, new collider::Rectangle(-sprOriginX, -sprOriginY, 16, 16), 1),
         INonPlayerCharacter(characterKind, uniqueName)
     {
         mSpr->SetLinkXY(ScrollManager::Sole->GetSpr());
@@ -238,7 +244,6 @@ namespace ingame::main
 
         mX = startX;
         mY = startY;
-        Character::IncCharacterCountOnMap(mX+8, mY+8);
 
         mLuaData["doMove"] = [&](double x, double y)->bool {return this->doMove(x, y); };
         mLuaData["getX"] = [&]()->double {return this->mX; };
@@ -252,7 +257,7 @@ namespace ingame::main
     {
         luaManager::Lua[mLuaClassName]["update"](mLuaData);
 
-        mSpr->SetXY(mX - 4, mY - 8 - 4);
+        mSpr->SetXY(mX + sprOriginX, mY + sprOriginY);
         mSpr->SetZ(Character::GetZFromY(mY));
 
         animation();
@@ -282,32 +287,52 @@ namespace ingame::main
     }
     bool Punicat::doMove(double gotoX, double gotoY)
     {
+        if (mHasTempGoto)
+        {
+            mHasTempGoto = doMoveTemporary(mTempGotoX, mTempGotoY);
+        }
+
+        if (!mHasTempGoto)
+        {
+            if ((std::abs)(mX - gotoX) >= moveUnit / 2)
+            {
+                mTempGotoX = mX + (gotoX - mX < 0 ? -1 : 1) * moveUnit;
+                mTempGotoY = mY;
+                mHasTempGoto = true;
+            }
+            else if ((std::abs)(mTempGotoY - gotoY) >= moveUnit / 2)
+            {
+                mTempGotoY = mY + (gotoY - mY < 0 ? -1 : 1) * moveUnit;
+                mTempGotoX = mX;
+                mHasTempGoto = true;
+            }
+        }
+        return mHasTempGoto;
+    }
+
+    bool Punicat::doMoveTemporary(double gotoX, double gotoY)
+    {
         auto onMoved = [&]() {
             mX += moveUnit / 2; mY += moveUnit / 2;
             Character::AttachToGridXY(&mX, &mY, moveUnit);
-            IsMovingNow = false; 
+            IsMovingNow = false;
         };
 
 
         if (!IsMovingNow)
         {// ìÆÇ´énÇﬂÇÃèàóù
             mAngle = Angle::ToAng(gotoX - mX, gotoY - mY);
-            if (!Character::CanMoveTo(gotoX+moveUnit/2, gotoY+moveUnit/2, mAngle))
+            if (!Character::CanMappinglyMoveTo(gotoX + moveUnit / 2, gotoY + moveUnit / 2, mAngle) ||
+                !Character::CanCharacterPutIn(gotoX, gotoY))
             {// êiÇﬂÇ»Ç¢
                 onMoved();
                 return false;
             }
-            Character::DecCharacterCountOnMap(mX + moveUnit/2, mY + moveUnit / 2);
-            Character::IncCharacterCountOnMap(gotoX + moveUnit / 2, gotoY + moveUnit / 2);
             IsMovingNow = true;
         }
 
         if (Character::DoMove(&mX, &mY, gotoX, gotoY, mVel))
         {
-            //if (std::abs(mX - gotoX) > moveUnit / 2 || std::abs(mY - gotoY) > moveUnit/2)
-            //{
-            //    mAngle = Angle::ToAng(gotoX - mX, gotoY - mY);
-            //}
             return true;
         }
         else

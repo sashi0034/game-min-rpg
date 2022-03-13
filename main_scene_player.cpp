@@ -11,7 +11,7 @@ namespace ingame::main
     /// </summary>
     /// <param name="startX"></param>
     /// <param name="startY"></param>
-    Player::Player(double startX, double startY) : LuaCollideActor("Player", false, new collider::Rectangle(8, 16, 16, 16), 1)
+    Player::Player(double startX, double startY) : LuaCollideActor("Player", false, new collider::Rectangle(-sprOriginX, -sprOriginY, 16, 16), 1)
     {
         Sole = this;
 
@@ -21,9 +21,7 @@ namespace ingame::main
 
         mX = startX;
         mY = startY;
-        mMatX = int(mX) / 16;
-        mMatY = int(mY) / 16;
-        Character::IncCharacterCountOnMap(mMatX, mMatY);
+        
 
         mLuaData = luaManager::Lua[mLuaClassName]["new"]();
         mLuaData["doWaitForMove"] = [&]()->bool {return this->doWaitForMove(); };
@@ -50,6 +48,18 @@ namespace ingame::main
     Player::~Player()
     {
         Sole = nullptr;
+    }
+    void Player::update()
+    {
+        mSenddingTouchEvent.HasValue = false;
+        LuaCollideActor::update();
+
+        mSpr->SetXY(mX +sprOriginX, mY +sprOriginY);
+        mSpr->SetZ(Character::GetZFromY(mY));
+        animation();
+
+        mRegularTimer.Update();
+        debugTimer.Update();
     }
     double Player::GetX()
     {
@@ -121,18 +131,7 @@ namespace ingame::main
     }
 
 
-    void Player::update()
-    {
-        mSenddingTouchEvent.HasValue = false;
-        LuaCollideActor::update();
 
-        mSpr->SetXY(mX - 8, mY - 16 - 4);
-        mSpr->SetZ(Character::GetZFromY(mY));
-        animation();
-
-        mRegularTimer.Update();
-        debugTimer.Update();
-    }
     void Player::luaUpdate()
     {
         luaManager::Lua[mLuaClassName]["update"](mLuaData);
@@ -140,15 +139,6 @@ namespace ingame::main
 
     bool Player::doMove()
     {
-        if (!mIsMoveingNow)
-        {// “®‚«Žn‚ß‚½’¼Œã
-            Character::DecCharacterCountOnMapByMatXY(mMatX, mMatY);
-            mMatX = mGotoX + 8;
-            mMatY = mGotoY + 8;
-            Character::GetMatXY(&mMatX, &mMatY);
-            Character::IncCharacterCountOnMapByMatXY(mMatX, mMatY);
-            mIsMoveingNow = true;
-        }
 
         if (Character::DoMove(&mX, &mY, mGotoX, mGotoY, mVel))
         {
@@ -164,7 +154,6 @@ namespace ingame::main
                 MapEventManager::Sole->DrivePlayerReachEvent(int(mX) / 16, int(mY) / 16);
             }
 
-            mIsMoveingNow = false;
             return false;
         }
     }
@@ -244,31 +233,31 @@ namespace ingame::main
 
             bool canMove = false;
 
-            Character::DecCharacterCountOnMapByMatXY(mMatX, mMatY);
             switch (ang)
             {
             case EAngle::RIGHT:
                 canMove =
-                    Character::CanMoveTo(mX + 16 * 3 / 4 + xy.X * moveUnit, mY + 16 * 1 / 4 + xy.Y * moveUnit, ang) &&
-                    Character::CanMoveTo(mX + 16 * 3 / 4 + xy.X * moveUnit, mY + 16 * 3 / 4 + xy.Y * moveUnit, ang);
+                    Character::CanMappinglyMoveTo(mX + 16 * 3 / 4 + xy.X * moveUnit, mY + 16 * 1 / 4 + xy.Y * moveUnit, ang) &&
+                    Character::CanMappinglyMoveTo(mX + 16 * 3 / 4 + xy.X * moveUnit, mY + 16 * 3 / 4 + xy.Y * moveUnit, ang);
                 break;
             case EAngle::DOWN:
                 canMove =
-                    Character::CanMoveTo(mX + 16 * 1 / 4 + xy.X * moveUnit, mY + 16 * 3 / 4 + xy.Y * moveUnit, ang) &&
-                    Character::CanMoveTo(mX + 16 * 3 / 4 + xy.X * moveUnit, mY + 16 * 3 / 4 + xy.Y * moveUnit, ang);
+                    Character::CanMappinglyMoveTo(mX + 16 * 1 / 4 + xy.X * moveUnit, mY + 16 * 3 / 4 + xy.Y * moveUnit, ang) &&
+                    Character::CanMappinglyMoveTo(mX + 16 * 3 / 4 + xy.X * moveUnit, mY + 16 * 3 / 4 + xy.Y * moveUnit, ang);
                 break;
             case EAngle::LEFT:
                 canMove =
-                    Character::CanMoveTo(mX + 16 * 1 / 4 + xy.X * moveUnit, mY + 16 * 1 / 4 + xy.Y * moveUnit, ang) &&
-                    Character::CanMoveTo(mX + 16 * 1 / 4 + xy.X * moveUnit, mY + 16 * 3 / 4 + xy.Y * moveUnit, ang);
+                    Character::CanMappinglyMoveTo(mX + 16 * 1 / 4 + xy.X * moveUnit, mY + 16 * 1 / 4 + xy.Y * moveUnit, ang) &&
+                    Character::CanMappinglyMoveTo(mX + 16 * 1 / 4 + xy.X * moveUnit, mY + 16 * 3 / 4 + xy.Y * moveUnit, ang);
                 break;
             case EAngle::UP:
                 canMove =
-                    Character::CanMoveTo(mX + 16 * 1 / 4 + xy.X * moveUnit, mY + 16 * 1 / 4 + xy.Y * moveUnit, ang) &&
-                    Character::CanMoveTo(mX + 16 * 3 / 4 + xy.X * moveUnit, mY + 16 * 1 / 4 + xy.Y * moveUnit, ang);
+                    Character::CanMappinglyMoveTo(mX + 16 * 1 / 4 + xy.X * moveUnit, mY + 16 * 1 / 4 + xy.Y * moveUnit, ang) &&
+                    Character::CanMappinglyMoveTo(mX + 16 * 3 / 4 + xy.X * moveUnit, mY + 16 * 1 / 4 + xy.Y * moveUnit, ang);
                 break;
             }
-            Character::IncCharacterCountOnMapByMatXY(mMatX, mMatY);
+
+            canMove = canMove && Character::CanCharacterPutIn(mX + xy.X*16, mY + xy.Y*16);
 
             if (canMove)
             {

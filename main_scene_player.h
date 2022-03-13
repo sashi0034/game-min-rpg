@@ -7,9 +7,10 @@ namespace ingame::main
 
     class Player : public LuaCollideActor, public ISingleton<Player>
     {
-        const int moveUnit = 8;
+        static const int moveUnit = 8;
+        static const int sprOriginX = -8;
+        static const int sprOriginY = -(16+4);
         double mX, mY;
-        int mMatX, mMatY;
         double mGotoX = 0, mGotoY = 0;
         EAngle mAngle = EAngle::DOWN;
         double mVel = 0;
@@ -17,7 +18,6 @@ namespace ingame::main
         int mAnimTime = 0;
         int mWaitTime = 0;
         int mFixedCount = 0;
-        bool mIsMoveingNow = false;
         bool isFixed();
         EventTimer debugTimer;
         EventTimer mRegularTimer;

@@ -108,11 +108,10 @@ namespace gameEngine
 		auto GetColbit();
 		auto GetShape();
 		CollideActor(collider::Shape* shape, UINT colbit);
+		virtual ~CollideActor();
 
 		CollideActor* GetHit();
 		bool GetHitWith(CollideActor* actor);
-	protected:
-		void destructor() override;
 	};
 
 	

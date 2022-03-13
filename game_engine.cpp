@@ -164,6 +164,13 @@ namespace gameEngine
 		CollideActor::colliders.push_back(this);
 	}
 
+	CollideActor::~CollideActor()
+	{
+		useful::Remove<CollideActor*>(&colliders, this);
+		std::cout OUT_LOG colliders.size();
+		delete mShape;
+	}
+
 	CollideActor* CollideActor::GetHit()
 	{
 		return hit::GetHitCollideActor(this);
@@ -186,11 +193,6 @@ namespace gameEngine
 		return false;
 	}
 
-	void CollideActor::destructor()
-	{
-		gameUtils::useful::Remove<CollideActor*>(colliders, this);
-		Actor::destructor();
-	}
 
 
 }
@@ -259,9 +261,9 @@ namespace gameEngine
 		case (collider::EType::RECTANGLE):
 		{
 			auto rect = (collider::Rectangle*)shape;
-			int x{}, y{};
-			col->GetSpr()->GetScreenXY(&x, &y);
-			if (CheckRectRect(x + rect->ColX, x + rect->ColY, rect->ColWidth, rect->ColHeight,
+			int sprX{}, sprY{};
+			col->GetSpr()->GetScreenXY(&sprX, &sprY);
+			if (CheckRectRect(sprX + rect->ColX, sprY + rect->ColY, rect->ColWidth, rect->ColHeight,
 				x, y, width, height))
 			{
 				return true;
@@ -303,9 +305,9 @@ namespace gameEngine
 			case collider::EType::RECTANGLE:
 			{
 				auto rect = (collider::Rectangle*)actor->GetShape();
-				int x{}, y{};
-				actor->GetSpr()->GetScreenXY(&x, &y);
-				auto res = hit::GetHitRectFromIndex(x+rect->ColX, y+rect->ColY,
+				int sprX{}, sprY{};
+				actor->GetSpr()->GetScreenXY(&sprX, &sprY);
+				auto res = hit::GetHitRectFromIndex(sprX+rect->ColX, sprY+rect->ColY,
 					rect->ColWidth, rect->ColHeight, actor->GetColbit(), i);
 				col = res.first;
 				i = res.second;

@@ -36,6 +36,8 @@ cat_1 = {
         
         while self.doMove(x, y) do Yield() end
         while self.doMove(x-32, y) do Yield() end
+        while self.doMove(x-16, y) do Yield() end
+        while self.doMove(x+16, y-16) do Yield() end
 
     end
 }

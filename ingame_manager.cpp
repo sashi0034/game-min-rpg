@@ -347,6 +347,16 @@ namespace ingame::main
         mSpr->SetXY(mX, mY);
     }
 
+    double ScrollManager::GetX()
+    {
+        return mX;
+    }
+
+    double ScrollManager::GetY()
+    {
+        return mY;
+    }
+
     ScrollManager::~ScrollManager()
     {
         Sole = nullptr;

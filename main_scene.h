@@ -56,12 +56,13 @@ namespace ingame::main
         static bool DoMove(double *curX, double *curY, double toX, double toY, double vel);
         static void AttachToGridXY(double *x, double *y, int unit);
         static void GetMatXY(int *x, int *y);
-        static bool CanMoveTo(double x, double y, EAngle toAng);    // å¸Ç´ÇÕäRëŒçÙ
+        static bool CanMappinglyMoveTo(double x, double y, EAngle toAng);    // å¸Ç´ÇÕäRëŒçÙ
+        static bool CanCharacterPutIn(double x, double y);
         static void DriveTalkEvent(int x, int y, sol::table luaData);
-        static void IncCharacterCountOnMap(double gridX, double gridY);
-        static void DecCharacterCountOnMap(double gridX, double gridY);
-        static void IncCharacterCountOnMapByMatXY(int matX, int matY);
-        static void DecCharacterCountOnMapByMatXY(int matX, int matY);
+        //static void IncCharacterCountOnMap(double gridX, double gridY);
+        //static void DecCharacterCountOnMap(double gridX, double gridY);
+        //static void IncCharacterCountOnMapByMatXY(int matX, int matY);
+        //static void DecCharacterCountOnMapByMatXY(int matX, int matY);
         static double GetZFromY(double gridY);
     };
 
@@ -84,8 +85,12 @@ namespace ingame::main
 
     class Punicat : public LuaCollideActor, public INonPlayerCharacter
     {
-        const int moveUnit = 16;
+        static const int moveUnit = 16;
+        static const int sprOriginX = -4;
+        static const int sprOriginY = -4 - 8;
         double mX, mY;
+        double mTempGotoX, mTempGotoY;
+        bool mHasTempGoto = false;
         double mVel;
         double mAnimTime = 0;
         int mFrameInterval;
@@ -97,6 +102,7 @@ namespace ingame::main
         void update() override;
         void animation();
         bool doMove(double x, double y);
+        bool doMoveTemporary(double x, double y);
     };
 
 

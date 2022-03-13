@@ -47,12 +47,12 @@ namespace gameUtils
 
 	namespace useful {
 		template<typename T>
-		int FindIndex(std::vector<T> arr, T target)
+		int FindIndex(std::vector<T> *arr, T target)
 		{
-			auto size = arr.size();
+			auto size = (*arr).size();
 			if (size == 0) return -1;
-			auto iter = std::find(arr.begin(), arr.end(), target);
-			size_t index = std::distance(arr.begin(), iter);
+			auto iter = std::find((*arr).begin(), (*arr).end(), target);
+			size_t index = std::distance((*arr).begin(), iter);
 			if (index == size)
 			{
 				return -1;
@@ -61,11 +61,11 @@ namespace gameUtils
 		}
 
 		template<typename T>
-		int Remove(std::vector<T> arr, T target)
+		int Remove(std::vector<T> *arr, T target)
 		{
 			int index = useful::FindIndex<T>(arr, target);
 			if (index == -1) return -1;
-			arr.erase(arr.begin() + index);
+			(*arr).erase((*arr).begin() + index);
 			return 0;
 		}
 

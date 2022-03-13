@@ -77,7 +77,7 @@ namespace ingame
 			bool IsWall = false;
 			bool IsBridge = false;
 			bool IsStep[4] = {false, false, false, false};
-			short CharacterCount = 0;
+			//short CharacterCount = 0;
 			
 			EventElement Events{};
 
@@ -126,6 +126,8 @@ namespace ingame
 		public:
 			ScrollManager();
 			~ScrollManager();
+			double GetX();
+			double GetY();
 		protected:
 			void update() override;
 		};
