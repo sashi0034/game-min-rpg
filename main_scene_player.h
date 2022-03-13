@@ -9,12 +9,15 @@ namespace ingame::main
     {
         const int moveUnit = 8;
         double mX, mY;
+        int mMatX, mMatY;
         double mGotoX = 0, mGotoY = 0;
         EAngle mAngle = EAngle::DOWN;
         double mVel = 0;
+        double mVelStandard = 0;
         int mAnimTime = 0;
         int mWaitTime = 0;
         int mFixedCount = 0;
+        bool mIsMoveingNow = false;
         bool isFixed();
         EventTimer debugTimer;
         EventTimer mRegularTimer;

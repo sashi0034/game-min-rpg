@@ -127,8 +127,11 @@ namespace ingame::main
 
             useful::Vec2 moveXY = Angle::ToXY(toAng);
 
+            auto gotoMat = MapManager::Sole->GetMatAt(matX, matY);
+
             return  !MapManager::Sole->GetMatAt(matX - moveXY.X, matY - moveXY.Y)->IsStep[static_cast<int>(toAng)] &&
-                (MapManager::Sole->GetMatAt(matX, matY)->IsBridge || !MapManager::Sole->GetMatAt(matX, matY)->IsWall);
+                (gotoMat->IsBridge || !gotoMat->IsWall) &&
+                gotoMat->CharacterCount == 0;
         }
     }
 
@@ -156,6 +159,22 @@ namespace ingame::main
         int matX = gridX, matY = gridY;
         GetMatXY(&matX, &matY);
         MapManager::Sole->GetMatAt(matX, matY)->CharacterCount--;
+    }
+
+    void Character::IncCharacterCountOnMapByMatXY(int matX, int matY)
+    {
+        MapManager::Sole->GetMatAt(matX, matY)->CharacterCount++;
+    }
+
+    void Character::DecCharacterCountOnMapByMatXY(int matX, int matY)
+    {
+        MapManager::Sole->GetMatAt(matX, matY)->CharacterCount--;
+    }
+
+    double Character::GetZFromY(double gridY)
+    {
+        static const int maxY = 16 * 256;
+        return ZIndex::CHARACTER - gridY/maxY * 1000 ;
     }
 
 
@@ -234,6 +253,7 @@ namespace ingame::main
         luaManager::Lua[mLuaClassName]["update"](mLuaData);
 
         mSpr->SetXY(mX - 4, mY - 8 - 4);
+        mSpr->SetZ(Character::GetZFromY(mY));
 
         animation();
     }

@@ -60,6 +60,9 @@ namespace ingame::main
         static void DriveTalkEvent(int x, int y, sol::table luaData);
         static void IncCharacterCountOnMap(double gridX, double gridY);
         static void DecCharacterCountOnMap(double gridX, double gridY);
+        static void IncCharacterCountOnMapByMatXY(int matX, int matY);
+        static void DecCharacterCountOnMapByMatXY(int matX, int matY);
+        static double GetZFromY(double gridY);
     };
 
 

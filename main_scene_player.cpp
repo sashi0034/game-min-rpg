@@ -21,13 +21,17 @@ namespace ingame::main
 
         mX = startX;
         mY = startY;
+        mMatX = int(mX) / 16;
+        mMatY = int(mY) / 16;
+        Character::IncCharacterCountOnMap(mMatX, mMatY);
 
         mLuaData = luaManager::Lua[mLuaClassName]["new"]();
         mLuaData["doWaitForMove"] = [&]()->bool {return this->doWaitForMove(); };
         mLuaData["doMove"] = [&]()->bool {return this->doMove(); };
         mLuaData["isFixed"] = [&]()->bool {return this->isFixed(); };
 
-        mVel = mLuaData["vel"];
+        mVelStandard = mLuaData["vel"].get_or(1);
+        mVel = mVelStandard;
 
         debugTimer = EventTimer([&]() {
             std::cout OUT_LOG
@@ -55,6 +59,9 @@ namespace ingame::main
     {
         return mY;
     }
+    /// <summary>
+    /// ウインドウ表示などでプレイヤーを固定させるときに呼ぶ
+    /// </summary>
     void Player::IncreaseFixed()
     {
         mFixedCount++;
@@ -120,6 +127,7 @@ namespace ingame::main
         LuaCollideActor::update();
 
         mSpr->SetXY(mX - 8, mY - 16 - 4);
+        mSpr->SetZ(Character::GetZFromY(mY));
         animation();
 
         mRegularTimer.Update();
@@ -132,6 +140,16 @@ namespace ingame::main
 
     bool Player::doMove()
     {
+        if (!mIsMoveingNow)
+        {// 動き始めた直後
+            Character::DecCharacterCountOnMapByMatXY(mMatX, mMatY);
+            mMatX = mGotoX + 8;
+            mMatY = mGotoY + 8;
+            Character::GetMatXY(&mMatX, &mMatY);
+            Character::IncCharacterCountOnMapByMatXY(mMatX, mMatY);
+            mIsMoveingNow = true;
+        }
+
         if (Character::DoMove(&mX, &mY, mGotoX, mGotoY, mVel))
         {
             return true;
@@ -146,6 +164,7 @@ namespace ingame::main
                 MapEventManager::Sole->DrivePlayerReachEvent(int(mX) / 16, int(mY) / 16);
             }
 
+            mIsMoveingNow = false;
             return false;
         }
     }
@@ -225,6 +244,7 @@ namespace ingame::main
 
             bool canMove = false;
 
+            Character::DecCharacterCountOnMapByMatXY(mMatX, mMatY);
             switch (ang)
             {
             case EAngle::RIGHT:
@@ -248,9 +268,13 @@ namespace ingame::main
                     Character::CanMoveTo(mX + 16 * 3 / 4 + xy.X * moveUnit, mY + 16 * 1 / 4 + xy.Y * moveUnit, ang);
                 break;
             }
+            Character::IncCharacterCountOnMapByMatXY(mMatX, mMatY);
 
             if (canMove)
             {
+                mVel = mVelStandard * 
+                    (Input::Sole->GetKeyDown(KEY_INPUT_RSHIFT) || Input::Sole->GetKeyDown(KEY_INPUT_LSHIFT) ? 2.0 : 1.0);   // ダッシュをするか
+
                 mGotoX = mX + xy.X * moveUnit;
                 mGotoY = mY + xy.Y * moveUnit;
 
