@@ -59,6 +59,9 @@ namespace ingame
             Graph* Tree = loadPng("tree_16x16");
             Graph* Kisaragi = loadPng("kisaragi_24x24");
             Graph* Punicat = loadPng("punicat_24x24");
+            Graph* Castle = loadPng("castle_32x32");
+            Graph* RockZone = loadPng("rock_zone_16x16");
+
             Graph* UiWindowBlack = loadPng("ui/window_black");
             Graph* UiArrow = loadPng("ui/arrow_16x16");
 

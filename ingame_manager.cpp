@@ -278,6 +278,9 @@ namespace ingame::main
 		case ETileName::weed:
 			new main::Weed(x, y);
 			return true;
+        case ETileName::castle:
+            new main::Castle(x, y);
+            return true;
 		default:
 			return false;
 		}
@@ -404,9 +407,9 @@ namespace ingame::main
         const int unit = 16;
         useful::Vec2<int> clipXY[16] = {
             useful::Vec2<int>{0 * unit, 0 * unit}, //        
-            useful::Vec2<int>{0 * unit, 3 * unit}, //       D
-            useful::Vec2<int>{0 * unit, 1 * unit}, //     U  
-            useful::Vec2<int>{1 * unit, 2 * unit}, //     U D
+            useful::Vec2<int>{0 * unit, 1 * unit}, //       D
+            useful::Vec2<int>{0 * unit, 3 * unit}, //     U  
+            useful::Vec2<int>{0 * unit, 2 * unit}, //     U D
 
             useful::Vec2<int>{1 * unit, 0 * unit}, //   R    
             useful::Vec2<int>{1 * unit, 1 * unit}, //   R   D
@@ -430,25 +433,49 @@ namespace ingame::main
         int down = static_cast<int>(canConnect(matX, matY + 1));
         int index = (left << 3) + (right << 2) + (up << 1) + (down << 0);
 
-        srcImage->DrawGraph(dpX, dpY, srcX + clipXY[index].X, srcY + clipXY[index].Y, unit, unit, PX_PER_GRID);
+
+        auto drawQuarter = [&](int x1, int y1) {
+            srcImage->DrawGraph(
+                dpX + x1 * unit / 2 * PX_PER_GRID, 
+                dpY + y1 * unit / 2 * PX_PER_GRID, 
+                srcX + clipXY[index].X + x1 * unit / 2, 
+                srcY + y1 * unit / 2 + clipXY[index].Y, 
+                unit / 2, unit / 2, PX_PER_GRID);
+        };
+
+        int drawedFlag = 0;
 
         if (left != 0 && up != 0 && !canConnect(matX - 1, matY - 1))
-        {
+        {// Šp‚ ‚è
             srcImage->DrawGraph(dpX, dpY, srcX, srcY + unit * 4, unit, unit, PX_PER_GRID);
+            drawedFlag += 1 << 0;
         }
-        else if (right != 0 && up != 0 && !canConnect(matX + 1, matY - 1))
+        if (right != 0 && up != 0 && !canConnect(matX + 1, matY - 1))
         {
             srcImage->DrawGraph(dpX, dpY, srcX + unit * 1, srcY + unit * 4, unit, unit, PX_PER_GRID);
+            drawedFlag += 1 << 1;
         }
-        else if (left != 0 && down != 0 && !canConnect(matX - 1, matY + 1))
+        if (left != 0 && down != 0 && !canConnect(matX - 1, matY + 1))
         {
             srcImage->DrawGraph(dpX, dpY, srcX + unit * 0, srcY + unit * 5, unit, unit, PX_PER_GRID);
+            drawedFlag += 1<<2;
         }
-        else if (right != 0 && down != 0 && !canConnect(matX + 1, matY + 1))
+        if (right != 0 && down != 0 && !canConnect(matX + 1, matY + 1))
         {
             srcImage->DrawGraph(dpX, dpY, srcX + unit * 1, srcY + unit * 5, unit, unit, PX_PER_GRID);
+            drawedFlag += 1 << 3;
         }
-
+        if (drawedFlag==0)
+        {// ’Êí
+            srcImage->DrawGraph(dpX, dpY, srcX + clipXY[index].X, srcY + clipXY[index].Y, unit, unit, PX_PER_GRID);
+        }
+        else
+        {
+            for (int i = 0; i < 4; ++i)
+            {
+                if (!(drawedFlag & (1 << i)))  drawQuarter(i % 2, i / 2);
+            }
+        }
     }
 
     bool FieldLayerBase::canConnect(int x, int y, ETileName tile)
@@ -509,6 +536,10 @@ namespace ingame::main
         case ETileName::meadows:
             drawingAutoTile(matX, matY, dpX, dpY, Images->NaturalTile, 16 * 4 * 2, 0,
                 [&](int x, int y) {return canConnect(x, y, ETileName::meadows); });
+            break;
+        case ETileName::rock_zone:
+            drawingAutoTile(matX, matY, dpX, dpY, Images->RockZone, 16 * 4 * 0, 0,
+                [&](int x, int y) {return canConnect(x, y, ETileName::rock_zone); });
             break;
         default:
             MapManager::Sole->GetTilesetGraph()->DrawGraph(dpX, dpY, chip->srcX, chip->srcY, 16, 16, PX_PER_GRID);

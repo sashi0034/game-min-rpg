@@ -531,6 +531,13 @@ namespace ingame::main
         FieldDecorationBase::update();
     }
 
+    Castle::Castle(int x, int y) : FieldDecorationBase(x, y) { mAnimTime = (x + y) * 100; }
+    void Castle::update()
+    {
+        mSpr->SetImage(Images->Castle, ((int)(mAnimTime / 300) % 4) * 32, 0, 32, 32);
+        FieldDecorationBase::update();
+    }
+
 
 
 

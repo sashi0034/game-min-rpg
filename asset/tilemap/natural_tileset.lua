@@ -51,6 +51,13 @@ return {
       }
     },
     {
+      id = 21,
+      properties = {
+        ["name"] = "rock_zone",
+        ["wall"] = true
+      }
+    },
+    {
       id = 33,
       properties = {
         ["name"] = ""
@@ -73,6 +80,18 @@ return {
       id = 36,
       properties = {
         ["name"] = ""
+      }
+    },
+    {
+      id = 37,
+      properties = {
+        ["name"] = "grass"
+      }
+    },
+    {
+      id = 38,
+      properties = {
+        ["name"] = "grass"
       }
     },
     {
@@ -173,6 +192,37 @@ return {
       properties = {
         ["bridge"] = true,
         ["wall"] = false
+      }
+    },
+    {
+      id = 132,
+      properties = {
+        ["bridge"] = true,
+        ["wall"] = false
+      }
+    },
+    {
+      id = 136,
+      properties = {
+        ["name"] = "castle"
+      }
+    },
+    {
+      id = 147,
+      properties = {
+        ["wall"] = true
+      }
+    },
+    {
+      id = 148,
+      properties = {
+        ["wall"] = true
+      }
+    },
+    {
+      id = 149,
+      properties = {
+        ["wall"] = true
       }
     },
     {
@@ -377,19 +427,24 @@ return {
     {
       id = 212,
       properties = {
-        ["wall"] = true
+        ["step_left"] = true,
+        ["step_up"] = true,
+        ["wall"] = false
       }
     },
     {
       id = 213,
       properties = {
-        ["wall"] = true
+        ["step_up"] = true,
+        ["wall"] = false
       }
     },
     {
       id = 214,
       properties = {
-        ["wall"] = true
+        ["step_right"] = true,
+        ["step_up"] = true,
+        ["wall"] = false
       }
     },
     {
@@ -439,19 +494,21 @@ return {
     {
       id = 228,
       properties = {
-        ["wall"] = true
+        ["step_left"] = true,
+        ["wall"] = false
       }
     },
     {
       id = 229,
       properties = {
-        ["wall"] = true
+        ["wall"] = false
       }
     },
     {
       id = 230,
       properties = {
-        ["wall"] = true
+        ["step_right"] = true,
+        ["wall"] = false
       }
     },
     {
@@ -474,6 +531,24 @@ return {
     },
     {
       id = 243,
+      properties = {
+        ["wall"] = true
+      }
+    },
+    {
+      id = 244,
+      properties = {
+        ["wall"] = true
+      }
+    },
+    {
+      id = 245,
+      properties = {
+        ["wall"] = true
+      }
+    },
+    {
+      id = 246,
       properties = {
         ["wall"] = true
       }

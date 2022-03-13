@@ -25,6 +25,12 @@
    <property name="name" value="meadows"/>
   </properties>
  </tile>
+ <tile id="21">
+  <properties>
+   <property name="name" value="rock_zone"/>
+   <property name="wall" type="bool" value="true"/>
+  </properties>
+ </tile>
  <tile id="33">
   <properties>
    <property name="name" value=""/>
@@ -43,6 +49,16 @@
  <tile id="36">
   <properties>
    <property name="name" value=""/>
+  </properties>
+ </tile>
+ <tile id="37">
+  <properties>
+   <property name="name" value="grass"/>
+  </properties>
+ </tile>
+ <tile id="38">
+  <properties>
+   <property name="name" value="grass"/>
   </properties>
  </tile>
  <tile id="65">
@@ -127,6 +143,32 @@
   <properties>
    <property name="bridge" type="bool" value="true"/>
    <property name="wall" type="bool" value="false"/>
+  </properties>
+ </tile>
+ <tile id="132">
+  <properties>
+   <property name="bridge" type="bool" value="true"/>
+   <property name="wall" type="bool" value="false"/>
+  </properties>
+ </tile>
+ <tile id="136">
+  <properties>
+   <property name="name" value="castle"/>
+  </properties>
+ </tile>
+ <tile id="147">
+  <properties>
+   <property name="wall" type="bool" value="true"/>
+  </properties>
+ </tile>
+ <tile id="148">
+  <properties>
+   <property name="wall" type="bool" value="true"/>
+  </properties>
+ </tile>
+ <tile id="149">
+  <properties>
+   <property name="wall" type="bool" value="true"/>
   </properties>
  </tile>
  <tile id="161">
@@ -300,17 +342,22 @@
  </tile>
  <tile id="212">
   <properties>
-   <property name="wall" type="bool" value="true"/>
+   <property name="step_left" type="bool" value="true"/>
+   <property name="step_up" type="bool" value="true"/>
+   <property name="wall" type="bool" value="false"/>
   </properties>
  </tile>
  <tile id="213">
   <properties>
-   <property name="wall" type="bool" value="true"/>
+   <property name="step_up" type="bool" value="true"/>
+   <property name="wall" type="bool" value="false"/>
   </properties>
  </tile>
  <tile id="214">
   <properties>
-   <property name="wall" type="bool" value="true"/>
+   <property name="step_right" type="bool" value="true"/>
+   <property name="step_up" type="bool" value="true"/>
+   <property name="wall" type="bool" value="false"/>
   </properties>
  </tile>
  <tile id="215">
@@ -352,17 +399,19 @@
  </tile>
  <tile id="228">
   <properties>
-   <property name="wall" type="bool" value="true"/>
+   <property name="step_left" type="bool" value="true"/>
+   <property name="wall" type="bool" value="false"/>
   </properties>
  </tile>
  <tile id="229">
   <properties>
-   <property name="wall" type="bool" value="true"/>
+   <property name="wall" type="bool" value="false"/>
   </properties>
  </tile>
  <tile id="230">
   <properties>
-   <property name="wall" type="bool" value="true"/>
+   <property name="step_right" type="bool" value="true"/>
+   <property name="wall" type="bool" value="false"/>
   </properties>
  </tile>
  <tile id="231">
@@ -381,6 +430,21 @@
   </properties>
  </tile>
  <tile id="243">
+  <properties>
+   <property name="wall" type="bool" value="true"/>
+  </properties>
+ </tile>
+ <tile id="244">
+  <properties>
+   <property name="wall" type="bool" value="true"/>
+  </properties>
+ </tile>
+ <tile id="245">
+  <properties>
+   <property name="wall" type="bool" value="true"/>
+  </properties>
+ </tile>
+ <tile id="246">
   <properties>
    <property name="wall" type="bool" value="true"/>
   </properties>

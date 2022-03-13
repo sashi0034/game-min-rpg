@@ -145,6 +145,14 @@ namespace ingame::main
         void update() override;
     };
 
+    class Castle : public FieldDecorationBase
+    {
+    public:
+        Castle(int x, int y);
+    protected:
+        void update() override;
+    };
+
 
 }
 

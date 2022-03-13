@@ -29,10 +29,12 @@ namespace ingame
 			water_place,
 			sand_pit,
 			meadows,
+			rock_zone,
 			grass,
 			tree,
 			house,
 			weed,
+			castle,
 		};
 
 		enum class ECharacterKind
