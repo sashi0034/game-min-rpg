@@ -186,3 +186,116 @@ namespace ingame
 
 
 
+
+namespace ingame::main
+{
+    /// <summary>
+    /// NPCの基底
+    /// デフォルトでLua側に"doMove", "getX", "getY"が登録され、
+    /// "vel"がLuaから読み込まれる
+    /// </summary>
+    /// <param name="startX"></param>
+    /// <param name="startY"></param>
+    /// <param name="characterKind"></param>
+    /// <param name="uniqueName"></param>
+    /// <param name="sprOriginX"></param>
+    /// <param name="sprOriginY"></param>
+    NPCBase::NPCBase(double startX, double startY, ECharacterKind characterKind, std::string uniqueName, int sprOriginX, int sprOriginY) :
+        LuaCollideActor(uniqueName, true, new collider::Rectangle(-sprOriginX, -sprOriginY, 16, 16), 1),
+        INonPlayerCharacter(characterKind, uniqueName)
+    {
+        mSpr->SetLinkXY(ScrollManager::Sole->GetSpr());
+        mSpr->SetZ(ZIndex::CHARACTER);
+
+        mX = startX;
+        mY = startY;
+
+        mLuaData["doMove"] = [&](double x, double y)->bool {return this->doMove(x, y); };
+        mLuaData["getX"] = [&]()->double {return this->mX; };
+        mLuaData["getY"] = [&]()->double {return this->mY; };
+
+        mVel = mLuaData["vel"];
+
+        this->sprOriginX = sprOriginX;
+        this->sprOriginY = sprOriginY;
+    }
+
+    void NPCBase::update()
+    {
+        luaManager::Lua[mLuaClassName]["update"](mLuaData);
+
+        driveTalkEvent();
+        animation();
+
+
+        mSpr->SetXY(mX + sprOriginX, mY + sprOriginY);
+        mSpr->SetZ(Character::GetZFromY(mY));
+
+    }
+    void NPCBase::driveTalkEvent()
+    {
+        if (Character::DriveTalkEvent(mX, mY, mLuaData))
+        {
+            mAngle = Character::TurnTowardPlayer(mX, mY);
+        }
+    }
+    bool NPCBase::doMove(double gotoX, double gotoY)
+    {
+        if (mHasTempGoto)
+        {
+            mHasTempGoto = doMoveTemporary(mTempGotoX, mTempGotoY);
+        }
+
+        if (!mHasTempGoto)
+        {
+            if ((std::abs)(mX - gotoX) >= moveUnit / 2)
+            {
+                mTempGotoX = mX + (gotoX - mX < 0 ? -1 : 1) * moveUnit;
+                mTempGotoY = mY;
+                mHasTempGoto = true;
+            }
+            else if ((std::abs)(mTempGotoY - gotoY) >= moveUnit / 2)
+            {
+                mTempGotoY = mY + (gotoY - mY < 0 ? -1 : 1) * moveUnit;
+                mTempGotoX = mX;
+                mHasTempGoto = true;
+            }
+        }
+        return mHasTempGoto;
+    }
+
+    bool NPCBase::doMoveTemporary(double gotoX, double gotoY)
+    {
+        auto onMoved = [&]() {
+            mX += moveUnit / 2; mY += moveUnit / 2;
+            Character::AttachToGridXY(&mX, &mY, moveUnit);
+            IsMovingNow = false;
+        };
+
+
+        if (!IsMovingNow)
+        {// 動き始めの処理
+            mAngle = Angle::ToAng(gotoX - mX, gotoY - mY);
+            if (!Character::CanMappinglyMoveTo(gotoX + moveUnit / 2, gotoY + moveUnit / 2, mAngle) ||
+                !Character::CanCharacterPutIn(gotoX, gotoY))
+            {// 進めない
+                onMoved();
+                return false;
+            }
+            IsMovingNow = true;
+        }
+
+        if (Character::DoMoveInStep(&mX, &mY, gotoX, gotoY, mVel))
+        {
+            return true;
+        }
+        else
+        {
+            onMoved();
+            return false;
+        }
+    }
+
+}
+
+

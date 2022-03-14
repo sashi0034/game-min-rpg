@@ -63,7 +63,7 @@ namespace ingame::main
     /// <param name="toY"></param>
     /// <param name="vel">‘¬“x</param>
     /// <returns>Š®—¹‚µ‚½‚çtrue</returns>
-    bool Character::DoMove(double* curX, double* curY, double toX, double toY, double vel)
+    bool Character::DoMoveInStep(double* curX, double* curY, double toX, double toY, double vel)
     {
         double vx = 0, vy = 0;
         double delta = 0.1;
@@ -239,40 +239,17 @@ namespace ingame::main
 }
 
 
+
 namespace ingame::main
 {
-    Punicat::Punicat(double startX, double startY, ECharacterKind characterKind, std::string uniqueName) : 
-        LuaCollideActor(uniqueName, true, new collider::Rectangle(-sprOriginX, -sprOriginY, 16, 16), 1),
-        INonPlayerCharacter(characterKind, uniqueName)
+    Punicat::Punicat(double startX, double startY, ECharacterKind characterKind, std::string uniqueName) :
+        NPCBase(startX, startY, characterKind, uniqueName, sprOriginX, sprOriginY)
     {
-        mSpr->SetLinkXY(ScrollManager::Sole->GetSpr());
         mSpr->SetImage(Images->Punicat, 0, 0, 24, 24);
-        mSpr->SetZ(ZIndex::CHARACTER);
-
-        mX = startX;
-        mY = startY;
-
-        mLuaData["doMove"] = [&](double x, double y)->bool {return this->doMove(x, y); };
-        mLuaData["getX"] = [&]()->double {return this->mX; };
-        mLuaData["getY"] = [&]()->double {return this->mY; };
-
-        mVel = mLuaData["vel"];
         mFrameInterval = mLuaData["frameInterval"].get_or(0);
 
     }
 
-    void Punicat::update()
-    {
-        luaManager::Lua[mLuaClassName]["update"](mLuaData);
-
-        driveTalkEvent();
-        animation();
-
-
-        mSpr->SetXY(mX + sprOriginX, mY + sprOriginY);
-        mSpr->SetZ(Character::GetZFromY(mY));
-
-    }
     void Punicat::animation()
     {
         int frame = (mAnimTime / mFrameInterval);
@@ -296,125 +273,11 @@ namespace ingame::main
 
         mAnimTime += Time::DeltaMilli();
     }
-    void Punicat::driveTalkEvent()
-    {
-        if (Character::DriveTalkEvent(mX, mY, mLuaData))
-        {
-            mAngle = Character::TurnTowardPlayer(mX, mY);
-        }
-    }
-    bool Punicat::doMove(double gotoX, double gotoY)
-    {
-        if (mHasTempGoto)
-        {
-            mHasTempGoto = doMoveTemporary(mTempGotoX, mTempGotoY);
-        }
-
-        if (!mHasTempGoto)
-        {
-            if ((std::abs)(mX - gotoX) >= moveUnit / 2)
-            {
-                mTempGotoX = mX + (gotoX - mX < 0 ? -1 : 1) * moveUnit;
-                mTempGotoY = mY;
-                mHasTempGoto = true;
-            }
-            else if ((std::abs)(mTempGotoY - gotoY) >= moveUnit / 2)
-            {
-                mTempGotoY = mY + (gotoY - mY < 0 ? -1 : 1) * moveUnit;
-                mTempGotoX = mX;
-                mHasTempGoto = true;
-            }
-        }
-        return mHasTempGoto;
-    }
-
-    bool Punicat::doMoveTemporary(double gotoX, double gotoY)
-    {
-        auto onMoved = [&]() {
-            mX += moveUnit / 2; mY += moveUnit / 2;
-            Character::AttachToGridXY(&mX, &mY, moveUnit);
-            IsMovingNow = false;
-        };
-
-
-        if (!IsMovingNow)
-        {// “®‚«Žn‚ß‚Ìˆ—
-            mAngle = Angle::ToAng(gotoX - mX, gotoY - mY);
-            if (!Character::CanMappinglyMoveTo(gotoX + moveUnit / 2, gotoY + moveUnit / 2, mAngle) ||
-                !Character::CanCharacterPutIn(gotoX, gotoY))
-            {// i‚ß‚È‚¢
-                onMoved();
-                return false;
-            }
-            IsMovingNow = true;
-        }
-
-        if (Character::DoMove(&mX, &mY, gotoX, gotoY, mVel))
-        {
-            return true;
-        }
-        else
-        {
-            onMoved();
-            return false;
-        }
-    }
-
 }
-
 
 
 namespace ingame::main
 {
-    TestNPC::TestNPC(int startX, int startY) : LuaCollideActor("TestNPC", false, new collider::Rectangle(8, 16, 16, 16), 1)
-    {
-        mX = startX;
-        mY = startY;
-
-        mSpr->SetImage(Images->Kisaragi, 0, 0, 32, 32);
-        mSpr->SetZ(ZIndex::CHARACTER);
-        mLuaData = luaManager::Lua[mLuaClassName]["new"](static_cast<CollideActor*>(this));
-        mLuaData["doMove"] = [&](double x, double y)->bool {return this->doMove(x, y); };
-        mLuaData["getX"] = [&]()->double {return this->mX; };
-        mLuaData["getY"] = [&]()->double {return this->mY; };
-        //mLuaData["doWaitForMove"] = [&]() {this->doWaitForMove(); };
-    }
-    void TestNPC::update()
-    {
-        LuaCollideActor::update();
-    }
-    void TestNPC::luaUpdate()
-    {
-        luaManager::Lua[mLuaClassName]["update"](mLuaData);
-        mSpr->SetXY(mX-8, mY-8);
-    }
-
-    bool TestNPC::doMove(double x, double y)
-    {
-        double vx=0, vy=0;
-        if (mX < x - 1) vx = 1;
-        if (mX > x + 1) vx = -1;
-        if (mY < y - 1) vy = 1;
-        if (mY > y + 1) vy = -1;
-
-        if (vx == 0 && vy == 0) 
-        {
-            return false; 
-        }
-     
-
-        double vel = 20;
-        mX += vx * vel * Time::DeltaSec();
-        mY += vy * vel * Time::DeltaSec();
-        
-        return true;
-    }
-
-    bool TestNPC::doWaitForMove()
-    {
-        return false;
-    }
-
 
 
 

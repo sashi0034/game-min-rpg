@@ -9,6 +9,7 @@
 #include "game_utils.h"
 #include "game_engine.h"
 #include "lua_manager.h"
+#include "ingame_manager.h"
 
 namespace ingame
 {
@@ -76,6 +77,38 @@ namespace ingame
 
     namespace main 
     {
+        enum class EAngle
+        {
+            NONE = -1,
+            RIGHT = 0,
+            DOWN = 1,
+            LEFT = 2,
+            UP = 3
+        };
+
+        class NPCBase : public LuaCollideActor, public INonPlayerCharacter
+        {
+            int sprOriginX, sprOriginY;
+        protected:
+            static const int moveUnit = 16;
+            double mX, mY;
+            double mTempGotoX = 0, mTempGotoY = 0;
+            bool mHasTempGoto = false;
+            double mVel = 0;
+            double mAnimTime = 0;
+            EAngle mAngle = EAngle::DOWN;
+            bool IsMovingNow = false;
+        public:
+            NPCBase(double startX, double startY, ECharacterKind characterKind, std::string uniqueName, int sprOriginX, int sprOriginY);
+        protected:
+            virtual void update() override;
+            virtual void animation() = 0;
+            virtual void driveTalkEvent();
+            bool doMove(double x, double y);
+            bool doMoveTemporary(double x, double y);
+        };
+
+
         class FieldDecorationBase : public Actor
         {
         protected:

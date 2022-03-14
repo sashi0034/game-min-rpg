@@ -26,14 +26,7 @@ namespace ingame::main
         UI = -2000,
     };
 
-    enum class EAngle
-    {
-        NONE = -1,
-        RIGHT = 0,
-        DOWN = 1,
-        LEFT = 2,
-        UP = 3
-    };
+
     class Angle
     {
     public:
@@ -53,7 +46,7 @@ namespace ingame::main
     class Character
     {
     public:
-        static bool DoMove(double *curX, double *curY, double toX, double toY, double vel);
+        static bool DoMoveInStep(double *curX, double *curY, double toX, double toY, double vel);
         static void AttachToGridXY(double *x, double *y, int unit);
         static void GetMatXY(int *x, int *y);
         static bool CanMappinglyMoveTo(double x, double y, EAngle toAng);    // å¸Ç´ÇÕäRëŒçÙ
@@ -83,45 +76,19 @@ namespace ingame::main
 
 
 
-
-    class Punicat : public LuaCollideActor, public INonPlayerCharacter
+    class Punicat : public NPCBase
     {
-        static const int moveUnit = 16;
         static const int sprOriginX = -4;
         static const int sprOriginY = -4 - 8;
-        double mX, mY;
-        double mTempGotoX=0, mTempGotoY=0;
-        bool mHasTempGoto = false;
-        double mVel;
-        double mAnimTime = 0;
         int mFrameInterval;
-        EAngle mAngle = EAngle::DOWN;
-        bool IsMovingNow = false;
     public:
         Punicat(double startX, double startY, ECharacterKind characterKind, std::string uniqueName);
     protected:
-        void update() override;
-        void animation();
-        void driveTalkEvent();
-        bool doMove(double x, double y);
-        bool doMoveTemporary(double x, double y);
+        void animation() override;
     };
 
 
 
-    class TestNPC : public LuaCollideActor
-    {
-        double mX=0;
-        double mY=0;
-    public:
-        TestNPC(int startX, int startY);
-    protected:
-        void update() override;
-        void luaUpdate() override;
-    private:
-        bool doWaitForMove();
-        bool doMove(double x, double y);
-    };
 
 
 

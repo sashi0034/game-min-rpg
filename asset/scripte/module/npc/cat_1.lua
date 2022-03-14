@@ -5,7 +5,7 @@ cat_1 = {
 
     new = function()
         
-        local self = Instantiate(cat_1, Punicat)
+        local self = Instantiate(cat_1, PunicatLuaData)
         
         self.events = {
             move = nil,
@@ -16,7 +16,7 @@ cat_1 = {
     end,
 
     update = function(self)
-        Punicat.update(self)
+        PunicatLuaData.update(self)
 
         if (self.events.move==nil) then
             self.events.move = coroutine.create(self.move)

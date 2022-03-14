@@ -11,7 +11,7 @@ namespace ingame::main
     /// </summary>
     /// <param name="startX"></param>
     /// <param name="startY"></param>
-    Player::Player(double startX, double startY) : LuaCollideActor("Player", false, new collider::Rectangle(-sprOriginX, -sprOriginY, 16, 16), 1)
+    Player::Player(double startX, double startY) : LuaCollideActor("PlayerLuaData", false, new collider::Rectangle(-sprOriginX, -sprOriginY, 16, 16), 1)
     {
         Sole = this;
 
@@ -130,7 +130,7 @@ namespace ingame::main
     bool Player::doMove()
     {
 
-        if (Character::DoMove(&mX, &mY, mGotoX, mGotoY, mVel))
+        if (Character::DoMoveInStep(&mX, &mY, mGotoX, mGotoY, mVel))
         {
             return true;
         }

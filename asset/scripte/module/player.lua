@@ -1,11 +1,11 @@
 
 
 -- class Player
-Player = {
+PlayerLuaData = {
 
     new = function()
         
-        local self = Instantiate(Player, IngameEventBase)
+        local self = Instantiate(PlayerLuaData, IngameEventBase)
         
         self.events = {
             move = nil,

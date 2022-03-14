@@ -1,11 +1,11 @@
 
 
 -- class Punicat
-Punicat = {
+PunicatLuaData = {
 
     new = function()
         
-        local self = Instantiate(Punicat, IngameEventBase)
+        local self = Instantiate(PunicatLuaData, IngameEventBase)
         
         self.vel = 100
         self.frameInterval = 200
