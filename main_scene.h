@@ -58,7 +58,8 @@ namespace ingame::main
         static void GetMatXY(int *x, int *y);
         static bool CanMappinglyMoveTo(double x, double y, EAngle toAng);    // Œü‚«‚ÍŠR‘Îô
         static bool CanCharacterPutIn(double x, double y);
-        static void DriveTalkEvent(double x, double y, sol::table luaData);
+        static bool DriveTalkEvent(double x, double y, sol::table luaData);
+        static EAngle TurnTowardPlayer(double x, double y);
         //static void IncCharacterCountOnMap(double gridX, double gridY);
         //static void DecCharacterCountOnMap(double gridX, double gridY);
         //static void IncCharacterCountOnMapByMatXY(int matX, int matY);

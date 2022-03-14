@@ -141,7 +141,7 @@ namespace ingame::main
             16 - delta * 2, 16 - delta * 2, 1) == nullptr);
     }
 
-    void Character::DriveTalkEvent(double checkX, double checkY, sol::table luaData)
+    bool Character::DriveTalkEvent(double checkX, double checkY, sol::table luaData)
     {
         if (Player::Sole->CanPopTouchEvent(int(checkX), int(checkY)))
         {
@@ -150,7 +150,14 @@ namespace ingame::main
             int y = e.Y;
             sol::table eve = luaManager::Lua.create_table_with("x", x, "y", y);
             luaData["eventDrive"](luaData, "talk", e);
+            return true;
         }
+        return false;
+    }
+
+    EAngle Character::TurnTowardPlayer(double x, double y)
+    {
+        return Angle::ToAng(Player::Sole->GetX()-x, Player::Sole->GetY()-y);
     }
 
     //void Character::IncCharacterCountOnMap(double gridX, double gridY)
@@ -291,7 +298,10 @@ namespace ingame::main
     }
     void Punicat::driveTalkEvent()
     {
-        Character::DriveTalkEvent(mX, mY, mLuaData);
+        if (Character::DriveTalkEvent(mX, mY, mLuaData))
+        {
+            mAngle = Character::TurnTowardPlayer(mX, mY);
+        }
     }
     bool Punicat::doMove(double gotoX, double gotoY)
     {
