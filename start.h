@@ -53,12 +53,15 @@ namespace ingame
             Graph* loadPng(std::string fileName);
         public:
             Graph* Cloud = loadPng("cloud_128x64");
-            Graph* Chicken = loadPng("chicken_32x32");
             Graph* NaturalTile = loadPng("natural_playground_16x16");
             Graph* Weed = loadPng("weed_16x16");
             Graph* Tree = loadPng("tree_16x16");
             Graph* Kisaragi = loadPng("kisaragi_24x24");
             Graph* Punicat = loadPng("punicat_24x24");
+            Graph* Slime = loadPng("slime_24x24");
+            Graph* Sheep = loadPng("sheep_32x32");
+            Graph* Chicken = loadPng("chicken_32x32");
+            Graph* Chick = loadPng("chick_16x16");
             Graph* Castle = loadPng("castle_32x32");
             Graph* RockZone = loadPng("rock_zone_16x16");
 

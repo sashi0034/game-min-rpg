@@ -42,6 +42,7 @@ namespace ingame
 			none,
 			player,
 			punicat,
+			slime,
 		};
 		class INonPlayerCharacter
 		{

@@ -297,6 +297,44 @@ namespace ingame::main
 
 namespace ingame::main
 {
+    Slime::Slime(double startX, double startY, ECharacterKind characterKind, std::string uniqueName) :
+        NPCBase(startX, startY, characterKind, uniqueName, sprOriginX, sprOriginY)
+    {
+        mSpr->SetImage(Images->Slime, 0, 0, 24, 24);
+        mFrameInterval = mLuaData["frameInterval"].get_or(0);
+
+    }
+
+    void Slime::animation()
+    {
+        int frame = (mAnimTime / mFrameInterval);
+        
+        mSpr->SetImage((frame % 4) * 24, 24 * 1);
+
+        switch (mAngle)
+        {
+        case EAngle::DOWN:
+            mSpr->SetFlip(true);
+            break;
+        case EAngle::RIGHT:
+            mSpr->SetFlip(false);
+            break;
+        case EAngle::UP:
+            mSpr->SetFlip(false);
+            break;
+        case EAngle::LEFT:
+            mSpr->SetFlip(true);
+            break;
+        }
+
+        mAnimTime += Time::DeltaMilli();
+    }
+}
+
+
+
+namespace ingame::main
+{
 
 
 

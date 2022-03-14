@@ -89,7 +89,16 @@ namespace ingame::main
         void animation() override;
     };
 
-
+    class Slime : public NPCBase
+    {
+        static const int sprOriginX = -4;
+        static const int sprOriginY = -4 - 8;
+        int mFrameInterval;
+    public:
+        Slime(double startX, double startY, ECharacterKind characterKind, std::string uniqueName);
+    protected:
+        void animation() override;
+    };
 
 
 

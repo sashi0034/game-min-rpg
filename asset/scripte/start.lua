@@ -12,10 +12,12 @@ loadfile("./asset/scripte/module/ingame_event_base.lua")()
 -- Player
 loadfile([[./asset/scripte/module/player.lua]])()
 
--- Punicat
+-- NPC
 loadfile([[.\asset\scripte\module\npc\punicat.lua]])()
 loadfile([[.\asset\scripte\module\npc\cat_1.lua]])()
 loadfile([[.\asset\scripte\module\npc\cat_2.lua]])()
+loadfile([[.\asset\scripte\module\npc\slime.lua]])()
+loadfile([[.\asset\scripte\module\npc\slime_on_bridge.lua]])()
 
 loadfile([[.\asset\scripte\module\map_event_manager.lua]])()
 loadfile([[.\asset\scripte\module\map_events.lua]])()

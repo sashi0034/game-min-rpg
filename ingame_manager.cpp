@@ -234,6 +234,9 @@ namespace ingame::main
         case ECharacterKind::punicat:
             new Punicat(x, y, kind, name);
             break;
+        case ECharacterKind::slime:
+            new Slime(x, y, kind, name);
+            break;
         default:
             std::cerr ERR_LOG "Invalid character name `" <<  character << "` exit.\n";
             break;
