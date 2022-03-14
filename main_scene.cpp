@@ -141,15 +141,15 @@ namespace ingame::main
             16 - delta * 2, 16 - delta * 2, 1) == nullptr);
     }
 
-    void Character::DriveTalkEvent(int checkX, int checkY, sol::table luaData)
+    void Character::DriveTalkEvent(double checkX, double checkY, sol::table luaData)
     {
-        if (Player::Sole->CanPopTouchEvent(checkX, checkY))
+        if (Player::Sole->CanPopTouchEvent(int(checkX), int(checkY)))
         {
             auto e = Player::Sole->PopTouchEvent();
             int x = e.X;
             int y = e.Y;
             sol::table eve = luaManager::Lua.create_table_with("x", x, "y", y);
-            luaData["trigger"](luaData, "talk", e);
+            luaData["eventDrive"](luaData, "talk", e);
         }
     }
 
@@ -251,16 +251,20 @@ namespace ingame::main
 
         mVel = mLuaData["vel"];
         mFrameInterval = mLuaData["frameInterval"].get_or(0);
+
     }
 
     void Punicat::update()
     {
         luaManager::Lua[mLuaClassName]["update"](mLuaData);
 
+        driveTalkEvent();
+        animation();
+
+
         mSpr->SetXY(mX + sprOriginX, mY + sprOriginY);
         mSpr->SetZ(Character::GetZFromY(mY));
 
-        animation();
     }
     void Punicat::animation()
     {
@@ -284,6 +288,10 @@ namespace ingame::main
         }
 
         mAnimTime += Time::DeltaMilli();
+    }
+    void Punicat::driveTalkEvent()
+    {
+        Character::DriveTalkEvent(mX, mY, mLuaData);
     }
     bool Punicat::doMove(double gotoX, double gotoY)
     {

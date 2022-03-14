@@ -89,7 +89,7 @@ namespace gameEngine{
 	{
 		return mSpr;
 	}
-	double Actor::GetTime()
+	long long Actor::GetTime()
 	{
 		return mTime;
 	}
@@ -167,7 +167,6 @@ namespace gameEngine
 	CollideActor::~CollideActor()
 	{
 		useful::Remove<CollideActor*>(&colliders, this);
-		std::cout OUT_LOG colliders.size();
 		delete mShape;
 	}
 

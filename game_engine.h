@@ -38,7 +38,7 @@ namespace gameEngine
 		long long mTime = 0;
 	public:
 		Sprite* GetSpr();
-		double GetTime();
+		long long GetTime();
 	protected:
 		virtual void update();
 		virtual void destructor();

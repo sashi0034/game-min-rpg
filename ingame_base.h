@@ -24,6 +24,17 @@ namespace ingame
         void Update();
     };
 
+    class EventTimerAsActor : public Actor
+    {
+        EventTimer mEventTImer;
+        std::function<bool()> mDoEvent;
+    protected:
+        void update() override;
+    public:
+        EventTimerAsActor(std::function<bool()> doEvent, int intervalTime);
+        EventTimer* GetEventTimer();
+    };
+
     //class ButtonEmbeddedTimer
     //{
     //    EventTimer eventTimer{};

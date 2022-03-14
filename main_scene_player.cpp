@@ -107,22 +107,12 @@ namespace ingame::main
     {
         if (mSenddingTouchEvent.HasValue)
         {
-            if (std::abs(mSenddingTouchEvent.X - x) + std::abs(mSenddingTouchEvent.Y - y) <= 16 + 0.1)
+            if ((std::abs(mSenddingTouchEvent.X - x) + std::abs(mSenddingTouchEvent.Y - y)) <= 8 + 0.1)
             {
                 return true;
             }
         }
         return false;
-    }
-    bool Player::HasPopTouchEvent()
-    {
-        return mSenddingTouchEvent.HasValue;
-    }
-    PlayerEventProps Player::PopTouchEvent()
-    {
-        PlayerEventProps ret = mSenddingTouchEvent;
-        mSenddingTouchEvent.HasValue = false;
-        return ret;
     }
 
     bool Player::isFixed()
@@ -162,13 +152,24 @@ namespace ingame::main
     {
         if (mButton.CheckJustAfterPress(KEY_INPUT_SPACE))
         {
+            auto way = Angle::ToXY(mAngle);
             if ((int(mX)) % 16 == 0 && (int(mY)) % 16 == 0)
             {
-                auto way = Angle::ToXY(mAngle);
                 MapEventManager::Sole->DrivePlayerTouchEvent(int(mX) / 16 + way.X, int(mY) / 16 + way.Y);
             }
-            mSenddingTouchEvent = PlayerEventProps{ true, int(mX), int(mY) };
+            mSenddingTouchEvent = PlayerEventProps{ true, int(mX) + way.X*16, int(mY) + way.Y*16 };
         }
+    }
+
+    bool Player::HasPopTouchEvent()
+    {
+        return mSenddingTouchEvent.HasValue;
+    }
+    PlayerEventProps Player::PopTouchEvent()
+    {
+        PlayerEventProps ret = mSenddingTouchEvent;
+        mSenddingTouchEvent.HasValue = false;
+        return ret;
     }
 
     void Player::animation()

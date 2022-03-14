@@ -162,6 +162,26 @@ namespace ingame
         eventTimer.Update();
     }*/
 
+    EventTimerAsActor::EventTimerAsActor(std::function<bool()> doEvent, int intervalTime) : Actor()
+    {
+        mDoEvent = doEvent;
+        mEventTImer = EventTimer(mDoEvent, intervalTime);
+    }
+    void EventTimerAsActor::update()
+    {
+        Actor::update();
+        mEventTImer.Update();
+        if (mEventTImer.IsAlive() == false)
+        {
+            Sprite::Dispose(mSpr);
+            return;
+        }
+    }
+    EventTimer* EventTimerAsActor::GetEventTimer()
+    {
+        return &mEventTImer;
+    }
+
 }
 
 

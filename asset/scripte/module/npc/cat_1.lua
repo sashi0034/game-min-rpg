@@ -38,8 +38,17 @@ cat_1 = {
         while self.doMove(x-32, y) do Yield() end
         while self.doMove(x-16, y) do Yield() end
         while self.doMove(x+16, y-16) do Yield() end
+    end,
 
+    talk = function (self, e)
+        local w = MessageWindow.open()
+
+        w:streamText("‚±‚ñ‚É‚¿‚Í‚±‚ñ‚É‚¿‚Í")
+        while w:isRunning() do Yield() end
+   
+        w:close()
     end
+    
 }
 
 

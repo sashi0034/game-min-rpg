@@ -45,6 +45,18 @@ cat_2 = {
 
         while self.doMove(x, y+16) do Yield() end
 
+    end,
+
+
+    talk = function (self, e)
+        OutLog("aaaaa")
+
+        local w = MessageWindow.open()
+
+        w:streamText("Ç±ÇÒÇ…ÇøÇÕÇ…ÅAÇ±ÇÒÇ…ÇøÇÕ")
+        while w:isRunning() do Yield() end
+   
+        w:close()
     end
 }
 

@@ -144,6 +144,7 @@ namespace ingame::main
         delete mTextFieldGraph;
         if (Player::Sole != nullptr)Player::Sole->DecreaseFixed();
     }
+
     bool MessageWindow::GetIsRunning()
     {
         return mIsRunning;
@@ -242,7 +243,8 @@ namespace ingame::main
                     this->mWriteLetterTimer = EventTimer([&]()->bool {
                         if (Input::Sole->GetKeyDown(KEY_INPUT_SPACE))
                         {
-                            mIsRunning = false;
+                            //mIsRunning = false;
+                            new EventTimerAsActor([&]()->bool {mIsRunning = false; return false; }, 100);
                             return false;
                         }
                         return true;
@@ -288,6 +290,7 @@ namespace ingame::main
             mScrollTimer.Update();
         }
     }
+
     void MessageWindow::Init()
     {
         luaManager::Lua.new_usertype<MessageWindow>(

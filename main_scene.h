@@ -58,7 +58,7 @@ namespace ingame::main
         static void GetMatXY(int *x, int *y);
         static bool CanMappinglyMoveTo(double x, double y, EAngle toAng);    // å¸Ç´ÇÕäRëŒçÙ
         static bool CanCharacterPutIn(double x, double y);
-        static void DriveTalkEvent(int x, int y, sol::table luaData);
+        static void DriveTalkEvent(double x, double y, sol::table luaData);
         //static void IncCharacterCountOnMap(double gridX, double gridY);
         //static void DecCharacterCountOnMap(double gridX, double gridY);
         //static void IncCharacterCountOnMapByMatXY(int matX, int matY);
@@ -89,7 +89,7 @@ namespace ingame::main
         static const int sprOriginX = -4;
         static const int sprOriginY = -4 - 8;
         double mX, mY;
-        double mTempGotoX, mTempGotoY;
+        double mTempGotoX=0, mTempGotoY=0;
         bool mHasTempGoto = false;
         double mVel;
         double mAnimTime = 0;
@@ -101,6 +101,7 @@ namespace ingame::main
     protected:
         void update() override;
         void animation();
+        void driveTalkEvent();
         bool doMove(double x, double y);
         bool doMoveTemporary(double x, double y);
     };
