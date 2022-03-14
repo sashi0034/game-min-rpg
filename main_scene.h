@@ -15,7 +15,7 @@
 #include "ingame_base.h"
 
 #include "main_scene_ui.h"
-
+#include "main_scene_effect.h"
 
 namespace ingame::main
 {
@@ -23,6 +23,7 @@ namespace ingame::main
     {
         FLOOR = 1000,
         CHARACTER = 0,
+        CLOUD = -1000,
         UI = -2000,
     };
 

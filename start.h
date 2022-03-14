@@ -52,7 +52,10 @@ namespace ingame
         private:
             Graph* loadPng(std::string fileName);
         public:
-            Graph* Cloud = loadPng("cloud_128x64");
+            Graph* Cloud[3] = { 
+                loadPng("cloud_32x16"),
+                loadPng("cloud_64x32"),
+                loadPng("cloud_128x64") };
             Graph* NaturalTile = loadPng("natural_playground_16x16");
             Graph* Weed = loadPng("weed_16x16");
             Graph* Tree = loadPng("tree_16x16");
