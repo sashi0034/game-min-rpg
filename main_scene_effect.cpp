@@ -5,7 +5,7 @@ namespace ingame::main::effect
 {
 	CloudController::CloudController() : Actor()
 	{
-		for (int i = 0; i < 200; ++i)
+		for (int i = 0; i < 64; ++i)
 		{
 			new Cloud(this);
 		}
@@ -13,7 +13,9 @@ namespace ingame::main::effect
 
 	void CloudController::update()
 	{
-		mSpr->SetXY(ScrollManager::Sole->GetX(), 0);
+		double rateY = (ScrollManager::Sole->GetY()- ScrollManager::Sole->GetMaxXY().Y) / (ScrollManager::Sole->GetMinXY().Y - ScrollManager::Sole->GetMaxXY().Y);
+
+		mSpr->SetXY(ScrollManager::Sole->GetX(), THICKNESS *(-1+2*rateY));
 	}
 
 	Cloud::Cloud(CloudController* parent) : Actor()
@@ -38,7 +40,7 @@ namespace ingame::main::effect
 			mSprOriginX = -64; mSprOriginY = -32;
 		}
 
-		mOriginY = Rand->Get(64);
+		mOriginY = CloudController::THICKNESS / 4 - Rand->Get(CloudController::THICKNESS);
 		if (Rand->Get(2) == 0) mOriginY = GRID_HEIGHT - mOriginY;
 
 		mX = Rand->Get(GRID_WIDTH);
@@ -46,35 +48,43 @@ namespace ingame::main::effect
 
 		mVelX = 5 + Rand->Get(45);
 		mVelX *= Rand->Get(2) == 0 ? 1 : -1;
+		mAmplitude = 2+Rand->Get(16);
 			
 		mSpr->SetFlip(Rand->Get(2)==0 ? false : true);
 		mSpr->SetBlendPal(224);
 
 		mSpr->SetZ(ZIndex::CLOUD);
+
+		mUpdateTimer = EventTimer([&]() {updateCloud(); return true; }, 20);
 	}
 
 
 	void Cloud::update()
 	{
-		int x, y;
-		mSpr->GetScreenXY(&x, &y);
-		if (mVelX<0 && x < mSprOriginX * 2)
-		{
-			mX += -x - mSprOriginX * 2 + GRID_WIDTH + (mSprOriginX*-1);
-		}
-			
-		if (mVelX > 0 && x > GRID_WIDTH)
-		{
-			std::cout << mX << " " << -x << " " << -mSprOriginX << "\n";
-			mX += -x - (mSprOriginX*2 * -1);
-			std::cout << mX << "\n";
-
-		}
-
-		mX += mVelX * Time::DeltaSec();
-		mSpr->SetXY(mX+mSprOriginX, mY+mSprOriginY);
+		mUpdateTimer.Update();
 
 		Actor::update();
+	}
+
+	void Cloud::updateCloud()
+	{
+		double deltaSec = 20.0 / 1000;
+		int x, y;
+		mSpr->GetScreenXY(&x, &y);
+		if (mVelX < 0 && x < mSprOriginX * 2)
+		{
+			mX += -x - mSprOriginX * 2 + GRID_WIDTH + (mSprOriginX * -1);
+		}
+
+		if (mVelX > 0 && x > GRID_WIDTH)
+		{
+			mX += -x - (mSprOriginX * 2 * -1);
+		}
+
+		mY = mOriginY + mAmplitude * std::sin((mTime / mAmplitude) / 180.0 * M_PI);
+
+		mX += mVelX * deltaSec;
+		mSpr->SetXY(mX + mSprOriginX, mY + mSprOriginY);
 	}
 }
 

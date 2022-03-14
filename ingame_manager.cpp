@@ -130,6 +130,8 @@ namespace ingame::main
 		for (auto& row : mMat)
 			for (auto& ele : row)
 				ele->update();
+
+        ScrollManager::Sole->SetRange(-(mWidth*16-GRID_WIDTH), -(mHeight*16-GRID_HEIGHT), 0, 0);
 	}
 
 
@@ -337,15 +339,15 @@ namespace ingame::main
     ScrollManager::ScrollManager() : Actor()
     {
         Sole = this;
+
     }
     void ScrollManager::update()
-    {
+    {   
         mX = -(Player::Sole->GetX() + 8) + GRID_WIDTH / 2;
         mY = -(Player::Sole->GetY() + 8) + GRID_HEIGHT / 2;
-        if (mX > 0) mX = 0;
-        if (mY > 0) mY = 0;
-        if (mX < -(MapManager::Sole->GetWidth() * 16 - GRID_WIDTH)) mX = -(MapManager::Sole->GetWidth() * 16 - GRID_WIDTH);
-        if (mY < -(MapManager::Sole->GetHeight() * 16 - GRID_HEIGHT)) mY = -(MapManager::Sole->GetHeight() * 16 - GRID_HEIGHT);
+
+        mX = (std::min)((std::max)(mX, double(mMinX)), double(mMaxX));
+        mY = (std::min)((std::max)(mY, double(mMinY)), double(mMaxY));
 
         mSpr->SetXY(mX, mY);
     }
@@ -358,6 +360,24 @@ namespace ingame::main
     double ScrollManager::GetY()
     {
         return mY;
+    }
+
+    useful::Vec2<int> ScrollManager::GetMaxXY()
+    {
+        return useful::Vec2<int>{mMaxX, mMaxY};
+    }
+
+    useful::Vec2<int> ScrollManager::GetMinXY()
+    {
+        return useful::Vec2<int>{mMinX, mMinY};
+    }
+
+    void ScrollManager::SetRange(int minX, int minY, int maxX, int maxY)
+    {
+        mMinX = minX;
+        mMinY = minY;
+        mMaxX = maxX;
+        mMaxY = maxY;
     }
 
     ScrollManager::~ScrollManager()

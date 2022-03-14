@@ -124,11 +124,16 @@ namespace ingame
 		class ScrollManager : public Actor, public ISingleton<ScrollManager>
 		{
 			double mX{}, mY{};
+			int mMinX{}, mMinY{};
+			int mMaxX{}, mMaxY{};
 		public:
 			ScrollManager();
 			~ScrollManager();
 			double GetX();
 			double GetY();
+			useful::Vec2<int> GetMinXY();
+			useful::Vec2<int> GetMaxXY();
+			void SetRange(int minX, int minY, int maxX, int maxY);
 		protected:
 			void update() override;
 		};

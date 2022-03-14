@@ -20,6 +20,8 @@ namespace ingame::main::effect
 		CloudController();
 	protected:
 		void update() override;
+	public:
+		static const int THICKNESS = 32;
 	};
 
 	class Cloud : public Actor
@@ -28,11 +30,14 @@ namespace ingame::main::effect
 		int mSprOriginY{};
 		double mX;
 		double mY, mOriginY;
+		int mAmplitude;
 		double mVelX;
+		EventTimer mUpdateTimer;
 	public:
 		Cloud(CloudController* parent);
 	protected:
 		void update() override;
+		void updateCloud();
 	};
 
 
