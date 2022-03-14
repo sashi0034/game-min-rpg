@@ -196,10 +196,24 @@ namespace ingame::main
 
 namespace ingame::main
 {
+    const std::string MapEventManager::LUA_CLASS = "MapEventManager";
 
-    MapEventManager::MapEventManager() : LuaActor("MapEventManager", true)
+    MapEventManager::MapEventManager() : LuaActor(LUA_CLASS, true)
     {
         Sole = this;
+
+        luaManager::Lua[LUA_CLASS]["getUnique"] = [&](std::string key)-> sol::table{
+            UniqueEventValue* uniqu = GetUniquEvent(key);
+            if (uniqu== nullptr)
+            {
+                std::cerr ERR_LOG "Unique event `" << key << "` does not exit."; return luaManager::Lua.create_table();
+            }
+            sol::table ret = luaManager::Lua.create_table_with(
+                "x", uniqu->X,
+                "y", uniqu->Y
+            );
+            return ret;
+        };
     }
 
     void MapEventManager::update()
@@ -209,6 +223,11 @@ namespace ingame::main
     MapEventManager::~MapEventManager()
     {
         Sole = nullptr;
+    }
+
+    UniqueEventValue* MapEventManager::GetUniquEvent(std::string key)
+    {
+        return MapManager::Sole->GetUniqueEvent(key);
     }
 
     void MapEventManager::DrivePlayerReachEvent(int x, int y)

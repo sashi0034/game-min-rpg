@@ -1,11 +1,11 @@
 
 
 -- class Punicat
-PunicatLuaData = {
+SlimeLuaData = {
 
     new = function()
         
-        local self = Instantiate(PunicatLuaData, IngameEventBase)
+        local self = Instantiate(SlimeLuaData, IngameEventBase)
         
         self.vel = 50
         self.frameInterval = 200

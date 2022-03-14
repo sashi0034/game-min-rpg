@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 22,
-  nextobjectid = 42,
+  nextobjectid = 49,
   properties = {},
   tilesets = {
     {
@@ -241,8 +241,8 @@ return {
           name = "cat_1",
           type = "character",
           shape = "rectangle",
-          x = 272,
-          y = 192,
+          x = 288,
+          y = 176,
           width = 16,
           height = 16,
           rotation = 0,
@@ -354,6 +354,96 @@ return {
           visible = true,
           properties = {
             ["kind"] = "touch"
+          }
+        },
+        {
+          id = 42,
+          name = "cat_2_move_1",
+          type = "event",
+          shape = "rectangle",
+          x = 304,
+          y = 224,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 43,
+          name = "cat_2_move_2",
+          type = "event",
+          shape = "rectangle",
+          x = 304,
+          y = 304,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 44,
+          name = "cat_2_move_3",
+          type = "event",
+          shape = "rectangle",
+          x = 144,
+          y = 304,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 45,
+          name = "cat_1_there",
+          type = "event",
+          shape = "rectangle",
+          x = 304,
+          y = 160,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 46,
+          name = "cat_1_move_1",
+          type = "event",
+          shape = "rectangle",
+          x = 272,
+          y = 192,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 48,
+          name = "cat_1_move_2",
+          type = "event",
+          shape = "rectangle",
+          x = 192,
+          y = 240,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
           }
         }
       }

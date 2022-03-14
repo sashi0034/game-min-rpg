@@ -70,8 +70,10 @@ namespace ingame::main
     public:
         MapEventManager();
         ~MapEventManager();
+        UniqueEventValue* GetUniquEvent(std::string key);
         void DrivePlayerReachEvent(int x, int y);
         void DrivePlayerTouchEvent(int x, int y);
+        static const std::string LUA_CLASS;
     };
 
 

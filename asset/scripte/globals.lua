@@ -21,3 +21,29 @@ function ErrLog(str)
     Cerr(tostring(log))
 end
 
+
+function GetRandomCrosswise()
+    local r = math.random(0, 3)
+    if (r==0) then 
+        return {x= -1, y=1}
+    elseif r==1 then
+        return {x= 1, y=1}
+    elseif r==2 then
+        return {x= -1, y=-1}
+    elseif r==3 then
+        return {x= 1, y=-1}
+    end
+end
+
+function GetRandomCrosswise16()
+    local r = math.random(0, 3)
+    if (r==0) then 
+        return {x= -16, y=16}
+    elseif r==1 then
+        return {x= 16, y=16}
+    elseif r==2 then
+        return {x= -16, y=-16}
+    elseif r==3 then
+        return {x= 16, y=-16}
+    end
+end

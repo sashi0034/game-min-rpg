@@ -1,6 +1,15 @@
 
 
 
+
+
+
+
+
+
+
+
+
 cat_2 = {
 
     new = function()
@@ -10,8 +19,6 @@ cat_2 = {
         self.events = {
             move = nil,
         }
-
-        self.vel = 40
 
         OutLog("cat_2 is created.\n")
 
@@ -29,34 +36,35 @@ cat_2 = {
     end,
 
     move = function (self)
-        local c, e1, e2, e3
+        local x, y, c
+        x=self.getX(); y=self.getY();
 
-        e1 = MapEventManager.getUnique("cat_2_move_1")
+        while self.doMove(x-16, y) do Yield() end
+
+        c = coroutine.create( self.doSleep )
+        while coroutine.resume(c, 1.5) do Yield() end
         
-        e2 = MapEventManager.getUnique("cat_2_move_2")
-        e3 = MapEventManager.getUnique("cat_2_move_3")
-        
-        while self.doMove(e1.x, e1.y) do Yield() end
-        while self.doMove(e2.x, e2.y) do Yield() end
-        while self.doMove(e3.x, e3.y) do Yield() end
-        while self.doMove(e2.x, e2.y) do Yield() end
+        while self.doMove(x, y) do Yield() end
+        while self.doMove(x+16, y) do Yield() end
+        while self.doMove(x, y) do Yield() end
+        while self.doMove(x, y-16) do Yield() end
 
         c = coroutine.create( self.doSleep )
         while coroutine.resume(c, 0.5) do Yield() end
 
-        while self.doMove(e1.x, e1.y) do Yield() end
+        while self.doMove(x, y+16) do Yield() end
+
     end,
 
 
     talk = function (self, e)
+        OutLog("aaaaa")
+
         local w = MessageWindow.open()
 
-        w:streamText([[橋の上にこわいモンスターがいて]].."\n"..[[通れないにゃ]])
+        w:streamText("こんにちはに、こんにちは")
         while w:isRunning() do Yield() end
-
-        w:streamText("\n"..[[すごく困っちゃうにゃ]])
-        while w:isRunning() do Yield() end
-
+   
         w:close()
     end
 }
