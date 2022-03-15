@@ -114,6 +114,7 @@ namespace ingame::main
         ~SelectionWindow();
         bool GetIsRunning();
         int GetSelectedIndex();
+        std::string GetSelectedWord();
         static const std::string CLASS_NAME;
         static void Init();
     };

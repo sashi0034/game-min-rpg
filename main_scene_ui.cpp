@@ -378,6 +378,11 @@ namespace ingame::main
         return mSelectedIndex;
     }
 
+    std::string SelectionWindow::GetSelectedWord()
+    {
+        return mOptions[mSelectedIndex];
+    }
+
     void SelectionWindow::renderText()
     {
         DxLib::SetDrawScreen(mTextFieldGraph->GetHandler());
@@ -438,6 +443,7 @@ namespace ingame::main
             "open", [](sol::table table)->SelectionWindow* {return new SelectionWindow(table); },
             "isRunning", &SelectionWindow::GetIsRunning,
             "selectedIndex", &SelectionWindow::GetSelectedIndex,
+            "selectedWord", & SelectionWindow::GetSelectedWord,
             "close", [](SelectionWindow* self) {Sprite::Dispose(self->GetSpr()); });
     }
 }
