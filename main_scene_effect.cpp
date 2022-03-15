@@ -40,7 +40,7 @@ namespace ingame::main::effect
 			mSprOriginX = -64; mSprOriginY = -32;
 		}
 
-		mOriginY = CloudController::THICKNESS / 4 - Rand->Get(CloudController::THICKNESS);
+		mOriginY =  - Rand->Get(CloudController::THICKNESS*2);
 		if (Rand->Get(2) == 0) mOriginY = GRID_HEIGHT - mOriginY;
 
 		mX = Rand->Get(GRID_WIDTH);
@@ -51,7 +51,7 @@ namespace ingame::main::effect
 		mAmplitude = 2+Rand->Get(16);
 			
 		mSpr->SetFlip(Rand->Get(2)==0 ? false : true);
-		mSpr->SetBlendPal(224);
+		mSpr->SetBlendPal(200);
 
 		mSpr->SetZ(ZIndex::CLOUD);
 

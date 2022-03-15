@@ -106,7 +106,6 @@ namespace ingame
 			bool doStartChip(int x, int y, ETileName tile);
 			void loadTileLayer(sol::table layer);
 			void loadObjectGroup(sol::table layer);
-			void installCharacter(double x, double y, std::string character, std::string name);
 
 		public:
 			MapManager(int stageIndex);

@@ -47,6 +47,7 @@ namespace ingame::main
     class Character
     {
     public:
+        static void InstallCharacter(double x, double y, std::string character, std::string name);
         static bool DoMoveInStep(double *curX, double *curY, double toX, double toY, double vel);
         static void AttachToGridXY(double *x, double *y, int unit);
         static void GetMatXY(int *x, int *y);
@@ -72,11 +73,22 @@ namespace ingame::main
         MapEventManager();
         ~MapEventManager();
         UniqueEventValue* GetUniquEvent(std::string key);
+        void InstallCharacter(double x, double y, std::string character, std::string name);
         void DrivePlayerReachEvent(int x, int y);
         void DrivePlayerTouchEvent(int x, int y);
         static const std::string LUA_CLASS;
     };
 
+
+    class FlagManager : public Singleton<FlagManager>
+    {
+        std::map<std::string, bool> mFlag{};
+    public:
+        FlagManager();
+        void SetFlag(std::string flagName, bool flag);
+        bool GetFlag(std::string flagName);
+        static const std::string LUA_CLASS;
+    };
 
 
     class Punicat : public NPCBase

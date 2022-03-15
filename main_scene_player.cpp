@@ -139,9 +139,12 @@ namespace ingame::main
             mX += moveUnit / 2; mY += moveUnit / 2;
             Character::AttachToGridXY(&mX, &mY, moveUnit);
 
-            if ((int(mX)) % 16 == 0 && (int(mY)) % 16 == 0)
+            if (mFixedCount == 0)
             {
-                MapEventManager::Sole->DrivePlayerReachEvent(int(mX) / 16, int(mY) / 16);
+                if ((int(mX)) % 16 == 0 && (int(mY)) % 16 == 0)
+                {
+                    MapEventManager::Sole->DrivePlayerReachEvent(int(mX) / 16, int(mY) / 16);
+                }
             }
 
             return false;
@@ -150,14 +153,17 @@ namespace ingame::main
 
     void Player::touchSomething()
     {
-        if (mButton.CheckJustAfterPress(KEY_INPUT_SPACE))
+        if (mFixedCount == 0)
         {
-            auto way = Angle::ToXY(mAngle);
-            if ((int(mX)) % 16 == 0 && (int(mY)) % 16 == 0)
+            if (mButton.CheckJustAfterPress(KEY_INPUT_SPACE))
             {
-                MapEventManager::Sole->DrivePlayerTouchEvent(int(mX) / 16 + way.X, int(mY) / 16 + way.Y);
+                auto way = Angle::ToXY(mAngle);
+                if ((int(mX)) % 16 == 0 && (int(mY)) % 16 == 0)
+                {
+                    MapEventManager::Sole->DrivePlayerTouchEvent(int(mX) / 16 + way.X, int(mY) / 16 + way.Y);
+                }
+                mSenddingTouchEvent = PlayerEventProps{ true, int(mX) + way.X * 16, int(mY) + way.Y * 16 };
             }
-            mSenddingTouchEvent = PlayerEventProps{ true, int(mX) + way.X*16, int(mY) + way.Y*16 };
         }
     }
 

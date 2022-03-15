@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 22,
-  nextobjectid = 49,
+  nextobjectid = 51,
   properties = {},
   tilesets = {
     {
@@ -444,6 +444,36 @@ return {
           visible = true,
           properties = {
             ["kind"] = "unique"
+          }
+        },
+        {
+          id = 49,
+          name = "tree_on_upstream",
+          type = "event",
+          shape = "rectangle",
+          x = 272,
+          y = 0,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "touch"
+          }
+        },
+        {
+          id = 50,
+          name = "house_on_hill",
+          type = "event",
+          shape = "rectangle",
+          x = 80,
+          y = 80,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "reach"
           }
         }
       }

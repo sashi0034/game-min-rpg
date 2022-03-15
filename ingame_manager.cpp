@@ -198,7 +198,7 @@ namespace ingame::main
             {// キャラクター
                 std::string characterName = objects[i]["properties"]["kind"].get_or(std::string(""));
 
-                installCharacter(x, y, characterName, name);
+                Character::InstallCharacter(x, y, characterName, name);
             }
             else if (typeName == "event")
             {// イベント
@@ -225,25 +225,7 @@ namespace ingame::main
 
     }
 
-    void MapManager::installCharacter(double x, double y, std::string character, std::string name)
-    {
-        ECharacterKind kind = magic_enum::enum_cast<ECharacterKind>(character).value_or(ECharacterKind::none);
-        switch ( kind)
-        {
-        case ECharacterKind::player:
-            new Player(x, y);
-            break;
-        case ECharacterKind::punicat:
-            new Punicat(x, y, kind, name);
-            break;
-        case ECharacterKind::slime:
-            new Slime(x, y, kind, name);
-            break;
-        default:
-            std::cerr ERR_LOG "Invalid character name `" <<  character << "` exit.\n";
-            break;
-        }
-    }
+ 
 
 
 

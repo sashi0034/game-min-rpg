@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="40" height="28" tilewidth="16" tileheight="16" infinite="0" nextlayerid="22" nextobjectid="49">
+<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="40" height="28" tilewidth="16" tileheight="16" infinite="0" nextlayerid="22" nextobjectid="51">
  <editorsettings>
   <export target="field_01.lua" format="lua"/>
  </editorsettings>
@@ -206,6 +206,16 @@
   <object id="48" name="cat_1_move_2" type="event" x="192" y="240" width="16" height="16">
    <properties>
     <property name="kind" value="unique"/>
+   </properties>
+  </object>
+  <object id="49" name="tree_on_upstream" type="event" x="272" y="0" width="16" height="16">
+   <properties>
+    <property name="kind" value="touch"/>
+   </properties>
+  </object>
+  <object id="50" name="house_on_hill" type="event" x="80" y="80" width="16" height="16">
+   <properties>
+    <property name="kind" value="reach"/>
    </properties>
   </object>
  </objectgroup>

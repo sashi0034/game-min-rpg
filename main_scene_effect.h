@@ -21,7 +21,7 @@ namespace ingame::main::effect
 	protected:
 		void update() override;
 	public:
-		static const int THICKNESS = 32;
+		static const int THICKNESS = 16;
 	};
 
 	class Cloud : public Actor

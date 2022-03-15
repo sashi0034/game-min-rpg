@@ -54,6 +54,26 @@ namespace ingame::main
     }
 
 
+    void Character::InstallCharacter(double x, double y, std::string character, std::string name)
+    {
+        ECharacterKind kind = magic_enum::enum_cast<ECharacterKind>(character).value_or(ECharacterKind::none);
+        switch (kind)
+        {
+        case ECharacterKind::player:
+            new Player(x, y);
+            break;
+        case ECharacterKind::punicat:
+            new Punicat(x, y, kind, name);
+            break;
+        case ECharacterKind::slime:
+            new Slime(x, y, kind, name);
+            break;
+        default:
+            std::cerr ERR_LOG "Invalid character name `" << character << "` exit.\n";
+            break;
+        }
+    }
+
     /// <summary>
     /// キャラクターの標準的な移動
     /// </summary>
@@ -187,9 +207,34 @@ namespace ingame::main
     double Character::GetZFromY(double gridY)
     {
         static const int maxY = 16 * 256;
-        return ZIndex::CHARACTER - gridY/maxY * 1000 ;
+        return ZIndex::CHARACTER - gridY / maxY * 1000;
+    }
+}
+
+
+namespace ingame::main{
+    const std::string FlagManager::LUA_CLASS = "FlagManager";
+
+    FlagManager::FlagManager()
+    {
+        luaManager::Lua[LUA_CLASS] = luaManager::Lua.create_table();
+        luaManager::Lua[LUA_CLASS]["setFlag"] = [&](std::string flagName, bool flag)->void {SetFlag(flagName, flag); };
+        luaManager::Lua[LUA_CLASS]["getFlag"] = [&](std::string flagName)->bool {return GetFlag(flagName); };
     }
 
+    void FlagManager::SetFlag(std::string flagName, bool flag)
+    {
+        mFlag[flagName] = flag;
+    }
+
+    bool FlagManager::GetFlag(std::string flagName)
+    {
+        if (mFlag.count(flagName) == 0)
+        {
+            std::cout OUT_LOG "Caution: flag `" << flagName << "` does not exit now.\n";
+        }
+        return mFlag[flagName];
+    }
 
 }
 
@@ -214,6 +259,9 @@ namespace ingame::main
             );
             return ret;
         };
+
+        luaManager::Lua[LUA_CLASS]["installCharacter"] = 
+            [&](double x, double y, std::string character, std::string name) {InstallCharacter(x, y, character, name); };
     }
 
     void MapEventManager::update()
@@ -228,6 +276,11 @@ namespace ingame::main
     UniqueEventValue* MapEventManager::GetUniquEvent(std::string key)
     {
         return MapManager::Sole->GetUniqueEvent(key);
+    }
+
+    void MapEventManager::InstallCharacter(double x, double y, std::string character, std::string name)
+    {
+        Character::InstallCharacter(x, y, character, name);
     }
 
     void MapEventManager::DrivePlayerReachEvent(int x, int y)

@@ -6,7 +6,8 @@
         "Images",
         "Time",
         "MessageWindow",
-        "SelectionWindow"
+        "SelectionWindow",
+        "FlagManager"
     ],
     "lua.targetVersion": "5.3",
 }
