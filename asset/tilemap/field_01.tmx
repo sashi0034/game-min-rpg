@@ -148,11 +148,6 @@
     <property name="kind" value="slime"/>
    </properties>
   </object>
-  <object id="35" name="chicken_fence" type="character" x="576" y="400" width="16" height="16">
-   <properties>
-    <property name="kind" value="chicken"/>
-   </properties>
-  </object>
   <object id="36" name="house_1" type="event" x="224" y="272" width="16" height="16">
    <properties>
     <property name="kind" value="reach"/>

@@ -97,7 +97,9 @@ namespace ingame
             double mVel = 0;
             double mAnimTime = 0;
             EAngle mAngle = EAngle::DOWN;
-            bool IsMovingNow = false;
+            bool mIsMovingNow = false;
+            int mMovingTime = 0;
+            int mStopMovingTime = 0;
         public:
             NPCBase(double startX, double startY, ECharacterKind characterKind, std::string uniqueName, int sprOriginX, int sprOriginY);
         protected:

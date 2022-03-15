@@ -43,6 +43,10 @@ namespace ingame
 			player,
 			punicat,
 			slime,
+			sheep,
+			chick,
+			chicken,
+			skull,
 		};
 		class INonPlayerCharacter
 		{

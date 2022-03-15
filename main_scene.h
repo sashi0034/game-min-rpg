@@ -117,8 +117,49 @@ namespace ingame::main
         void animation() override;
     };
 
+    class Sheep : public NPCBase
+    {
+        static const int sprOriginX = -8;
+        static const int sprOriginY = -16 - 4;
+        int mFrameInterval;
+    public:
+        Sheep(double startX, double startY, ECharacterKind characterKind, std::string uniqueName);
+    protected:
+        void animation() override;
+    };
 
+    class Chick : public NPCBase
+    {
+        static const int sprOriginX = -8;
+        static const int sprOriginY = -16 - 8;
+        int mFrameInterval;
+    public:
+        Chick(double startX, double startY, ECharacterKind characterKind, std::string uniqueName);
+    protected:
+        void animation() override;
+    };
 
+    class Chicken : public NPCBase
+    {
+        static const int sprOriginX = -8;
+        static const int sprOriginY = -16 - 8;
+        int mFrameInterval;
+    public:
+        Chicken(double startX, double startY, ECharacterKind characterKind, std::string uniqueName);
+    protected:
+        void animation() override;
+    };
+
+    class Skull : public NPCBase
+    {
+        static const int sprOriginX = -8;
+        static const int sprOriginY = -16 - 8;
+        int mFrameInterval;
+    public:
+        Skull(double startX, double startY, ECharacterKind characterKind, std::string uniqueName);
+    protected:
+        void animation() override;
+    };
 
 
 

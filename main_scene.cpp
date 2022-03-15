@@ -423,7 +423,7 @@ namespace ingame::main
     {
         int frame = (mAnimTime / mFrameInterval);
         
-        mSpr->SetImage((frame % 4) * 32, int(IsMovingNow)*32);
+        mSpr->SetImage((frame % 3) * 32, int(mStopMovingTime>200 ? 0 : 1)*32);
 
         switch (mAngle)
         {
@@ -443,6 +443,35 @@ namespace ingame::main
 
         mAnimTime += Time::DeltaMilli();
     }
+
+
+    Chick::Chick(double startX, double startY, ECharacterKind characterKind, std::string uniqueName)
+        : NPCBase(startX, startY, characterKind, uniqueName, sprOriginX, sprOriginY)
+    {
+    }
+
+    void Chick::animation()
+    {
+    }
+
+    Chicken::Chicken(double startX, double startY, ECharacterKind characterKind, std::string uniqueName)
+        : NPCBase(startX, startY, characterKind, uniqueName, sprOriginX, sprOriginY)
+    {
+    }
+
+    void Chicken::animation()
+    {
+    }
+
+    Skull::Skull(double startX, double startY, ECharacterKind characterKind, std::string uniqueName)
+        : NPCBase(startX, startY, characterKind, uniqueName, sprOriginX, sprOriginY)
+    {
+    }
+
+    void Skull::animation()
+    {
+    }
+
 }
 
 namespace ingame::main

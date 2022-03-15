@@ -267,21 +267,6 @@ return {
           }
         },
         {
-          id = 35,
-          name = "chicken_fence",
-          type = "character",
-          shape = "rectangle",
-          x = 576,
-          y = 400,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["kind"] = "chicken"
-          }
-        },
-        {
           id = 36,
           name = "house_1",
           type = "event",

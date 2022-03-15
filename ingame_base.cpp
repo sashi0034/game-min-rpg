@@ -231,6 +231,16 @@ namespace ingame::main
         driveTalkEvent();
         animation();
 
+        if (mIsMovingNow)
+        {
+            mMovingTime+=Time::DeltaMilli();
+            mStopMovingTime = 0;
+        }
+        else
+        {
+            mMovingTime = 0;
+            mStopMovingTime += Time::DeltaMilli();
+        }
 
         mSpr->SetXY(mX + sprOriginX, mY + sprOriginY);
         mSpr->SetZ(Character::GetZFromY(mY));
@@ -273,11 +283,11 @@ namespace ingame::main
         auto onMoved = [&]() {
             mX += moveUnit / 2; mY += moveUnit / 2;
             Character::AttachToGridXY(&mX, &mY, moveUnit);
-            IsMovingNow = false;
+            mIsMovingNow = false;
         };
 
 
-        if (!IsMovingNow)
+        if (!mIsMovingNow)
         {// ìÆÇ´énÇﬂÇÃèàóù
             mAngle = Angle::ToAng(gotoX - mX, gotoY - mY);
             if (!Character::CanMappinglyMoveTo(gotoX + moveUnit / 2, gotoY + moveUnit / 2, mAngle) ||
@@ -286,7 +296,7 @@ namespace ingame::main
                 onMoved();
                 return false;
             }
-            IsMovingNow = true;
+            mIsMovingNow = true;
         }
 
         if (Character::DoMoveInStep(&mX, &mY, gotoX, gotoY, mVel))
