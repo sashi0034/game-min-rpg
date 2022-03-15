@@ -1,15 +1,13 @@
 #pragma once
+#include "stdafx.h"
 #include <any>
 #include <string>
 #include <map>
 #include <vector>
 #include <iostream>
 #include <tchar.h>
-#include <windows.h>
-#include "sol.hpp"
-#include "DxLib.h"
-#include "sprite.h"
-#include "game_engine.h"
+
+
 
 using namespace gameEngine;
 

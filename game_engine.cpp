@@ -1,4 +1,6 @@
+#include "stdafx.h"
 #include "game_engine.h"
+
 
 namespace gameEngine {
 	Time::Time() : gameUtils::Singleton<Time>()

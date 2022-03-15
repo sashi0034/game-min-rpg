@@ -1,5 +1,7 @@
+#include "stdafx.h"
 #include "main_scene_effect.h"
 #include "start.h"
+
 
 namespace ingame::main::effect
 {

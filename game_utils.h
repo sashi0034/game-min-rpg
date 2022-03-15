@@ -1,11 +1,8 @@
 #pragma once
 
-#include <string>
-#include <vector>
-#include <random>
-#include <iostream>
-#include "DxLib.h"
+#include "stdafx.h"
 #include "game_utils_template.h"
+
 
 
 namespace gameUtils

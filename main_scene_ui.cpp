@@ -1,6 +1,8 @@
+#include "stdafx.h"
 #include "main_scene_ui.h"
 #include "start.h"
 #include "main_scene_player.h"
+
 
 namespace ingame::main
 {

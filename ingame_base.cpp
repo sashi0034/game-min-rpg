@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #pragma once
 
 #include "ingame_base.h"

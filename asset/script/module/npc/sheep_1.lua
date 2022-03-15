@@ -57,7 +57,7 @@ sheep_1 = {
         w:streamText([[ƒ`Aƒ`]])
         while w:isRunning() do Yield() end
 
-        w:streamText("\n"..[[‚½‚­‚³‚ñ‘–‚Á‚ÄŒ’N‚É‚È‚ë‚¤!]])
+        w:streamText("\n"..[[‚½‚­‚³‚ñ‘–‚Á‚ÄŒ’N‚É‚È‚è‚Ü‚µ‚å‚¤!]])
         while w:isRunning() do Yield() end
 
         w:close()

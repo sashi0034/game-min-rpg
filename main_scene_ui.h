@@ -1,14 +1,8 @@
 #pragma once
 
-#include <iostream>
-#include <string.h>
-#include <map>
-#include <vector>
+#include "stdafx.h"
 
-#include "magic_enum.h"
 
-#include "game_utils.h"
-#include "game_engine.h"
 #include "lua_manager.h"
 
 #include "ingame_manager.h"

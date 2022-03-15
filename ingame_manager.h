@@ -1,6 +1,6 @@
 #pragma once
-#define NOMINMAX 
 
+#include "stdafx.h"
 #include <iostream>
 #include <string.h>
 #include <map>
@@ -8,11 +8,7 @@
 #include <math.h>
 
 
-#include "magic_enum.h"
 
-#include "game_utils.h"
-#include "game_engine.h"
-#include "lua_manager.h"
 
 
 using namespace gameUtils;

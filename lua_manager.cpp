@@ -1,5 +1,7 @@
-﻿#include "lua_manager.h"
+﻿#include "stdafx.h"
+#include "lua_manager.h"
 #include "start.h"
+
 
 namespace luaManager
 {

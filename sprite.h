@@ -1,9 +1,6 @@
 #pragma once
-#include <utility>
-#include <any>
-#include <vector>
-#include "DxLib.h"
-#include "game_utils.h"
+
+#include "stdafx.h" 
 
 using namespace gameUtils;
 

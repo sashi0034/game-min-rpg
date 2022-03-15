@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "start.h"
 #include "main_scene_player.h"
 

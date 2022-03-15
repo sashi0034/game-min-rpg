@@ -1,9 +1,7 @@
-#define _USE_MATH_DEFINES
+#include "stdafx.h"
 
-#include "sprite.h"
-#include <math.h>
-#include <random>
-#include <iostream>
+
+
 
 
 
