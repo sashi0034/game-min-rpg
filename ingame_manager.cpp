@@ -41,13 +41,13 @@ namespace ingame::main
 
 	MapManager::MapManager(int stageIndex) : Singleton<MapManager>()
 	{
-		sol::table fieldTable = luaManager::Lua["LoadScripte"](R"(.\asset\tilemap\field_01.lua)");
+		sol::table fieldTable = luaManager::Lua["LoadScript"](R"(.\asset\tilemap\field_01.lua)");
 
 		std::cout OUT_LOG fieldTable["tilesets"][1]["exportfilename"].get<std::string>() << "\n";
 
 		std::string tilesetFilePath = R"(.\asset\tilemap\)" + fieldTable["tilesets"][1]["exportfilename"].get<std::string>();
 		
-		sol::table tilesetTable = luaManager::Lua["LoadScripte"](tilesetFilePath);
+		sol::table tilesetTable = luaManager::Lua["LoadScript"](tilesetFilePath);
 
 		sol::table tiles = tilesetTable["tiles"];
 

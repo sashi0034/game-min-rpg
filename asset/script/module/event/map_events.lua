@@ -9,7 +9,7 @@ local files = {
 
 
 for index, value in ipairs(files) do
-    loadfile([[.\asset\scripte\module\event\content\]]..value..[[.lua]])()
+    loadfile([[.\asset\script\module\event\content\]]..value..[[.lua]])()
 end
 
 

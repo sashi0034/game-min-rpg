@@ -47,7 +47,7 @@ namespace luaManager
         Lua["Time"]["deltaSec"] = &Time::DeltaSec;
         Lua["Time"]["deltaMilli"] = &Time::DeltaMilli;
 
-        Lua.script_file(R"(.\asset\scripte\start.lua)");
+        Lua.script_file(R"(.\asset\script\start.lua)");
     }
 }
 

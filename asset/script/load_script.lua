@@ -1,7 +1,7 @@
 
 
 
-function LoadScripte(fileName)
+function LoadScript(fileName)
     return loadfile(fileName)()
 end
 
