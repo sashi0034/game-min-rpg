@@ -5,7 +5,7 @@ MapEventManager:addMapEvents({
         m:streamText([[‚±‚ñ‚É‚¿‚ÍA„‚Í•Ší‰®‚³‚ñ‚Å‚·]])
         while m:isRunning() do Yield() end
 
-        if (FlagManager.getFlag(FlagName.obtain_tree_branch)) and (FlagManager.getFlag(FlagName.create_wood_sword)==false) then
+        if (FlagManager.getFlag(FlagName.have_tree_branch)) and (FlagManager.getFlag(FlagName.have_wood_sword)==false) then
             m:streamText("\n"..[[‚¨‚âA‘f°‚ç‚µ‚¢–Ø‚Ì}‚ğ]].."\n"..[[‚¨‚¿‚Ì‚æ‚¤‚Å‚·‚Ë]])
             while m:isRunning() do Yield() end
 
@@ -37,8 +37,8 @@ MapEventManager:addMapEvents({
                 m:streamText("\n"..[[‚¨‘Ò‚½‚¹‚µ‚Ü‚µ‚½]].."\n"..[[–Ø‚ÌŒ•‚ªŠ®¬‚µ‚½‚Ì‚Å·‚µã‚°‚Ü‚·]])
                 while m:isRunning() do Yield() end
 
-                FlagManager.getFlag(FlagName.obtain_tree_branch, false)
-                FlagManager.getFlag(FlagName.create_wood_sword, true)
+                FlagManager.setFlag(FlagName.have_tree_branch, false)
+                FlagManager.setFlag(FlagName.have_wood_sword, true)
             elseif index==1 then
                 m:streamText("\n"..[[‚¦`]].."\n"..[[‚¯‚¿[!]])
                 while m:isRunning() do Yield() end

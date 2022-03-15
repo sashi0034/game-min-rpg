@@ -203,19 +203,22 @@ namespace ingame::main
         }
         else
         {// ˆÚ“®
+            int t = 1;
+            if (Input::Sole->GetKeyDown(KEY_INPUT_RSHIFT)) t *= 2;
+
             switch (mAngle)
             {
             case EAngle::DOWN:
-                mSpr->SetImage((frame % 4) * 32, 32 * 3);
+                mSpr->SetImage((frame*t % 4) * 32, 32 * 3);
                 break;
             case EAngle::RIGHT:
-                mSpr->SetImage((frame % 6) * 32, 32 * 4);
+                mSpr->SetImage((frame * t % 6) * 32, 32 * 4);
                 break;
             case EAngle::UP:
-                mSpr->SetImage((frame % 4) * 32, 32 * 5);
+                mSpr->SetImage((frame * t % 4) * 32, 32 * 5);
                 break;
             case EAngle::LEFT:
-                mSpr->SetImage((frame % 6) * 32, 32 * 4);
+                mSpr->SetImage((frame * t % 6) * 32, 32 * 4);
                 mSpr->SetFlip(true);
                 break;
             }

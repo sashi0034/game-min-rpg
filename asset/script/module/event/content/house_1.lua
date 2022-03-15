@@ -12,10 +12,21 @@ MapEventManager:addMapEvents({
         s:close()
 
         if (index==0) then
-            m:streamText("\n"..[[川上の木にハチの巣ができたと聞いておる]])
-            while m:isRunning() do Yield() end
-            m:streamText("\n"..[[危ないからSpaceキーで調べてはいかんぞ]])
-            while m:isRunning() do Yield() end
+            if not FlagManager.getFlag(FlagName.broke_tree_branch) then
+                m:streamText("\n"..[[最近城の北の木が弱っておるのう]])
+                while m:isRunning() do Yield() end
+                m:streamText("\n"..[[Spaceキーでいたずらしてはいかんぞ]])
+                while m:isRunning() do Yield() end
+            elseif (not FlagManager.getFlag(FlagName.kill_bee)) then
+                m:streamText("\n"..[[川上の木にハチの巣ができたと聞いておる]])
+                while m:isRunning() do Yield() end
+                m:streamText("\n"..[[危ないからSpaceキーで調べてはいかんぞ]])
+                while m:isRunning() do Yield() end
+            else
+                m:streamText("\n"..[[わしから言えることはもうない]].."\n"..[[生きるのじゃぞ]])
+                while m:isRunning() do Yield() end
+            end
+
         elseif index==1 then
             m:streamText("\n"..[[君は何をしに来たのじゃ]])
             while m:isRunning() do Yield() end

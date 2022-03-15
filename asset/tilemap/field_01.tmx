@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="40" height="28" tilewidth="16" tileheight="16" infinite="0" nextlayerid="22" nextobjectid="51">
+<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="40" height="28" tilewidth="16" tileheight="16" infinite="0" nextlayerid="23" nextobjectid="60">
  <editorsettings>
   <export target="field_01.lua" format="lua"/>
  </editorsettings>
@@ -216,6 +216,31 @@
   <object id="50" name="house_on_hill" type="event" x="80" y="80" width="16" height="16">
    <properties>
     <property name="kind" value="reach"/>
+   </properties>
+  </object>
+  <object id="52" name="sheep_1" type="character" x="256" y="48" width="16" height="16">
+   <properties>
+    <property name="kind" value="sheep"/>
+   </properties>
+  </object>
+  <object id="54" name="sheep_1_move_1" type="event" x="176" y="48" width="16" height="16">
+   <properties>
+    <property name="kind" value="unique"/>
+   </properties>
+  </object>
+  <object id="57" name="sheep_1_move_2" type="event" x="128" y="128" width="16" height="16">
+   <properties>
+    <property name="kind" value="unique"/>
+   </properties>
+  </object>
+  <object id="58" name="sheep_1_move_3" type="event" x="128" y="144" width="16" height="16">
+   <properties>
+    <property name="kind" value="unique"/>
+   </properties>
+  </object>
+  <object id="59" name="sheep_1_move_4" type="event" x="0" y="208" width="16" height="16">
+   <properties>
+    <property name="kind" value="unique"/>
    </properties>
   </object>
  </objectgroup>

@@ -1,7 +1,7 @@
 MapEventManager:addMapEvents({
 
     tree_1 = function (self, e)
-        if FlagManager.getFlag(FlagName.obtain_tree_branch)==true then
+        if FlagManager.getFlag(FlagName.broke_tree_branch)==true then
             return
         end
         
@@ -29,7 +29,8 @@ MapEventManager:addMapEvents({
             m:streamText("\n"..[[‰½‚©‚ÉŽg‚¦‚»‚¤‚¾‚©‚ç‚Æ‚Á‚Ä‚¨‚±‚¤]])
             while m:isRunning() do Yield() end
 
-            FlagManager.setFlag(FlagName.obtain_tree_branch, true)
+            FlagManager.setFlag(FlagName.have_tree_branch, true)
+            FlagManager.setFlag(FlagName.broke_tree_branch, true)
         end
 
         m:close()

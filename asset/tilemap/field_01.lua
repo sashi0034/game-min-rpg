@@ -8,8 +8,8 @@ return {
   height = 28,
   tilewidth = 16,
   tileheight = 16,
-  nextlayerid = 22,
-  nextobjectid = 51,
+  nextlayerid = 23,
+  nextobjectid = 60,
   properties = {},
   tilesets = {
     {
@@ -474,6 +474,81 @@ return {
           visible = true,
           properties = {
             ["kind"] = "reach"
+          }
+        },
+        {
+          id = 52,
+          name = "sheep_1",
+          type = "character",
+          shape = "rectangle",
+          x = 256,
+          y = 48,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "sheep"
+          }
+        },
+        {
+          id = 54,
+          name = "sheep_1_move_1",
+          type = "event",
+          shape = "rectangle",
+          x = 176,
+          y = 48,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 57,
+          name = "sheep_1_move_2",
+          type = "event",
+          shape = "rectangle",
+          x = 128,
+          y = 128,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 58,
+          name = "sheep_1_move_3",
+          type = "event",
+          shape = "rectangle",
+          x = 128,
+          y = 144,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 59,
+          name = "sheep_1_move_4",
+          type = "event",
+          shape = "rectangle",
+          x = 0,
+          y = 208,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
           }
         }
       }

@@ -1,7 +1,10 @@
 
 FlagName = {
-    obtain_tree_branch="",
-    create_wood_sword="",
+    broke_tree_branch="",
+    have_tree_branch="",
+    have_wood_sword="",
+    kill_bee="",
+    obtain_honey="",
 }
 
 

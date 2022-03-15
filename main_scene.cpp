@@ -68,6 +68,18 @@ namespace ingame::main
         case ECharacterKind::slime:
             new Slime(x, y, kind, name);
             break;
+        case ECharacterKind::sheep:
+            new Sheep(x, y, kind, name);
+            break;
+        case ECharacterKind::chick:
+            new Chick(x, y, kind, name);
+            break;
+        case ECharacterKind::chicken:
+            new Chicken(x, y, kind, name);
+            break;
+        case ECharacterKind::skull:
+            new Skull(x, y, kind, name);
+            break;
         default:
             std::cerr ERR_LOG "Invalid character name `" << character << "` exit.\n";
             break;
@@ -209,6 +221,7 @@ namespace ingame::main
         static const int maxY = 16 * 256;
         return ZIndex::CHARACTER - gridY / maxY * 1000;
     }
+
 }
 
 
@@ -396,7 +409,41 @@ namespace ingame::main
     }
 }
 
+namespace ingame::main
+{
+    Sheep::Sheep(double startX, double startY, ECharacterKind characterKind, std::string uniqueName) :
+        NPCBase(startX, startY, characterKind, uniqueName, sprOriginX, sprOriginY)
+    {
+        mSpr->SetImage(Images->Sheep, 0, 0, 32, 32);
+        mFrameInterval = mLuaData["frameInterval"].get_or(0);
 
+    }
+
+    void Sheep::animation()
+    {
+        int frame = (mAnimTime / mFrameInterval);
+        
+        mSpr->SetImage((frame % 4) * 32, int(IsMovingNow)*32);
+
+        switch (mAngle)
+        {
+        case EAngle::DOWN:
+            mSpr->SetFlip(false);
+            break;
+        case EAngle::RIGHT:
+            mSpr->SetFlip(true);
+            break;
+        case EAngle::UP:
+            mSpr->SetFlip(true);
+            break;
+        case EAngle::LEFT:
+            mSpr->SetFlip(false);
+            break;
+        }
+
+        mAnimTime += Time::DeltaMilli();
+    }
+}
 
 namespace ingame::main
 {
