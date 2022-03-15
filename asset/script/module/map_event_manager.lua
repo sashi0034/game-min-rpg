@@ -9,6 +9,11 @@ MapEventManager = {
         self.vel = 50
         self.isFixed = false
 
+        for key, value in pairs(self.staticEvents) do
+            self.events[key] = coroutine.create(value)
+            coroutine.resume(self.events[key], self)
+        end
+
         OutLog("MapEventManager in Lua is initilaized.\n")
         return self
     end,
@@ -31,10 +36,17 @@ MapEventManager = {
     end,
 
     mapEvents = {},
+    staticEvents = {},
 
     addMapEvents = function (self, table)
         for key, value in pairs(table) do
             self.mapEvents[key] = value
+        end
+    end,
+
+    addStaticEvents = function (self, table)
+        for key, value in pairs(table) do
+            self.staticEvents[key] = value
         end
     end,
 }
