@@ -80,11 +80,15 @@ namespace ingame::main
     };
 
 
-    class FlagManager : public Singleton<FlagManager>
+    class FlagManager : public Actor, public ISingleton<FlagManager>
     {
         std::map<std::string, bool> mFlag{};
+    protected:
+        void update() override;
+
     public:
         FlagManager();
+        ~FlagManager();
         void SetFlag(std::string flagName, bool flag);
         bool GetFlag(std::string flagName);
         static const std::string LUA_CLASS;

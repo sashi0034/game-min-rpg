@@ -215,11 +215,23 @@ namespace ingame::main
 namespace ingame::main{
     const std::string FlagManager::LUA_CLASS = "FlagManager";
 
-    FlagManager::FlagManager()
+
+    FlagManager::FlagManager() : Actor()
     {
+        Sole = this;
         luaManager::Lua[LUA_CLASS] = luaManager::Lua.create_table();
         luaManager::Lua[LUA_CLASS]["setFlag"] = [&](std::string flagName, bool flag)->void {SetFlag(flagName, flag); };
         luaManager::Lua[LUA_CLASS]["getFlag"] = [&](std::string flagName)->bool {return GetFlag(flagName); };
+    }
+
+    FlagManager::~FlagManager()
+    {
+        Sole = nullptr;
+    }
+
+    void FlagManager::update()
+    {
+        Actor::update();
     }
 
     void FlagManager::SetFlag(std::string flagName, bool flag)

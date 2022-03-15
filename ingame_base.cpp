@@ -23,6 +23,10 @@ namespace ingame
     }
     void LuaActor::luaConstructor()
     {
+        if (mLuaClassName == "MessageWindowLuaData")
+        {
+            std::cout << mLuaData["width"].get_or(0) << "\n";
+        }
         mLuaData = luaManager::Lua[mLuaClassName]["new"]();
     }
     void LuaActor::luaUpdate()

@@ -5,8 +5,6 @@ loadfile([[./asset/scripte/globals.lua]])()
 
 loadfile("./asset/scripte/load_scripte.lua")()
 
-loadfile("./asset/scripte/module/test.lua")()
-
 loadfile("./asset/scripte/module/ingame_event_base.lua")()
 
 loadfile("./asset/scripte/module/flag_name.lua")()
@@ -22,7 +20,8 @@ loadfile([[.\asset\scripte\module\npc\slime.lua]])()
 loadfile([[.\asset\scripte\module\npc\slime_on_bridge.lua]])()
 
 loadfile([[.\asset\scripte\module\map_event_manager.lua]])()
-loadfile([[.\asset\scripte\module\map_events.lua]])()
+loadfile([[.\asset\scripte\module\event\map_events.lua]])()
+
 
 loadfile([[./asset\scripte\module\message_window.lua]])()
 loadfile([[./asset\scripte\module\selection_window.lua]])()
