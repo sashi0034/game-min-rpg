@@ -13,5 +13,6 @@ MapEventManager:addMapEvents({
         while m:isRunning() do Yield() end
 
         m:close()
+        FlagManager.setFlag(FlagName.heard_mouse_rumor, true)
     end
 })

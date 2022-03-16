@@ -55,6 +55,7 @@ namespace ingame
             Graph* Punicat = loadPng("punicat_24x24");
             Graph* Slime = loadPng("slime_24x24");
             Graph* Sheep = loadPng("sheep_32x32");
+            Graph* Mouse = loadPng("mouse_24x24");
             Graph* Chicken = loadPng("chicken_32x32");
             Graph* Chick = loadPng("chick_16x16");
             Graph* Castle = loadPng("castle_32x32");

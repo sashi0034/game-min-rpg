@@ -73,6 +73,9 @@ namespace ingame::main
         case ECharacterKind::sheep:
             new Sheep(x, y, kind, name);
             break;
+        case ECharacterKind::mouse:
+            new Mouse(x, y, kind, name);
+            break;
         case ECharacterKind::chick:
             new Chick(x, y, kind, name);
             break;
@@ -223,6 +226,8 @@ namespace ingame::main
         static const int maxY = 16 * 256;
         return ZIndex::CHARACTER - gridY / maxY * 1000;
     }
+
+
 
 }
 
@@ -446,6 +451,37 @@ namespace ingame::main
         mAnimTime += Time::DeltaMilli();
     }
 
+
+    Mouse::Mouse(double startX, double startY, ECharacterKind characterKind, std::string uniqueName)
+        : NPCBase(startX, startY, characterKind, uniqueName, sprOriginX, sprOriginY)
+    {
+        mSpr->SetImage(Images->Mouse, 0, 0, 24, 24);
+        mFrameInterval = mLuaData["frameInterval"].get_or(0);
+    }
+
+    void Mouse::animation()
+    {
+        int frame = (mAnimTime / mFrameInterval);
+        mSpr->SetFlip(false);
+
+        switch (mAngle)
+        {
+        case EAngle::DOWN:
+            mSpr->SetImage((frame % 4) * 24, 0);
+            break;
+        case EAngle::RIGHT:
+            mSpr->SetImage((frame % 4) * 24, 24 * 3);
+            break;
+        case EAngle::UP:
+            mSpr->SetImage((frame % 4) * 24, 24 * 2);
+            break;
+        case EAngle::LEFT:
+            mSpr->SetImage((frame % 4) * 24, 24 * 1);
+            break;
+        }
+
+        mAnimTime += Time::DeltaMilli();
+    }
 
     Chick::Chick(double startX, double startY, ECharacterKind characterKind, std::string uniqueName)
         : NPCBase(startX, startY, characterKind, uniqueName, sprOriginX, sprOriginY)

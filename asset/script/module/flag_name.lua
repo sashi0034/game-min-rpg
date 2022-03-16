@@ -5,6 +5,7 @@ FlagName = {
     have_wood_sword="",
     kill_bee="",
     obtain_honey="",
+    heard_mouse_rumor="",
 }
 
 

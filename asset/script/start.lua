@@ -20,6 +20,8 @@ loadfile([[.\asset\script\module\npc\sheep.lua]])()
 loadfile([[.\asset\script\module\npc\sheep_1.lua]])()
 loadfile([[.\asset\script\module\npc\slime.lua]])()
 loadfile([[.\asset\script\module\npc\slime_on_bridge.lua]])()
+loadfile([[.\asset\script\module\npc\mouse.lua]])()
+loadfile([[.\asset\script\module\npc\mouse_fast.lua]])()
 
 loadfile([[.\asset\script\module\map_event_manager.lua]])()
 loadfile([[.\asset\script\module\event\load_events.lua]])()
@@ -27,7 +29,6 @@ loadfile([[.\asset\script\module\event\load_events.lua]])()
 loadfile([[./asset\script\module\message_window.lua]])()
 loadfile([[./asset\script\module\selection_window.lua]])()
 
-loadfile([[./asset/script/module/test_npc.lua]])()
 
 -- @memo
 -- event関連はそれ専用のクラスをC++で作ってLuaで呼ぶのがよさそう

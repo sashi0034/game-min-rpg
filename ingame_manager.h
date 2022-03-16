@@ -40,6 +40,7 @@ namespace ingame
 			punicat,
 			slime,
 			sheep,
+			mouse,
 			chick,
 			chicken,
 			skull,

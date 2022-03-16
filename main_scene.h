@@ -124,6 +124,17 @@ namespace ingame::main
         void animation() override;
     };
 
+    class Mouse : public NPCBase
+    {
+        static const int sprOriginX = -4;
+        static const int sprOriginY = -4 - 8;
+        int mFrameInterval;
+    public:
+        Mouse(double startX, double startY, ECharacterKind characterKind, std::string uniqueName);
+    protected:
+        void animation() override;
+    };
+
     class Chick : public NPCBase
     {
         static const int sprOriginX = -8;

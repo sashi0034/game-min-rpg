@@ -8,8 +8,8 @@ return {
   height = 28,
   tilewidth = 16,
   tileheight = 16,
-  nextlayerid = 23,
-  nextobjectid = 60,
+  nextlayerid = 24,
+  nextobjectid = 65,
   properties = {},
   tilesets = {
     {
@@ -528,6 +528,96 @@ return {
           shape = "rectangle",
           x = 0,
           y = 208,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        }
+      }
+    },
+    {
+      type = "objectgroup",
+      draworder = "topdown",
+      id = 23,
+      name = "オブジェクトレイヤー2",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      parallaxx = 1,
+      parallaxy = 1,
+      properties = {},
+      objects = {
+        {
+          id = 60,
+          name = "mouse_fast_start",
+          type = "event",
+          shape = "rectangle",
+          x = 224,
+          y = 272,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 61,
+          name = "mouse_fast_move_1",
+          type = "event",
+          shape = "rectangle",
+          x = 224,
+          y = 160,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 62,
+          name = "mouse_fast_move_2",
+          type = "event",
+          shape = "rectangle",
+          x = 144,
+          y = 160,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 63,
+          name = "mouse_fast_move_3",
+          type = "event",
+          shape = "rectangle",
+          x = 144,
+          y = 368,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = false,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 64,
+          name = "mouse_fast_move_4",
+          type = "event",
+          shape = "rectangle",
+          x = 80,
+          y = 368,
           width = 16,
           height = 16,
           rotation = 0,

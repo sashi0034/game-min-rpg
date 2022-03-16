@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="40" height="28" tilewidth="16" tileheight="16" infinite="0" nextlayerid="23" nextobjectid="60">
+<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="40" height="28" tilewidth="16" tileheight="16" infinite="0" nextlayerid="24" nextobjectid="65">
  <editorsettings>
   <export target="field_01.lua" format="lua"/>
  </editorsettings>
@@ -234,6 +234,33 @@
    </properties>
   </object>
   <object id="59" name="sheep_1_move_4" type="event" x="0" y="208" width="16" height="16">
+   <properties>
+    <property name="kind" value="unique"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="23" name="オブジェクトレイヤー2">
+  <object id="60" name="mouse_fast_start" type="event" x="224" y="272" width="16" height="16">
+   <properties>
+    <property name="kind" value="unique"/>
+   </properties>
+  </object>
+  <object id="61" name="mouse_fast_move_1" type="event" x="224" y="160" width="16" height="16">
+   <properties>
+    <property name="kind" value="unique"/>
+   </properties>
+  </object>
+  <object id="62" name="mouse_fast_move_2" type="event" x="144" y="160" width="16" height="16">
+   <properties>
+    <property name="kind" value="unique"/>
+   </properties>
+  </object>
+  <object id="63" name="mouse_fast_move_3" type="event" x="144" y="368" width="16" height="16" visible="0">
+   <properties>
+    <property name="kind" value="unique"/>
+   </properties>
+  </object>
+  <object id="64" name="mouse_fast_move_4" type="event" x="80" y="368" width="16" height="16">
    <properties>
     <property name="kind" value="unique"/>
    </properties>
