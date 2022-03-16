@@ -10,10 +10,16 @@ namespace luaManager
 
     int SolStart()
     {
+        Lua = sol::state{};
 
         Lua.open_libraries(sol::lib::base, sol::lib::package, sol::lib::coroutine, sol::lib::string, sol::lib::os, sol::lib::math,
             sol::lib::table, sol::lib::debug, sol::lib::bit32, sol::lib::io, sol::lib::ffi, sol::lib::utf8);
+
+        //Lua.set_exception_handler(&exceptionHandler);
+
         DefineTable();
+
+
 
         new luaManager::LuaDebugManager();
         return 0;
@@ -49,7 +55,13 @@ namespace luaManager
         Lua["Time"]["deltaSec"] = &Time::DeltaSec;
         Lua["Time"]["deltaMilli"] = &Time::DeltaMilli;
 
-        Lua.script_file(R"(.\asset\script\start.lua)");
+        //Lua.script_file(R"(.\asset\script\start.lua)");
+        sol::protected_function_result result = Lua.safe_script_file(R"(.\asset\script\start.lua)", &sol::script_pass_on_error);
+        if (!result.valid())
+        {
+            sol::error error = result;
+            std::cerr ERR_LOG error.what() << std::endl;
+        }
     }
 }
 

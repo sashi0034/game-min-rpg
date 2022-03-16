@@ -16,7 +16,10 @@ IngameEventBase = {
         for key, value in pairs(self.events) do
             if (coroutine.status(value))~="dead" then
                 if (self.pausedEvents[key]~=true) then
-                    coroutine.resume(value)    
+                    local ok, res = coroutine.resume(value)
+                    if (not ok) then
+                        ErrLog("Corutine erroed at "..key.." in "..debug.getinfo(2).source.."\n"..res.."\n")
+                    end
                 end
             else
                 self.events[key] = nil
