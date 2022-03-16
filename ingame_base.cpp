@@ -24,11 +24,16 @@ namespace ingame
     }
     void LuaActor::luaConstructor()
     {
-        if (mLuaClassName == "MessageWindowLuaData")
+        sol::safe_function_result res = luaManager::Lua[mLuaClassName]["new"]();
+        if (res.valid())
         {
-            std::cout << mLuaData["width"].get_or(0) << "\n";
+            mLuaData = res;
         }
-        mLuaData = luaManager::Lua[mLuaClassName]["new"]();
+        else
+        {
+            std::cerr ERR_LOG "In Lua constructer of " << mLuaClassName << " does not exit.";
+        }
+
     }
     void LuaActor::luaUpdate()
     {
@@ -44,8 +49,15 @@ namespace ingame
     }
     void LuaCollideActor::luaConstructor()
     {
-        mLuaData = luaManager::Lua[mLuaClassName]["new"]();
-
+        sol::safe_function_result res = luaManager::Lua[mLuaClassName]["new"]();
+        if (res.valid())
+        {
+            mLuaData = res;
+        }
+        else
+        {
+            std::cerr ERR_LOG "In Lua constructer of " << mLuaClassName << " does not exit.";
+        }
     }
     void LuaCollideActor::luaUpdate()
     {
