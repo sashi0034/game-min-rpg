@@ -48,7 +48,10 @@ void Sprite::SetFlip(bool isFlip)
 {
     this->isFlip = isFlip;
 }
-
+bool Sprite::GetFlip()
+{
+    return this->isFlip;
+}
 
 void Sprite::SetImage(Graph* image)
 {
@@ -70,6 +73,14 @@ void Sprite::SetImage(Graph* image, int u, int v, int width, int height)
     this->SetImage(image);
     this->SetImage(u, v, width, height);
 }
+void Sprite::GetImage(Graph** image, int* u, int* v, int* width, int* height)
+{
+    *image = this->image;
+    *u = this->u;
+    *v = this->v;
+    *width = this->width;
+    *height = this->height;
+}
 
 
 void Sprite::SetXY(double x, double y)
@@ -77,6 +88,12 @@ void Sprite::SetXY(double x, double y)
     this->x = x;
     this->y = y;
 }
+void Sprite::GetXY(double* x, double* y)
+{
+    *x = this->x;
+    *y = this->y;
+}
+
 void Sprite::SetZ(double z)
 {
     this->z = z;
@@ -105,6 +122,10 @@ void Sprite::SetRotationRad(double rad)
 {
     this->rotationRad = rad;
 }
+double Sprite::GetRotationRad()
+{
+    return this->rotationRad;
+}
 
 
 void Sprite::SetBelong(std::any instance)
@@ -120,6 +141,10 @@ std::any Sprite::GetBelong()
 void Sprite::SetLinkXY(const Sprite* linkSpr)
 {
     this->linkXY = linkSpr;
+}
+Sprite* Sprite::GetLinkXY()
+{
+    return const_cast<Sprite*>(this->linkXY);
 }
 /// <summary>
 /// Disposeするタイミングの同期
@@ -173,6 +198,11 @@ void Sprite::SetBlendPal(int blendPal)
 {
     this->blendPal = blendPal;
 }
+void Sprite::GetBlend(int* blendMode, int* blendPal)
+{
+    *blendMode = this->blendMode;
+    *blendPal = this->blendPal;
+}
 
 
 void Sprite::SetUpdateMethod(void (*updateMethod)(Sprite* hSp))
@@ -186,6 +216,36 @@ void Sprite::SetDrawingMethod(void (*drawingMethod)(Sprite* hSp, int hX, int hY)
 void Sprite::SetDestructorMethod(void (*destructorMethod)(Sprite* hSp))
 {
     this->destructorMethod = destructorMethod;
+}
+
+Sprite* Sprite::CopyVisuallyFrom(Sprite* fromSpr)
+{
+    double x, y, z;
+    Graph* image=nullptr;
+    int u, v, width, height;
+    bool isFlip;
+    double rad;
+    int blendMode, blendPal;
+    Sprite* linkXY=nullptr;
+
+    fromSpr->GetXY(&x, &y);
+    z = fromSpr->GetZ();
+    fromSpr->GetImage(&image, &u, &v, &width, &height);
+    isFlip = fromSpr->GetFlip();
+    rad = fromSpr->GetRotationRad();
+    fromSpr->GetBlend(&blendMode, &blendPal);
+    linkXY = fromSpr->GetLinkXY();
+
+    Sprite* spr = new Sprite();
+    spr->SetXY(x, y);
+    spr->SetZ(z);
+    spr->SetImage(image, u, v, width, height);
+    spr->SetFlip(isFlip);
+    spr->SetRotationRad(rad);
+    spr->SetBlend(blendMode, blendPal);
+    spr->SetLinkXY(linkXY);
+    
+    return spr;
 }
 
 

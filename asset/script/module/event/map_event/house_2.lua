@@ -6,7 +6,7 @@ MapEventManager:addMapEvents({
         m:streamText([[‚¨é‚ÉŒü‚©‚Á‚Ä‚¢‚­]].."\n"..[[ƒlƒYƒ~‚ğŒ©‚½‚±‚Æ‚ª‚ ‚é‚í]])
         while m:isRunning() do Yield() end
 
-        m:streamText("\n"..[[‚«‚Á‚Æ‚¢‚¢‚±‚Æ‚¾‚í]])
+        m:streamText("\n"..[[‚«‚Á‚Æ‚¨‚¢‚µ‚¢‚ÉŒˆ‚Ü‚Á‚Ä‚é‚í]])
         while m:isRunning() do Yield() end
 
         m:streamText("\n"..[[ª‹’‚Í‚È‚¢‚¯‚Ç]])

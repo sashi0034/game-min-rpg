@@ -132,6 +132,7 @@ namespace ingame::main
     public:
         Mouse(double startX, double startY, ECharacterKind characterKind, std::string uniqueName);
     protected:
+        void update() override;
         void animation() override;
     };
 

@@ -6,6 +6,8 @@ FlagName = {
     kill_bee="",
     obtain_honey="",
     heard_mouse_rumor="",
+    obtain_super_dash="",
+    friend_with_mouse="",
 }
 
 

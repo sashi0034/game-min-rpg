@@ -101,16 +101,26 @@ namespace ingame
             bool mIsMovingNow = false;
             int mMovingTime = 0;
             int mStopMovingTime = 0;
+            bool mIsDeath = false;
         public:
             NPCBase(double startX, double startY, ECharacterKind characterKind, std::string uniqueName, int sprOriginX, int sprOriginY);
         protected:
             virtual void update() override;
             virtual void animation() = 0;
             virtual void driveTalkEvent();
+            virtual void fadeAndDie();
             bool doMove(double x, double y);
             bool doMoveTemporary(double x, double y);
-        };
 
+            class DeadBody : Actor
+            {
+                Sprite* mBodySpr;
+            public:
+                DeadBody(Sprite* body);
+            protected:
+                void update();
+            };
+        };
 
         class FieldDecorationBase : public Actor
         {

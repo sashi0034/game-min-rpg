@@ -47,5 +47,6 @@ namespace ingame::main
         void animation();
         bool doWaitForMove();
         bool doMove();
+        void dashAfterimage();
     };
 };

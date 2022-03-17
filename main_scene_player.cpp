@@ -152,6 +152,30 @@ namespace ingame::main
         }
     }
 
+    void Player::dashAfterimage()
+    {
+        Sprite* afterimage = Sprite::CopyVisuallyFrom(mSpr);
+        afterimage->SetZ(afterimage->GetZ()+0.001);
+        int* time = new int{ 0 };
+
+        new EventTimerAsActor(
+            [afterimage, time]() {
+                (*time)++;
+                afterimage->SetBlendPal((std::max)(0, 120 - (* time) * 10));
+                if (*time > 10)
+                {
+                    delete time;
+                    Sprite::Dispose(afterimage);
+                    return false;
+                }
+                
+                return true;
+            }
+            , 50
+                );
+
+    }
+
     void Player::touchSomething()
     {
         if (mFixedCount == 0)
@@ -273,8 +297,14 @@ namespace ingame::main
 
             if (canMove)
             {
-                mVel = mVelStandard * 
-                    (Input::Sole->GetKeyDown(KEY_INPUT_RSHIFT) || Input::Sole->GetKeyDown(KEY_INPUT_LSHIFT) ? 2.0 : 1.0);   // ダッシュをするか
+                bool isDash = Input::Sole->GetKeyDown(KEY_INPUT_RSHIFT) || Input::Sole->GetKeyDown(KEY_INPUT_LSHIFT);
+
+                mVel = mVelStandard * (isDash ? 2.0 : 1.0);   // ダッシュをするか
+
+                if (isDash)
+                {
+                    dashAfterimage();
+                }
 
                 mGotoX = mX + xy.X * moveUnit;
                 mGotoY = mY + xy.Y * moveUnit;

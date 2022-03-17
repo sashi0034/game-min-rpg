@@ -11,7 +11,6 @@ class Sprite
     static std::vector<Sprite*> sprites;
     // @todo: std::map Ç‡égÇ¡Çƒåüçıéûä‘Ç™íZèkÇ≈Ç´ÇªÇ§
 
-    bool isUsed = false;
     double x = 0;
     double y = 0;
     double z = 0;
@@ -44,26 +43,32 @@ public:
     static void End();
 
     void SetFlip(bool isFlip);
+    bool GetFlip();
 
     void SetImage(Graph* image);
     void SetImage(int u, int v);
     void SetImage(int u, int v, int width, int height);
     void SetImage(Graph* image, int u, int v, int width, int height);
+    void GetImage(Graph** image, int *u, int *v, int *width, int *height);
 
     void SetXY(double x, double y);
+    void GetXY(double *x, double *y);
+
     void SetZ(double z);
     double GetZ();
-
 
     void GetScreenXY(int* x, int* y);
 
     void SetRotationDeg(double deg);
     void SetRotationRad(double rad);
+    double GetRotationRad();
 
     void SetBelong(std::any instance);
     std::any GetBelong();
 
     void SetLinkXY(const Sprite* linkSpr);
+    Sprite* GetLinkXY();
+
     void SetLinkActive(const Sprite* linkSpr);
 
     void GetLinkDifferenceXY(double* x, double* y);
@@ -71,10 +76,13 @@ public:
     void SetBlend(int blendMode, int blendPal);
     void SetBlendMode(int blendMode);
     void SetBlendPal(int blendPal);
+    void GetBlend(int *blendMode, int *blendPal);
 
     void SetUpdateMethod(void (*updateMethod)(Sprite* hSp));
     void SetDrawingMethod(void (*drawingMethod)(Sprite* hSp, int hX, int hY));
     void SetDestructorMethod(void (*destructorMethod)(Sprite* hSp));
+
+    static Sprite* CopyVisuallyFrom(Sprite* fromSpr);
 
     static void Dispose(Sprite* spr);
     static void Dispose(Sprite* spr, bool isParentOnly);

@@ -88,6 +88,7 @@ namespace ingame
             mAnimTime += Time::DeltaMilli();
             Actor::update();
         }
+
     }
 
 
@@ -230,6 +231,8 @@ namespace ingame::main
         mLuaData["doMove"] = [&](double x, double y)->bool {return this->doMove(x, y); };
         mLuaData["getX"] = [&]()->double {return this->mX; };
         mLuaData["getY"] = [&]()->double {return this->mY; };
+        mLuaData["setDeath"] = [&](bool isDeath)->void {this->mIsDeath = isDeath; };
+        mLuaData["fadeAndDie"] = [&]()->void {NPCBase::fadeAndDie(); };
 
         mVel = mLuaData["vel"];
 
@@ -239,7 +242,7 @@ namespace ingame::main
 
     void NPCBase::update()
     {
-        luaManager::Lua[mLuaClassName]["update"](mLuaData);
+        LuaCollideActor::update();
 
         driveTalkEvent();
         animation();
@@ -266,6 +269,33 @@ namespace ingame::main
             mAngle = Character::TurnTowardPlayer(mX, mY);
         }
     }
+    void NPCBase::fadeAndDie()
+    {
+        Sprite* copy = Sprite::CopyVisuallyFrom(this->mSpr);
+
+        new DeadBody(copy);
+
+        mIsDeath = true;
+    }
+    
+    NPCBase::DeadBody::DeadBody(Sprite* body) : Actor()
+    {
+        mBodySpr = body;
+        mBodySpr->SetLinkActive(mSpr);
+    }
+
+    void NPCBase::DeadBody::update()
+    {
+        mBodySpr->SetBlendPal((mTime / 75) % 2 == 0 ? 16 : 224);
+        if (mTime > 2000) 
+        {
+            Sprite::Dispose(mSpr);
+            return;
+        }
+        Actor::update();
+    }
+
+
     bool NPCBase::doMove(double gotoX, double gotoY)
     {
         if (mHasTempGoto)

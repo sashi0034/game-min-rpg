@@ -77,6 +77,10 @@ namespace gameEngine {
 	{
 		mInterval = interval;
 	}
+	void EventTimer::SetDoEvent(std::function<bool()> doEvent)
+	{
+		mDoEvent = doEvent;
+	}
 	bool EventTimer::IsAlive()
 	{
 		return mIsAlive;

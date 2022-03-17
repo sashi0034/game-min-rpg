@@ -459,6 +459,16 @@ namespace ingame::main
         mFrameInterval = mLuaData["frameInterval"].get_or(0);
     }
 
+    void Mouse::update()
+    {
+        NPCBase::update();
+        if (mIsDeath)
+        {
+            Sprite::Dispose(mSpr);
+            return;
+        }
+    }
+
     void Mouse::animation()
     {
         int frame = (mAnimTime / mFrameInterval);

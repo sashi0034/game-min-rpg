@@ -9,7 +9,8 @@ mouse_fast = {
         self.events = {
             move = nil,
         }
-        self.vel = 50
+        self.vel = 60
+        self.frameInterval = 60
 
         return self
     end,
@@ -38,18 +39,72 @@ mouse_fast = {
         while self.doMove(e3.x, e3.y) do Yield() end
         while self.doMove(e4.x, e4.y) do Yield() end
 
+        self.setDeath(true)
     end,
 
     talk = function (self, e)
-        local w = MessageWindow.open()
+        local m = MessageWindow.open()
 
-        w:streamText([[メ～、メ～]])
-        while w:isRunning() do Yield() end
+        if 
+            FlagManager.getFlag(FlagName.obtain_super_dash) or
+            FlagManager.getFlag(FlagName.friend_with_mouse) 
+        then
+            m:streamText([[ぼ、僕は悪くないっぴ!]])
+            while m:isRunning() do Yield() end
 
-        w:streamText("\n"..[[たくさん走って健康になりましょう!]])
-        while w:isRunning() do Yield() end
+            m:close()
+            return
+        end
 
-        w:close()
+
+        m:streamText([[ぼ、僕を食べないでくれっぴ!]])
+        while m:isRunning() do Yield() end
+
+        -- m:streamText("\n"..[[そうだ、君にもねずみの加護をつけて]].."\n"..[[あげるっぴ]])
+        -- while m:isRunning() do Yield() end
+
+        local s = SelectionWindow.open({[[見逃す]], [[食べる]]})
+        while s:isRunning() do Yield() end
+        local index=s:selectedIndex()
+        s:close()
+
+        if (index==0) then
+            local sleep
+
+            m:streamText("\n"..[[ありがとうっぴ! ]])
+            while m:isRunning() do Yield() end
+
+            FlagManager.setFlag(FlagName.friend_with_mouse, true)
+        elseif index==1 then
+            local sleep
+
+            m:streamText("\n"..[[ひ、ひどいっぴ! ]])
+            while m:isRunning() do Yield() end
+
+            sleep=coroutine.create(self.doSleep)
+            while coroutine.resume(sleep, 0.5) do Yield() end
+
+            m:close()
+            m = MessageWindow.open()
+
+            m:streamText([[むしゃむしゃ、]])
+            while m:isRunning() do Yield() end
+            sleep=coroutine.create(self.doSleep)
+            while coroutine.resume(sleep, 0.5) do Yield() end
+
+            m:streamText([[もぐもぐ]])
+            while m:isRunning() do Yield() end
+            sleep=coroutine.create(self.doSleep)
+            while coroutine.resume(sleep, 0.5) do Yield() end
+
+            m:streamText("\n"..[[Shiftのダッシュがもっと速くなった!]])
+            while m:isRunning() do Yield() end
+
+            FlagManager.setFlag(FlagName.obtain_super_dash, true)
+            self.fadeAndDie()
+        end
+
+        m:close()
     end
     
 }
