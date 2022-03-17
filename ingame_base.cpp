@@ -272,27 +272,20 @@ namespace ingame::main
     void NPCBase::fadeAndDie()
     {
         Sprite* copy = Sprite::CopyVisuallyFrom(this->mSpr);
+        auto count = std::shared_ptr<int>(new int{0});
 
-        new DeadBody(copy);
+        new EventTimerAsActor([copy, count]()->bool {
+            (*count)++;
+            copy->SetBlendPal(*count % 2 == 0 ? 16 : 224);
+            if (*count > 20)
+            {
+                Sprite::Dispose(copy);
+                return false;
+            }
+            return true; 
+            }, 100);
 
         mIsDeath = true;
-    }
-    
-    NPCBase::DeadBody::DeadBody(Sprite* body) : Actor()
-    {
-        mBodySpr = body;
-        mBodySpr->SetLinkActive(mSpr);
-    }
-
-    void NPCBase::DeadBody::update()
-    {
-        mBodySpr->SetBlendPal((mTime / 75) % 2 == 0 ? 16 : 224);
-        if (mTime > 2000) 
-        {
-            Sprite::Dispose(mSpr);
-            return;
-        }
-        Actor::update();
     }
 
 

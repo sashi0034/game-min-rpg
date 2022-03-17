@@ -152,27 +152,26 @@ namespace ingame::main
         }
     }
 
+
     void Player::dashAfterimage()
     {
         Sprite* afterimage = Sprite::CopyVisuallyFrom(mSpr);
         afterimage->SetZ(afterimage->GetZ()+0.001);
-        int* time = new int{ 0 };
-
+        auto time = std::shared_ptr<int>(new int{ 0 });
+        
         new EventTimerAsActor(
             [afterimage, time]() {
                 (*time)++;
                 afterimage->SetBlendPal((std::max)(0, 120 - (* time) * 10));
                 if (*time > 10)
                 {
-                    delete time;
                     Sprite::Dispose(afterimage);
                     return false;
                 }
-                
+
                 return true;
             }
-            , 50
-                );
+            , 50);
 
     }
 

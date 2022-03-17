@@ -112,14 +112,6 @@ namespace ingame
             bool doMove(double x, double y);
             bool doMoveTemporary(double x, double y);
 
-            class DeadBody : Actor
-            {
-                Sprite* mBodySpr;
-            public:
-                DeadBody(Sprite* body);
-            protected:
-                void update();
-            };
         };
 
         class FieldDecorationBase : public Actor
