@@ -175,6 +175,20 @@ namespace ingame::main
 
     }
 
+    int Player::getDashLevel()
+    {
+        int dashLevel = 1;
+        if (Input::Sole->GetKeyDown(KEY_INPUT_RSHIFT) || Input::Sole->GetKeyDown(KEY_INPUT_LSHIFT))
+        {
+            dashLevel = 2;
+            if (FlagManager::Sole->GetFlag("obtain_super_dash"))
+            {
+                dashLevel = 3;
+            }
+        }
+        return dashLevel;
+    }
+
     void Player::touchSomething()
     {
         if (mFixedCount == 0)
@@ -204,8 +218,7 @@ namespace ingame::main
 
     void Player::animation()
     {
-        int t = 1;
-        if (Input::Sole->GetKeyDown(KEY_INPUT_RSHIFT)) t *= 2;
+        int t = getDashLevel();
 
         int frame = (mAnimTime / (200/t));
         mSpr->SetFlip(false);
@@ -296,11 +309,10 @@ namespace ingame::main
 
             if (canMove)
             {
-                bool isDash = Input::Sole->GetKeyDown(KEY_INPUT_RSHIFT) || Input::Sole->GetKeyDown(KEY_INPUT_LSHIFT);
+                int dash = getDashLevel();
+                mVel = mVelStandard * dash;   // ダッシュをするか
 
-                mVel = mVelStandard * (isDash ? 2.0 : 1.0);   // ダッシュをするか
-
-                if (isDash)
+                if (dash==3)
                 {
                     dashAfterimage();
                 }

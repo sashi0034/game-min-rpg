@@ -48,5 +48,6 @@ namespace ingame::main
         bool doWaitForMove();
         bool doMove();
         void dashAfterimage();
+        int getDashLevel();
     };
 };
