@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 24,
-  nextobjectid = 65,
+  nextobjectid = 136,
   properties = {},
   tilesets = {
     {
@@ -179,7 +179,7 @@ return {
       encoding = "lua",
       data = {
         0, 0, 82, 0, 0, 0, 0, 0, 0, 0, 0, 0, 99, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 66, 0, 66, 0, 0, 82, 0, 0, 0, 0, 0, 0, 0, 98, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 66, 0, 66, 0, 0, 82, 0, 0, 0, 0, 101, 0, 0, 98, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         82, 0, 0, 0, 0, 66, 0, 0, 0, 0, 0, 0, 0, 99, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 66, 0, 0, 0, 82, 0, 0, 0, 0, 0, 0, 0, 0, 0, 98, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 82, 0, 82, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -213,7 +213,7 @@ return {
       draworder = "topdown",
       id = 14,
       name = "オブジェクトレイヤー1",
-      visible = true,
+      visible = false,
       opacity = 1,
       offsetx = 0,
       offsety = 0,
@@ -466,8 +466,8 @@ return {
           name = "sheep_1",
           type = "character",
           shape = "rectangle",
-          x = 256,
-          y = 48,
+          x = 64,
+          y = 160,
           width = 16,
           height = 16,
           rotation = 0,
@@ -481,8 +481,8 @@ return {
           name = "sheep_1_move_1",
           type = "event",
           shape = "rectangle",
-          x = 176,
-          y = 48,
+          x = 128,
+          y = 160,
           width = 16,
           height = 16,
           rotation = 0,
@@ -496,8 +496,8 @@ return {
           name = "sheep_1_move_2",
           type = "event",
           shape = "rectangle",
-          x = 128,
-          y = 128,
+          x = 0,
+          y = 160,
           width = 16,
           height = 16,
           rotation = 0,
@@ -512,7 +512,7 @@ return {
           type = "event",
           shape = "rectangle",
           x = 128,
-          y = 144,
+          y = 208,
           width = 16,
           height = 16,
           rotation = 0,
@@ -622,6 +622,156 @@ return {
           height = 16,
           rotation = 0,
           visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 126,
+          name = "cat_goto_hill_start",
+          type = "event",
+          shape = "rectangle",
+          x = 112,
+          y = 320,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 127,
+          name = "cat_goto_hill_move_1",
+          type = "event",
+          shape = "rectangle",
+          x = 176,
+          y = 320,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 128,
+          name = "cat_goto_hill_move_2",
+          type = "event",
+          shape = "rectangle",
+          x = 176,
+          y = 208,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 129,
+          name = "cat_goto_hill_move_3",
+          type = "event",
+          shape = "rectangle",
+          x = 240,
+          y = 208,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 130,
+          name = "cat_goto_hill_move_4",
+          type = "event",
+          shape = "rectangle",
+          x = 241,
+          y = 48,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 131,
+          name = "cat_goto_hill_move_5",
+          type = "event",
+          shape = "rectangle",
+          x = 128,
+          y = 48,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 132,
+          name = "cat_goto_hill_move_6",
+          type = "event",
+          shape = "rectangle",
+          x = 128,
+          y = 144,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 133,
+          name = "cat_goto_hill_move_7",
+          type = "event",
+          shape = "rectangle",
+          x = 64,
+          y = 144,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 134,
+          name = "cat_goto_hill_move_8",
+          type = "event",
+          shape = "rectangle",
+          x = 64,
+          y = 80,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 135,
+          name = "cat_goto_hill_move_9",
+          type = "event",
+          shape = "rectangle",
+          x = 80,
+          y = 80,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = false,
           properties = {
             ["kind"] = "unique"
           }

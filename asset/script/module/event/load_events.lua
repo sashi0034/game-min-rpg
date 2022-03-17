@@ -8,8 +8,10 @@ local mapEvent = {
     "house_1",
     "house_3",
     "house_2",
+    "house_on_hill",
     "tree_1",
     "tree_on_upstream",
+
 }
 
 

@@ -103,7 +103,7 @@ namespace ingame::main
     bool Character::DoMoveInStep(double* curX, double* curY, double toX, double toY, double vel)
     {
         double vx = 0, vy = 0;
-        double delta = 0.1;
+        double delta = 1.0;
         if (*curX < toX - delta) vx = 1;
         if (*curX > toX + delta) vx = -1;
         if (*curY < toY - delta) vy = 1;
@@ -351,7 +351,16 @@ namespace ingame::main
     {
         mSpr->SetImage(Images->Punicat, 0, 0, 24, 24);
         mFrameInterval = mLuaData["frameInterval"].get_or(0);
+    }
 
+    void Punicat::update()
+    {
+        NPCBase::update();
+        if (mIsDeath)
+        {
+            Sprite::Dispose(mSpr);
+            return;
+        }
     }
 
     void Punicat::animation()
