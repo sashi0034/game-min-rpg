@@ -83,7 +83,7 @@ namespace ingame
         {// Ä‹N“®
             luaManager::CanRestartProgram = false;
             Sprite::DisposeAll();
-            printfDx("Hot reloaded.\n");
+            printfDx("Hot reloaded  at %s.\n", useful::GetDateTimeStr().c_str());
             goto restart;
         }
 

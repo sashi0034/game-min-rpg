@@ -9,7 +9,7 @@ mouse_fast = {
         self.events = {
             move = nil,
         }
-        self.vel = 60
+        self.vel = 80
         self.frameInterval = 60
 
         return self

@@ -112,6 +112,7 @@ namespace ingame::main
         Slime(double startX, double startY, ECharacterKind characterKind, std::string uniqueName);
     protected:
         void animation() override;
+        void update() override;
     };
 
     class Sheep : public NPCBase

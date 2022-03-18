@@ -19,6 +19,8 @@ loadfile([[.\asset\script\module\event\load_events.lua]])()
 loadfile([[./asset\script\module\message_window.lua]])()
 loadfile([[./asset\script\module\selection_window.lua]])()
 
+loadfile([[./asset\script\debug_start.lua]])()
+
 
 -- @memo
 -- event関連はそれ専用のクラスをC++で作ってLuaで呼ぶのがよさそう
@@ -27,5 +29,5 @@ loadfile([[./asset\script\module\selection_window.lua]])()
 -- @memo
 -- eventKindには[touch, reach, unique]の3種類があり、
 -- checkとreachはそれぞれクラスで管理する
--- イベントフラグはFlagData: tableというテーブルで管理
+-- イベントフラグはFlagMangaer: tableというテーブルで管理
 

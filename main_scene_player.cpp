@@ -34,8 +34,8 @@ namespace ingame::main
 
         debugTimer = EventTimer([&]() {
             std::cout OUT_LOG
-                "プレイヤー座標: " << mX << ", " << mY << "\n" <<
-                "プレイヤー経過時間: " << mTime / 1000.0 << "\n";
+                "Player location: " << mX << ", " << mY << "\n" <<
+                "Player time: " << mTime / 1000.0 << "\n";
             return true; }
         , 1000 * 15);
 
@@ -305,7 +305,9 @@ namespace ingame::main
                 break;
             }
 
+            mColbit = 0;
             canMove = canMove && Character::CanCharacterPutIn(mX + xy.X*16, mY + xy.Y*16);
+            mColbit = 1;
 
             if (canMove)
             {

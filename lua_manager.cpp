@@ -84,6 +84,12 @@ namespace luaManager
             if (chaeckAllLastWriteTimes()) CanRestartProgram = true;
             return true;
             }, 500);
+
+        new ingame::EventTimerAsActor([&]()->bool {
+            sol::safe_function_result res = Lua["DebugStart"]();
+            return false;
+            }, 10);
+        
     }
 
     void LuaDebugManager::update()
@@ -173,7 +179,7 @@ namespace luaManager
 
             if (hFile == INVALID_HANDLE_VALUE)
             {
-                std::cerr ERR_LOG debugFilePath << "が見つかりませんでした\n";
+                std::cerr ERR_LOG debugFilePath << "is not found.\n";
                 isChanged = true;
             }
             else
@@ -198,7 +204,7 @@ namespace luaManager
                     || (mLastWriteTimeTable[debugFilePath].wSecond != lastWriteTime.wSecond))
                 {//　更新してたなら
                     mLastWriteTimeTable[debugFilePath] = lastWriteTime;
-                    std::cout OUT_LOG "Luaファイルが変更されました\n";
+                    std::cout OUT_LOG "Lua file is changed.\n";
                     isChanged = true;
                 }
             }

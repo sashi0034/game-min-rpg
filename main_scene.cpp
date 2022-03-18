@@ -423,6 +423,15 @@ namespace ingame::main
 
         mAnimTime += Time::DeltaMilli();
     }
+    void Slime::update()
+    {
+        NPCBase::update();
+        if (mIsDeath)
+        {
+            Sprite::Dispose(mSpr);
+            return;
+        }
+    }
 }
 
 namespace ingame::main

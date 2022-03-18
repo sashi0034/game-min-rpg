@@ -2,7 +2,6 @@
 #include "stdafx.h"
 #include "game_utils.h"
 
-
 namespace gameUtils
 {
 	Graph::Graph(int handler)
@@ -93,6 +92,21 @@ namespace gameUtils
 		bool Between(double n, double min, double max)
 		{
 			return (min <= n && n <= max);
+		}
+
+		std::string GetDateTimeStr()
+		{
+			// 参考: https://replication.hatenablog.com/entry/2014/07/28/121117
+
+			SYSTEMTIME st;
+			GetSystemTime(&st);
+			char szTime[25] = { 0 };
+
+			// wHourを9時間足して、日本時間にする
+			wsprintf(szTime, "%04d/%02d/%02d %02d:%02d:%02d %03d",
+				st.wYear, st.wMonth, st.wDay,
+				st.wHour + 9, st.wMinute, st.wSecond, st.wMilliseconds);
+			return szTime;
 		}
 
 		/// <summary>

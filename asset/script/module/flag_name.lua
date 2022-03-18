@@ -9,6 +9,7 @@ FlagName = {
     obtain_super_dash="",
     friend_with_mouse="",
     obtain_solt="",
+    kill_slime="",
 }
 
 
