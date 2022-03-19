@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 24,
-  nextobjectid = 147,
+  nextobjectid = 150,
   properties = {},
   tilesets = {
     {
@@ -547,7 +547,9 @@ return {
           height = 16,
           rotation = 0,
           visible = true,
-          properties = {}
+          properties = {
+            ["kind"] = "chicken"
+          }
         },
         {
           id = 137,
@@ -676,6 +678,36 @@ return {
           shape = "rectangle",
           x = 160,
           y = 80,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 147,
+          name = "cat_2_move_a_1",
+          type = "event",
+          shape = "rectangle",
+          x = 416,
+          y = 224,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 149,
+          name = "cat_2_move_a_2",
+          type = "event",
+          shape = "rectangle",
+          x = 592,
+          y = 272,
           width = 16,
           height = 16,
           rotation = 0,

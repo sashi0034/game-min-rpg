@@ -4,6 +4,8 @@ local base = {
     "punicat",
     "sheep",
     "slime",
+    "chick",
+    "chicken",
 }
 
 
@@ -14,7 +16,13 @@ local named = {
     "cat_goto_hill",
     "mouse_fast",
     "sheep_1",
-    "slime_on_bridge"
+    "slime_on_bridge",
+    "chicken_by_fence",
+    "chick_1",
+    "chick_2",
+    "chick_3",
+    "chick_4",
+    "chick_5",
 }
 
 

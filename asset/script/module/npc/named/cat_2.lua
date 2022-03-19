@@ -29,6 +29,22 @@ cat_2 = {
     end,
 
     move = function (self)
+        if FlagManager.getFlag(FlagName.kill_slime) then
+            local c
+            local e1 =  MapEventManager.getUnique("cat_2_move_a_1")
+            local e2 =  MapEventManager.getUnique("cat_2_move_a_2")
+            while self.doMove(e1.x, e1.y) do Yield() end
+            
+            local c = coroutine.create( self.doSleep )
+            while coroutine.resume(c, 1.0) do Yield() end
+
+            while self.doMove(e2.x, e2.y) do Yield() end
+
+            c = coroutine.create( self.doSleep )
+            while coroutine.resume(c, 1.0) do Yield() end
+            return
+        end
+
         local c, e1, e2, e3
 
         e1 = MapEventManager.getUnique("cat_2_move_1")
@@ -51,11 +67,19 @@ cat_2 = {
     talk = function (self, e)
         local w = MessageWindow.open()
 
-        w:streamText([[橋の上にこわいモンスターがいて]].."\n"..[[通れないにゃ]])
-        while w:isRunning() do Yield() end
+        if FlagManager.getFlag(FlagName.kill_slime) then
+            w:streamText([[橋が通れるようになったにゃ]])
+            while w:isRunning() do Yield() end
 
-        w:streamText("\n"..[[すごく困っちゃうにゃ]])
-        while w:isRunning() do Yield() end
+            w:streamText("\n"..[[おねえちゃん、ありがとうにゃ]])
+            while w:isRunning() do Yield() end
+        else
+            w:streamText([[橋の上にこわいモンスターがいて]].."\n"..[[通れないにゃ]])
+            while w:isRunning() do Yield() end
+    
+            w:streamText("\n"..[[すごく困っちゃうにゃ]])
+            while w:isRunning() do Yield() end
+        end
 
         w:close()
     end

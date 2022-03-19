@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="40" height="28" tilewidth="16" tileheight="16" infinite="0" nextlayerid="24" nextobjectid="147">
+<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="40" height="28" tilewidth="16" tileheight="16" infinite="0" nextlayerid="24" nextobjectid="150">
  <editorsettings>
   <export target="field_01.lua" format="lua"/>
  </editorsettings>
@@ -238,7 +238,11 @@
     <property name="kind" value="unique"/>
    </properties>
   </object>
-  <object id="136" name="chicken_by_fence" type="character" x="608" y="400" width="16" height="16"/>
+  <object id="136" name="chicken_by_fence" type="character" x="608" y="400" width="16" height="16">
+   <properties>
+    <property name="kind" value="chicken"/>
+   </properties>
+  </object>
   <object id="137" name="chicken_by_fence_move_1" type="event" x="592" y="400" width="16" height="16">
    <properties>
     <property name="kind" value="unique"/>
@@ -280,6 +284,16 @@
    </properties>
   </object>
   <object id="146" name="chick_stray_3" type="event" x="160" y="80" width="16" height="16">
+   <properties>
+    <property name="kind" value="unique"/>
+   </properties>
+  </object>
+  <object id="147" name="cat_2_move_a_1" type="event" x="416" y="224" width="16" height="16">
+   <properties>
+    <property name="kind" value="unique"/>
+   </properties>
+  </object>
+  <object id="149" name="cat_2_move_a_2" type="event" x="592" y="272" width="16" height="16">
    <properties>
     <property name="kind" value="unique"/>
    </properties>

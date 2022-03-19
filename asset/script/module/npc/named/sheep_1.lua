@@ -7,7 +7,7 @@ sheep_1 = {
 
     new = function()
         
-        local self = Instantiate(sheep_1, PunicatLuaData)
+        local self = Instantiate(sheep_1, SheepLuaData)
         
         self.events = {
             move = nil,

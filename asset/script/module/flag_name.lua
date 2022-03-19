@@ -10,6 +10,13 @@ FlagName = {
     friend_with_mouse="",
     obtain_solt="",
     kill_slime="",
+    pop_chick_1st = "",
+    pop_chick_2nd = "",
+    catch_chick_1 = "",
+    catch_chick_2 = "",
+    catch_chick_3 = "",
+    catch_chick_4 = "",
+    catch_chick_5 = "",
 }
 
 

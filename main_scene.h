@@ -140,8 +140,8 @@ namespace ingame::main
 
     class Chick : public NPCBase
     {
-        static const int sprOriginX = -8;
-        static const int sprOriginY = -16 - 8;
+        static const int sprOriginX = 0;
+        static const int sprOriginY = - 4;
         int mFrameInterval;
     public:
         Chick(double startX, double startY, ECharacterKind characterKind, std::string uniqueName);
@@ -151,8 +151,8 @@ namespace ingame::main
 
     class Chicken : public NPCBase
     {
-        static const int sprOriginX = -8;
-        static const int sprOriginY = -16 - 8;
+        static const int sprOriginX = -4;
+        static const int sprOriginY = -4 - 8;
         int mFrameInterval;
     public:
         Chicken(double startX, double startY, ECharacterKind characterKind, std::string uniqueName);

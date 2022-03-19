@@ -1,13 +1,13 @@
 
 
-SheepLuaData = {
+ChickenLuaData = {
 
     new = function()
         
-        local self = Instantiate(SheepLuaData, IngameEventBase)
+        local self = Instantiate(ChickenLuaData, IngameEventBase)
         
         self.vel = 50
-        self.frameInterval = 180
+        self.frameInterval = 100
 
         return self
     end,

@@ -514,19 +514,64 @@ namespace ingame::main
     Chick::Chick(double startX, double startY, ECharacterKind characterKind, std::string uniqueName)
         : NPCBase(startX, startY, characterKind, uniqueName, sprOriginX, sprOriginY)
     {
+        mSpr->SetImage(Images->Chick, 0, 0, 16, 16);
+        mFrameInterval = mLuaData["frameInterval"].get_or(0);
     }
-
     void Chick::animation()
     {
+        int frame = (mAnimTime / mFrameInterval);
+
+        mSpr->SetImage((frame % (mIsMovingNow ? 4 : 3)) * 16, int(mStopMovingTime > 200 ? 0 : 1) * 16);
+
+        switch (mAngle)
+        {
+        case EAngle::DOWN:
+            mSpr->SetFlip(true);
+            break;
+        case EAngle::RIGHT:
+            mSpr->SetFlip(false);
+            break;
+        case EAngle::UP:
+            mSpr->SetFlip(false);
+            break;
+        case EAngle::LEFT:
+            mSpr->SetFlip(true);
+            break;
+        }
+
+        mAnimTime += Time::DeltaMilli();
     }
 
     Chicken::Chicken(double startX, double startY, ECharacterKind characterKind, std::string uniqueName)
         : NPCBase(startX, startY, characterKind, uniqueName, sprOriginX, sprOriginY)
     {
+        mSpr->SetImage(Images->Chicken, 0, 0, 32, 32);
+        mFrameInterval = mLuaData["frameInterval"].get_or(0);
     }
 
     void Chicken::animation()
     {
+        int frame = (mAnimTime / mFrameInterval);
+
+        mSpr->SetImage((frame % 4) * 32, int(mStopMovingTime > 200 ? 0 : 1) * 32);
+
+        switch (mAngle)
+        {
+        case EAngle::DOWN:
+            mSpr->SetFlip(true);
+            break;
+        case EAngle::RIGHT:
+            mSpr->SetFlip(false);
+            break;
+        case EAngle::UP:
+            mSpr->SetFlip(false);
+            break;
+        case EAngle::LEFT:
+            mSpr->SetFlip(true);
+            break;
+        }
+
+        mAnimTime += Time::DeltaMilli();
     }
 
     Skull::Skull(double startX, double startY, ECharacterKind characterKind, std::string uniqueName)
