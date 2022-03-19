@@ -274,7 +274,7 @@ namespace ingame::main
         if (DxLib::CheckHitKey(KEY_INPUT_S)) ang = EAngle::DOWN;
         if (DxLib::CheckHitKey(KEY_INPUT_D)) ang = EAngle::RIGHT;
 
-        if (ang != EAngle::NONE)
+        if (ang != EAngle::NONE && mFixedCount==0)
         {
             mAngle = ang;
             useful::Vec2 xy = Angle::ToXY(ang);

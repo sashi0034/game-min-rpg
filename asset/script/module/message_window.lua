@@ -16,6 +16,10 @@ MessageWindowLuaData = {
         self.letterReadMinInterval = 5
         self.letterReadInterval = 50
 
+        self.shakeIntensity = 20
+        self.flashInterval = 20
+        self.flashFrame = 2
+
         OutLog("MessageWindow in Lua is initilaized.\n")
         return self
     end,

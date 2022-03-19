@@ -12,6 +12,8 @@
 #include <iostream>
 #include <string>
 #include <windows.h>
+#include <unordered_set>
+#include <map>
 
 #include "sol.hpp" // 3.5.0
 #include "magic_enum.h"// 0.7.3

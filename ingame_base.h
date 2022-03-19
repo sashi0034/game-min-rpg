@@ -14,6 +14,9 @@
 
 namespace ingame
 {
+    static const double FPS60_MILLI = 1000.0 / 60;
+    static const double FPS60_SEC = 1.0 / 60;
+
 
     class ButtonInTimer
     {

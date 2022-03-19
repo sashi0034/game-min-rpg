@@ -148,20 +148,18 @@ Sprite* Sprite::GetLinkXY()
 }
 /// <summary>
 /// Disposeするタイミングの同期
-/// 1回のみ呼ぶこと
 /// </summary>
 /// <param name="linkSpr"></param>
 void Sprite::SetLinkActive(const Sprite* linkSpr)
 {
-    if (linkActive != nullptr)
+    if (this->linkActive != nullptr)
     {
-        std::cerr ERR_LOG this << " has already linkActive.";
-        return;
+        Sprite* oldParent = const_cast<Sprite*>(this->linkActive);
+        oldParent->linkedChildActives.erase(this);
     }
-
-    this->linkActive = linkSpr;
     Sprite* parent = const_cast<Sprite*>(linkSpr);
-    parent->linkedChildActives.push_back(this);
+    this->linkActive = linkSpr;
+    parent->linkedChildActives.insert(this);
 }
 
 
@@ -269,9 +267,18 @@ void Sprite::Dispose(Sprite* spr, bool isRootParentOnly)
     {
         spr->destructorMethod(spr);
     }
+    
+
     spr->sprites[findIndex(spr)] = nullptr;
+
+    if (spr->linkActive != nullptr)
+    {// 親から自分を消す
+        auto& childrenOfParent = const_cast<Sprite*>(spr->linkActive)->linkedChildActives;
+        childrenOfParent.erase(spr);
+    }
     for (auto& child : spr->linkedChildActives)
     {// 子もすべて消す
+        if (child == nullptr) continue;
         const_cast<Sprite*>(child)->linkActive = nullptr; // 親が死んだことを通知
         Dispose(const_cast<Sprite*>(child), true);
     }
@@ -302,11 +309,12 @@ int Sprite::findIndex(Sprite* spr)
 }
 void Sprite::collectGarbageSprites()
 {
-    while (true)
+    for (int i = sprites.size()-1; i >= 0; --i)
     {
-        int index = findIndex(nullptr);
-        if (index == -1) break;
-        sprites.erase(sprites.begin() + index);
+        if (sprites[i] == nullptr)
+        {
+            sprites.erase(sprites.begin() + i);
+        }
     }
 }
 

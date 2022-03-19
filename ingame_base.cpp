@@ -9,8 +9,6 @@ namespace ingame
 {
     
 
-
-
     LuaActor::LuaActor(std::string luaClass, bool canLuaConstruct)
     {
         mLuaClassName = luaClass;
@@ -304,7 +302,7 @@ namespace ingame::main
                 mTempGotoY = mY;
                 mHasTempGoto = true;
             }
-            else if ((std::abs)(mTempGotoY - gotoY) >= moveUnit / 2)
+            else if ((std::abs)(mY - gotoY) >= moveUnit / 2)
             {
                 mTempGotoY = mY + (gotoY - mY < 0 ? -1 : 1) * moveUnit;
                 mTempGotoX = mX;

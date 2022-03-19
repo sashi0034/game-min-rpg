@@ -125,17 +125,27 @@ namespace ingame::main
         //new UiWindow(GRID_WIDTH / 2, mLuaData["centerY"].get_or(0), mLuaData["width"].get_or(0), mLuaData["height"].get_or(0), 0.2, 0.2);
         mTextWindow = new UiWindow(GRID_WIDTH / 2, mLuaData["centerY"].get_or(0), mLuaData["width"].get_or(0), mLuaData["height"].get_or(0), 0.2, 0.2);
         mTextWindow->GetSpr()->SetLinkActive(this->mSpr);
+        mTextWindow->GetSpr()->SetLinkXY(this->mSpr);
 
         mTextReadIndex = 0;
         mNextLetterX = mLuaData["paddingX"]; mNextLetterY = mLuaData["paddingY"];
 
-        mTextFieldGraph = new Graph(DxLib::MakeScreen(mWidth, mHeight, TRUE));
-        mSpr->SetImage(mTextFieldGraph, 0, 0, mWidth, mHeight);
-        mSpr->SetDrawingMethod(Sprite::DrawingKind::TwoDots);
-        mSpr->SetXY(GRID_WIDTH / 2 - mLuaData["width"].get_or(0) / 2, mLuaData["centerY"].get_or(0) - mLuaData["height"].get_or(0) / 2);
-        mSpr->SetZ(ZIndex::UI - 1);
+        constructTextArea();
+
 
         if (Player::Sole != nullptr)Player::Sole->IncreaseFixed();
+    }
+
+    void MessageWindow::constructTextArea()
+    {
+        mTextSpr = new Sprite();
+        mTextFieldGraph = new Graph(DxLib::MakeScreen(mWidth, mHeight, TRUE));
+        mTextSpr->SetImage(mTextFieldGraph, 0, 0, mWidth, mHeight);
+        mTextSpr->SetDrawingMethod(Sprite::DrawingKind::TwoDots);
+        mTextSpr->SetXY(GRID_WIDTH / 2 - mLuaData["width"].get_or(0) / 2, mLuaData["centerY"].get_or(0) - mLuaData["height"].get_or(0) / 2);
+        mTextSpr->SetZ(ZIndex::UI - 1);
+        mTextSpr->SetLinkActive(this->mSpr);
+        mTextSpr->SetLinkXY(this->mSpr);
     }
 
     MessageWindow::~MessageWindow()
@@ -149,18 +159,84 @@ namespace ingame::main
 
     bool MessageWindow::GetIsRunning()
     {
-        return mIsRunning;
+        return mRunningCount!=0;
     }
     void MessageWindow::StreamText(std::string text)
     {
         mTextReadIndex = 0;
         mTextBuffer = std::wstring{};
         useful::NarrowStrToWideStr(text, mTextBuffer);
-        mIsRunning = true;
+        mRunningCount++;
         mIsPusedSkipButtonOnStart = false;
 
         this->mWriteLetterTimer = EventTimer([&]()->bool { return writeLetter(); }, mLuaData["letterReadMinInterval"]);
     }
+    void MessageWindow::AnimShake(double intensity)
+    {
+        mRunningCount++;
+
+        auto t = std::shared_ptr<int>(new int{0});
+        const double intensityNormal = mLuaData["shakeIntensity"];
+        auto timer = new EventTimerAsActor([this, t, intensityNormal]()->bool {
+            const int finish = 60 * 1;
+
+            (*t)++;
+            double rate = 1 - (double(*t) / finish);
+            mSpr->SetXY(std::sin(*t * intensityNormal * M_PI / 180) * intensityNormal * rate, 0);
+
+            if (*t > finish)
+            {
+                mSpr->SetXY(0, 0);
+                mRunningCount--;
+                return false;
+            }
+            return true;
+            }, int(FPS60_MILLI));
+
+        timer->GetSpr()->SetLinkActive(mSpr);
+    }
+
+    void MessageWindow::AnimFlash()
+    {
+        mRunningCount++;
+
+        auto t = std::shared_ptr<int>(new int{ 0 });
+        const double flashInterval = mLuaData["flashInterval"];
+        const int frame = mLuaData["flashFrame"];
+
+        auto sprWin = mTextWindow->GetSpr();
+        auto sprText = mTextSpr;
+
+        auto timer = new EventTimerAsActor([this, t, flashInterval, frame, sprWin, sprText]()->bool {
+            const int finish = 60 * 1/2;
+
+            (*t)++;
+            if (*t % 2 == 0)
+            {
+                sprWin->SetBlendPal(16);
+                sprText->SetBlendPal(224);
+            }
+            else
+            {
+                sprWin->SetBlendPal(224);
+                sprText->SetBlendPal(16);
+            }
+            if ((*t * frame) > finish)
+            {
+                sprWin->SetBlendPal(255);
+                sprText->SetBlendPal(255);
+            }
+            if ((*t * frame) > finish && Input::Sole->GetKeyDown(KEY_INPUT_SPACE))
+            {
+                mRunningCount--;
+                return false;
+            }
+            return true;
+            }, int(frame*FPS60_MILLI));
+
+        timer->GetSpr()->SetLinkActive(mSpr);
+    }
+
     bool MessageWindow::hasUnreadText()
     {
         return mTextReadIndex != mTextBuffer.size();
@@ -246,7 +322,7 @@ namespace ingame::main
                         if (Input::Sole->GetKeyDown(KEY_INPUT_SPACE))
                         {
                             //mIsRunning = false;
-                            new EventTimerAsActor([&]()->bool {mIsRunning = false; return false; }, 100);
+                            new EventTimerAsActor([&]()->bool {mRunningCount--; return false; }, 100);
                             return false;
                         }
                         return true;
@@ -300,6 +376,8 @@ namespace ingame::main
             sol::constructors<MessageWindow()>(),
             "open", []()->MessageWindow* {return new MessageWindow(); },
             "streamText", &MessageWindow::StreamText,
+            "animShake", &MessageWindow::AnimShake,
+            "animFlash", & MessageWindow::AnimFlash,
             "isRunning", &MessageWindow::GetIsRunning,
             "close", [](MessageWindow* self) {Sprite::Dispose(self->GetSpr()); });
     }

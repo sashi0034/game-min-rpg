@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="40" height="28" tilewidth="16" tileheight="16" infinite="0" nextlayerid="24" nextobjectid="136">
+<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="40" height="28" tilewidth="16" tileheight="16" infinite="0" nextlayerid="24" nextobjectid="147">
  <editorsettings>
   <export target="field_01.lua" format="lua"/>
  </editorsettings>
@@ -132,7 +132,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="14" name="オブジェクトレイヤー1" visible="0">
+ <objectgroup id="14" name="オブジェクトレイヤー1">
   <object id="30" name="player" type="character" x="72" y="368" width="16" height="16">
    <properties>
     <property name="kind" value="player"/>
@@ -234,6 +234,52 @@
    </properties>
   </object>
   <object id="59" name="sheep_1_move_4" type="event" x="0" y="208" width="16" height="16">
+   <properties>
+    <property name="kind" value="unique"/>
+   </properties>
+  </object>
+  <object id="136" name="chicken_by_fence" type="character" x="608" y="400" width="16" height="16"/>
+  <object id="137" name="chicken_by_fence_move_1" type="event" x="592" y="400" width="16" height="16">
+   <properties>
+    <property name="kind" value="unique"/>
+   </properties>
+  </object>
+  <object id="139" name="chicken_by_fence_move_2" type="event" x="576" y="400" width="16" height="16">
+   <properties>
+    <property name="kind" value="unique"/>
+   </properties>
+  </object>
+  <object id="140" name="chicken_by_fence_move_3" type="event" x="576" y="432" width="16" height="16">
+   <properties>
+    <property name="kind" value="unique"/>
+   </properties>
+  </object>
+  <object id="141" name="chicken_by_fence_move_4" type="event" x="592" y="432" width="16" height="16">
+   <properties>
+    <property name="kind" value="unique"/>
+   </properties>
+  </object>
+  <object id="142" name="chick_stray_1" type="event" x="112" y="16" width="16" height="16">
+   <properties>
+    <property name="kind" value="unique"/>
+   </properties>
+  </object>
+  <object id="143" name="chick_stray_2" type="event" x="160" y="416" width="16" height="16">
+   <properties>
+    <property name="kind" value="unique"/>
+   </properties>
+  </object>
+  <object id="144" name="chick_stray_5" type="event" x="512" y="160" width="16" height="16">
+   <properties>
+    <property name="kind" value="unique"/>
+   </properties>
+  </object>
+  <object id="145" name="chick_stray_4" type="event" x="288" y="416" width="16" height="16">
+   <properties>
+    <property name="kind" value="unique"/>
+   </properties>
+  </object>
+  <object id="146" name="chick_stray_3" type="event" x="160" y="80" width="16" height="16">
    <properties>
     <property name="kind" value="unique"/>
    </properties>

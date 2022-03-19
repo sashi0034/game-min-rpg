@@ -55,6 +55,7 @@ namespace ingame::main
         EventTimer mScrollTimer;
         int mWidth, mHeight;
         int mNextLetterX{}, mNextLetterY{};
+        Sprite* mTextSpr;
         Graph* mTextFieldGraph;
         UiWindow* mTextWindow;
         std::wstring mTextBuffer{};
@@ -64,8 +65,9 @@ namespace ingame::main
 
         int mScrollRemainAmount = 0;
 
-        bool mIsRunning = false;
+        int mRunningCount = 0;
 
+        void constructTextArea();
         bool hasUnreadText();
         bool writeLetter();
         bool scrollLine();
@@ -76,6 +78,8 @@ namespace ingame::main
         ~MessageWindow();
         bool GetIsRunning();
         void StreamText(std::string text);
+        void AnimShake(double intensity);
+        void AnimFlash();
         static const std::string CLASS_NAME;
         static void Init();
     };

@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 24,
-  nextobjectid = 136,
+  nextobjectid = 147,
   properties = {},
   tilesets = {
     {
@@ -213,7 +213,7 @@ return {
       draworder = "topdown",
       id = 14,
       name = "オブジェクトレイヤー1",
-      visible = false,
+      visible = true,
       opacity = 1,
       offsetx = 0,
       offsety = 0,
@@ -528,6 +528,154 @@ return {
           shape = "rectangle",
           x = 0,
           y = 208,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 136,
+          name = "chicken_by_fence",
+          type = "character",
+          shape = "rectangle",
+          x = 608,
+          y = 400,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 137,
+          name = "chicken_by_fence_move_1",
+          type = "event",
+          shape = "rectangle",
+          x = 592,
+          y = 400,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 139,
+          name = "chicken_by_fence_move_2",
+          type = "event",
+          shape = "rectangle",
+          x = 576,
+          y = 400,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 140,
+          name = "chicken_by_fence_move_3",
+          type = "event",
+          shape = "rectangle",
+          x = 576,
+          y = 432,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 141,
+          name = "chicken_by_fence_move_4",
+          type = "event",
+          shape = "rectangle",
+          x = 592,
+          y = 432,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 142,
+          name = "chick_stray_1",
+          type = "event",
+          shape = "rectangle",
+          x = 112,
+          y = 16,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 143,
+          name = "chick_stray_2",
+          type = "event",
+          shape = "rectangle",
+          x = 160,
+          y = 416,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 144,
+          name = "chick_stray_5",
+          type = "event",
+          shape = "rectangle",
+          x = 512,
+          y = 160,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 145,
+          name = "chick_stray_4",
+          type = "event",
+          shape = "rectangle",
+          x = 288,
+          y = 416,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 146,
+          name = "chick_stray_3",
+          type = "event",
+          shape = "rectangle",
+          x = 160,
+          y = 80,
           width = 16,
           height = 16,
           rotation = 0,

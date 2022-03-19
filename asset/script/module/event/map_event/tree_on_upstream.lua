@@ -27,9 +27,11 @@ MapEventManager:addMapEvents({
             while m:isRunning() do Yield() end
         elseif word=="‰£‚é" then
             m:streamText("\n"..[[‚¦‚¢A]])
+            m:animShake(1.0)
             while m:isRunning() do Yield() end
 
             m:streamText([[‚¦‚¢!]])
+            m:animShake(1.5)
             while m:isRunning() do Yield() end
 
             local sleep=coroutine.create(self.doSleep)
@@ -39,6 +41,9 @@ MapEventManager:addMapEvents({
             m = MessageWindow.open()
             m:streamText([[‚¤‚íA–I‚³‚ñ‚ªo‚Ä‚«‚½!!]])
             while m:isRunning() do Yield() end
+
+            m:animFlash()
+            while m:isRunning() do Yield() end
         elseif word=="–Ø‚Ì}" then
             m:streamText("\n"..[[‚³‚Á‚«ƒQƒbƒg‚µ‚½}‚ÅUŒ‚‚µ‚Ä‚İ‚æ‚¤]])
             while m:isRunning() do Yield() end
@@ -47,6 +52,7 @@ MapEventManager:addMapEvents({
             while m:isRunning() do Yield() end
 
             m:streamText([[‚¦‚¢!]])
+            m:animShake(1.5)
             while m:isRunning() do Yield() end
 
             local sleep=coroutine.create(self.doSleep)
@@ -64,6 +70,7 @@ MapEventManager:addMapEvents({
             while m:isRunning() do Yield() end
 
             m:streamText([[‚¤‚è‚á!]])
+            m:animShake(2.0)
             while m:isRunning() do Yield() end
 
             local sleep=coroutine.create(self.doSleep)

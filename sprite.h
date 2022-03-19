@@ -9,7 +9,6 @@ class Sprite
     static const int PX_PER_GRID = 3;
 
     static std::vector<Sprite*> sprites;
-    // @todo: std::map ‚àg‚Á‚ÄŒŸõŠÔ‚ª’Zk‚Å‚«‚»‚¤
 
     double x = 0;
     double y = 0;
@@ -22,7 +21,7 @@ class Sprite
     bool isFlip = false;
     const Sprite* linkXY = nullptr;
     const Sprite* linkActive = nullptr;
-    std::vector<const Sprite*> linkedChildActives = std::vector<const Sprite*>{};
+    std::unordered_set<const Sprite*> linkedChildActives = std::unordered_set<const Sprite*>{};
     double rotationRad = 0;
     int blendMode = DX_BLENDMODE_ALPHA;
     int blendPal = 255;

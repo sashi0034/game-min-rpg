@@ -35,7 +35,7 @@ cat_goto_hill = {
         end
 
         self.setDeath(true)
-        OutLog("cat_goto_hill is finished.")
+        OutLog("cat_goto_hill is finished.\n")
     end,
 
 
