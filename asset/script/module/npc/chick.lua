@@ -42,5 +42,9 @@ ChickLuaData = {
         c = coroutine.create( self.doSleep )
         while coroutine.resume(c, 1.0) do Yield() end
     end,
+
+    followPlayer = function (self)
+        while self.doFollowPlayer() do Yield() end
+    end,
 }
 

@@ -15,7 +15,14 @@
 
 namespace ingame::main
 {
-    enum ZIndex
+    enum class EColbit
+    {
+        NONE = 0,
+        CHARACTER = 1 << 0,
+        BIRD = 1 << 1,
+    };
+
+    enum class ZIndex
     {
         FLOOR = 1000,
         CHARACTER = 0,
@@ -147,6 +154,13 @@ namespace ingame::main
         Chick(double startX, double startY, ECharacterKind characterKind, std::string uniqueName);
     protected:
         void animation() override;
+    private:
+        int mChickId = 0;
+        std::shared_ptr<useful::Vec2<int>> deltaDifference = std::shared_ptr<useful::Vec2<int>>(nullptr);
+        useful::Vec2<double> mFollowVel = useful::Vec2<double>{0, 0};
+        bool doFollowPlayer();
+        void followMove();
+        void followResistWithChracter();
     };
 
     class Chicken : public NPCBase

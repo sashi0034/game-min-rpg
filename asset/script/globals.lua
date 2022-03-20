@@ -25,13 +25,13 @@ end
 function GetRandomCrosswise()
     local r = math.random(0, 3)
     if (r==0) then 
-        return {x= -1, y=1}
+        return {x= -1, y=0}
     elseif r==1 then
-        return {x= 1, y=1}
+        return {x= 1, y=0}
     elseif r==2 then
-        return {x= -1, y=-1}
+        return {x= 0, y=-1}
     elseif r==3 then
-        return {x= 1, y=-1}
+        return {x= 0, y=1}
     end
 end
 

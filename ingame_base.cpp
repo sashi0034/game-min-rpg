@@ -221,7 +221,7 @@ namespace ingame::main
         INonPlayerCharacter(characterKind, uniqueName)
     {
         mSpr->SetLinkXY(ScrollManager::Sole->GetSpr());
-        mSpr->SetZ(ZIndex::CHARACTER);
+        mSpr->SetZ(double(ZIndex::CHARACTER));
 
         mX = startX;
         mY = startY;
@@ -294,7 +294,7 @@ namespace ingame::main
 
     bool NPCBase::canMove(double gotoX, double gotoY, EAngle *getAng)
     {
-        if (gotoX<0 || gotoY<0 || gotoX>MapManager::Sole->GetWidth() * 16 || gotoY>MapManager::Sole->GetHeight() * 16)
+        if (gotoX<0 || gotoY<0 || gotoX>=MapManager::Sole->GetWidth() * 16 || gotoY>=MapManager::Sole->GetHeight() * 16)
         {
             return false;
         }
@@ -309,7 +309,7 @@ namespace ingame::main
 
         mColbit = 0;
         bool noCharacterExit = Character::CanCharacterPutIn(gotoX, gotoY);
-        mColbit = 1;
+        mColbit = UINT(EColbit::CHARACTER);
 
         return (Character::CanMappinglyMoveTo(gotoX + moveUnit / 2, gotoY + moveUnit / 2, ang) &&
             noCharacterExit);

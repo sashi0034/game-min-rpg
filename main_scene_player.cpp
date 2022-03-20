@@ -18,7 +18,7 @@ namespace ingame::main
 
         mSpr->SetLinkXY(ScrollManager::Sole->GetSpr());
         mSpr->SetImage(Images->Kisaragi, 0, 0, 32, 32);
-        mSpr->SetZ(ZIndex::CHARACTER);
+        mSpr->SetZ(double(ZIndex::CHARACTER));
 
         mX = startX;
         mY = startY;
@@ -310,7 +310,7 @@ namespace ingame::main
                     Character::CanCharacterPutIn(mX + xy.X * 0, mY + xy.Y * 8);
                 break;
             }
-            mColbit = 1;
+            mColbit = UINT(EColbit::CHARACTER);
 
             if (canMove)
             {

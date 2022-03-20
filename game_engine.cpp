@@ -242,7 +242,7 @@ namespace gameEngine
 		int retI = -1;
 
 		auto cols = CollideActor::GetColliders();
-		for (int i = 0; i < cols.size(); ++i)
+		for (int i = firstIndex; i < cols.size(); ++i)
 		{
 			auto col = cols[i];
 			if ((col->GetColbit() & colbit) != 0)
@@ -305,7 +305,7 @@ namespace gameEngine
 		while (true)
 		{
 			CollideActor* col = nullptr;
-			switch (col->GetShape()->Type())
+			switch (actor->GetShape()->Type())
 			{
 			case collider::EType::RECTANGLE:
 			{

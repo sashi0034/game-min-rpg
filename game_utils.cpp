@@ -94,6 +94,11 @@ namespace gameUtils
 			return (min <= n && n <= max);
 		}
 
+		double Distance(double x, double y)
+		{
+			return std::sqrt(x*x + y*y);
+		}
+
 		std::string GetDateTimeStr()
 		{
 			// ŽQl: https://replication.hatenablog.com/entry/2014/07/28/121117

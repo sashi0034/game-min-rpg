@@ -8,13 +8,16 @@ chick_3 = {
         self.events = {
             move = nil,
         }
+        self.chickId = 3
+
         return self
     end,
 
     update = function(self)
-        PunicatLuaData.update(self)
+        ChickLuaData.update(self)
 
-        if (self.events.move==nil) then
+
+        if (self.events.move==nil and self.events.followPlayer==nil) then
             self.events.move = coroutine.create(ChickLuaData.move)
             coroutine.resume(self.events.move, self)
         end
@@ -23,13 +26,22 @@ chick_3 = {
 
 
     talk = function (self, e)
+        if self.events.followPlayer~=nil then
+            return
+        end
+
         local w = MessageWindow.open()
 
-        w:streamText("ぴよ、ぴよ..")
+        w:streamText("ぴよ、ぴよ")
         while w:isRunning() do Yield() end
 
-        w:streamText("ママのところに帰る")
+        w:streamText("\n"..[[おうち分かんない]])
         while w:isRunning() do Yield() end
+
+        self.events.followPlayer = coroutine.create(ChickLuaData.followPlayer)
+        coroutine.resume(self.events.followPlayer, self)
+        self.events.move = nil
+        FlagManager.setFlag(FlagName.catch_chick_3, true)
 
         w:close()
     end

@@ -33,7 +33,7 @@ namespace ingame::main
         SetSize(useful::Vec2<double>{gridUnitWidth, gridUnitHeight});
 
 
-        mSpr->SetZ(ZIndex::UI);
+        mSpr->SetZ(double(ZIndex::UI));
         mSpr->SetDrawingMethod(Sprite::DrawingKind::DotByDot);
     }
 
@@ -143,7 +143,7 @@ namespace ingame::main
         mTextSpr->SetImage(mTextFieldGraph, 0, 0, mWidth, mHeight);
         mTextSpr->SetDrawingMethod(Sprite::DrawingKind::TwoDots);
         mTextSpr->SetXY(GRID_WIDTH / 2 - mLuaData["width"].get_or(0) / 2, mLuaData["centerY"].get_or(0) - mLuaData["height"].get_or(0) / 2);
-        mTextSpr->SetZ(ZIndex::UI - 1);
+        mTextSpr->SetZ(double(ZIndex::UI) - 1);
         mTextSpr->SetLinkActive(this->mSpr);
         mTextSpr->SetLinkXY(this->mSpr);
     }
@@ -410,7 +410,7 @@ namespace ingame::main
             mGridUnitHeight,
             0.2, 0.2);
         mWindow->GetSpr()->SetLinkActive(this->mSpr);
-        mWindow->GetSpr()->SetZ(ZIndex::UI - 10);
+        mWindow->GetSpr()->SetZ(double(ZIndex::UI) - 10);
 
         // テキスト
         mTextFieldGraph = new Graph(DxLib::MakeScreen(mGridUnitWidth * 2, mGridUnitHeight * 2, TRUE));
@@ -419,13 +419,13 @@ namespace ingame::main
         mSpr->SetXY(
             mLuaData["centerX"].get_or(0) - mGridUnitWidth / 2,
             mLuaData["bottomY"].get_or(0) - mGridUnitHeight);
-        mSpr->SetZ(ZIndex::UI - 11);
+        mSpr->SetZ(double(ZIndex::UI) - 11);
 
         // カーソル
         mCursorSpr = new Sprite();
         mCursorSpr->SetLinkXY(this->mSpr);
         mCursorSpr->SetLinkActive(this->mSpr);
-        mCursorSpr->SetZ(ZIndex::UI - 12);
+        mCursorSpr->SetZ(double(ZIndex::UI) - 12);
         //mCursorSpr->SetDrawingMethod(Sprite::DrawingKind::TwoDots);
         resetCursor();
 

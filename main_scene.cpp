@@ -231,7 +231,7 @@ namespace ingame::main
     double Character::GetZFromY(double gridY)
     {
         static const int maxY = 16 * 256;
-        return ZIndex::CHARACTER - gridY / maxY * 1000;
+        return double(ZIndex::CHARACTER) - gridY / maxY * 1000;
     }
 
 
@@ -454,8 +454,8 @@ namespace ingame::main
     void Sheep::animation()
     {
         int frame = (mAnimTime / mFrameInterval);
-        
-        mSpr->SetImage((frame % 3) * 32, int(mStopMovingTime>200 ? 0 : 1)*32);
+
+        mSpr->SetImage((frame % 3) * 32, int(mStopMovingTime > 200 ? 0 : 1) * 32);
 
         switch (mAngle)
         {
@@ -523,12 +523,14 @@ namespace ingame::main
     {
         mSpr->SetImage(Images->Chick, 0, 0, 16, 16);
         mFrameInterval = mLuaData["frameInterval"].get_or(0);
+        mLuaData["doFollowPlayer"] = [&]()->bool {return doFollowPlayer(); };
+        mChickId = mLuaData["chickId"].get_or(0);
     }
     void Chick::animation()
     {
         int frame = (mAnimTime / mFrameInterval);
 
-        mSpr->SetImage((frame % (mIsMovingNow ? 4 : 3)) * 16, int(mStopMovingTime > 200 ? 0 : 1) * 16);
+        mSpr->SetImage((frame % (int(mStopMovingTime > 200 ? 0 : 1) ? 4 : 3)) * 16, int(mStopMovingTime > 200 ? 0 : 1) * 16);
 
         switch (mAngle)
         {
@@ -549,6 +551,103 @@ namespace ingame::main
         mAnimTime += Time::DeltaMilli();
     }
 
+    bool Chick::doFollowPlayer()
+    {
+        followMove();
+        followResistWithChracter();
+
+        return true;
+    }
+
+    void Chick::followMove()
+    {
+        if (deltaDifference == nullptr)
+        {
+            int posDeg = (mChickId % 5) * 360 / 5;
+            int r = 12;
+            deltaDifference = std::shared_ptr< useful::Vec2<int> >(new useful::Vec2<int>{
+                    int(std::sin(posDeg * M_PI / 180.0) * r),
+                    int(std::cos(posDeg * M_PI / 180.0) * r)
+                });
+        }
+        useful::Vec2<double> playerXY = useful::Vec2<double>{ Player::Sole->GetX() +deltaDifference->X, Player::Sole->GetY() + deltaDifference->Y};
+
+        double distanceWithPlayer = useful::Distance(mX - playerXY.X, mY - playerXY.Y);
+
+        double thetaToPlayer = std::atan2(playerXY.Y - mY, playerXY.X - mX);
+
+        mFollowVel = mFollowVel + useful::Vec2<double>{std::cos(thetaToPlayer), std::sin(thetaToPlayer)};
+        double velSize = std::sqrt(mFollowVel.X * mFollowVel.X + mFollowVel.Y * mFollowVel.Y);
+        double maxVel = 4.0;
+        double attenuationDistance = 32.0;
+        if (distanceWithPlayer < attenuationDistance)
+        {
+            if (attenuationDistance / 2.0 < distanceWithPlayer)
+            {
+                maxVel = maxVel * ((distanceWithPlayer - attenuationDistance / 2.0) / (attenuationDistance / 2.0));
+            }
+            else
+            {
+                maxVel = maxVel * 0;
+            }
+        }
+        if (velSize > maxVel)
+        {
+            mFollowVel = mFollowVel / velSize * maxVel;
+        }
+        if (distanceWithPlayer < distanceWithPlayer / 2.0)
+        {
+            mFollowVel = mFollowVel - useful::Vec2<double>{std::cos(thetaToPlayer), std::sin(thetaToPlayer)}*1.1;
+        }
+
+
+        mStopMovingTime = 0;
+  
+
+        //mAngle = Angle::ToAng(mFollowVel.X, mFollowVel.Y);
+        mAngle = Angle::ToAng(Player::Sole->GetX() - mX, Player::Sole->GetY() - mY);
+
+        mAnimTime += Time::DeltaMilli() * useful::Distance(mFollowVel.X, mFollowVel.Y);
+
+        mX += mFollowVel.X;
+        mY += mFollowVel.Y;
+    }
+
+    void Chick::followResistWithChracter()
+    {
+        mColbit = UINT(EColbit::CHARACTER) | UINT(EColbit::BIRD);
+        auto hitWithThis = CollideActor::GetHit();
+
+        if (hitWithThis != nullptr)
+        {
+            mFollowVel = mFollowVel * -0.9;
+        }
+        //if (hitWithThis != nullptr)
+        //{
+        //    Sprite* otherSpr = hitWithThis->GetSpr();
+        //    double otherX, otherY;
+        //    otherSpr->GetXY(&otherX, &otherY);
+
+        //    Graph* g;
+        //    int u, v, w, h;
+        //    otherSpr->GetImage(&g, &u, &v, &w, &h);
+
+        //    otherX += w / 2; otherY += h / 2;
+
+        //    double myX = mX + 16 / 2;
+        //    double myY = mY + 16 / 2;
+
+        //    double theta = std::atan2(myY - otherY, myX - otherX);
+
+        //    mFollowVel = mFollowVel + useful::Vec2<double>{ std::cos(theta) , std::sin(theta) } * 4;
+        //    mX += std::cos(theta);
+        //    mY += std::sin(theta);
+        //}
+        mColbit = UINT(EColbit::BIRD);
+    }
+}
+namespace ingame::main
+{
     Chicken::Chicken(double startX, double startY, ECharacterKind characterKind, std::string uniqueName)
         : NPCBase(startX, startY, characterKind, uniqueName, sprOriginX, sprOriginY)
     {
@@ -580,7 +679,10 @@ namespace ingame::main
 
         mAnimTime += Time::DeltaMilli();
     }
+}
 
+namespace ingame::main
+{
     Skull::Skull(double startX, double startY, ECharacterKind characterKind, std::string uniqueName)
         : NPCBase(startX, startY, characterKind, uniqueName, sprOriginX, sprOriginY)
     {

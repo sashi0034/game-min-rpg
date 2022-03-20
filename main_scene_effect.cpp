@@ -55,7 +55,7 @@ namespace ingame::main::effect
 		mSpr->SetFlip(Rand->Get(2)==0 ? false : true);
 		mSpr->SetBlendPal(200);
 
-		mSpr->SetZ(ZIndex::CLOUD);
+		mSpr->SetZ(double(ZIndex::CLOUD));
 
 		mUpdateTimer = EventTimer([&]() {updateCloud(); return true; }, 20);
 	}
