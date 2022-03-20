@@ -226,6 +226,7 @@ namespace ingame::main
         mX = startX;
         mY = startY;
 
+        mLuaData["canMove"] = [&](double x, double y)->bool {return this->canMove(x, y); };
         mLuaData["doMove"] = [&](double x, double y)->bool {return this->doMove(x, y); };
         mLuaData["getX"] = [&]()->double {return this->mX; };
         mLuaData["getY"] = [&]()->double {return this->mY; };
@@ -286,6 +287,34 @@ namespace ingame::main
         mIsDeath = true;
     }
 
+    bool NPCBase::canMove(double gotoX, double gotoY)
+    {
+        return canMove(gotoX, gotoY, nullptr);
+    }
+
+    bool NPCBase::canMove(double gotoX, double gotoY, EAngle *getAng)
+    {
+        if (gotoX<0 || gotoY<0 || gotoX>MapManager::Sole->GetWidth() * 16 || gotoY>MapManager::Sole->GetHeight() * 16)
+        {
+            return false;
+        }
+
+
+        auto ang = Angle::ToAng(gotoX - mX, gotoY - mY);
+
+        if (getAng != nullptr)
+        {
+            *getAng = ang;
+        }
+
+        mColbit = 0;
+        bool noCharacterExit = Character::CanCharacterPutIn(gotoX, gotoY);
+        mColbit = 1;
+
+        return (Character::CanMappinglyMoveTo(gotoX + moveUnit / 2, gotoY + moveUnit / 2, ang) &&
+            noCharacterExit);
+    }
+
 
     bool NPCBase::doMove(double gotoX, double gotoY)
     {
@@ -323,22 +352,15 @@ namespace ingame::main
 
         if (!mIsMovingNow)
         {// ìÆÇ´énÇﬂÇÃèàóù
-            mAngle = Angle::ToAng(gotoX - mX, gotoY - mY);
-
-            mColbit = 0;
-            bool notCharacterExit = Character::CanCharacterPutIn(gotoX, gotoY);
-            mColbit = 1;
-
-            if (!Character::CanMappinglyMoveTo(gotoX + moveUnit / 2, gotoY + moveUnit / 2, mAngle) ||
-                !notCharacterExit)
+            if (!canMove(gotoX, gotoY, &mAngle))
             {// êiÇﬂÇ»Ç¢
                 onMoved();
                 return false;
             }
 
-            // 1px ÇæÇØÇ∏ÇÁÇ∑
-            mX += Angle::ToXY(mAngle).X * 1;
-            mX += Angle::ToXY(mAngle).Y * 1;
+            // ìñÇΩÇËîªíËÇÃÇΩÇﬂÇ… 1px ÇæÇØÇ∏ÇÁÇ∑
+            mX += Angle::ToXY(mAngle).X * 1.0;
+            mX += Angle::ToXY(mAngle).Y * 1.0;
             
             mIsMovingNow = true;
         }
@@ -353,6 +375,7 @@ namespace ingame::main
             return false;
         }
     }
+
 
 }
 

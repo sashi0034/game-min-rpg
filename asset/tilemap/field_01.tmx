@@ -213,12 +213,12 @@
     <property name="kind" value="reach"/>
    </properties>
   </object>
-  <object id="52" name="sheep_1" type="character" x="64" y="160" width="16" height="16">
+  <object id="52" name="sheep_1" type="character" x="96" y="176" width="16" height="16">
    <properties>
     <property name="kind" value="sheep"/>
    </properties>
   </object>
-  <object id="54" name="sheep_1_move_1" type="event" x="128" y="160" width="16" height="16">
+  <object id="54" name="sheep_1_move_1" type="event" x="112" y="160" width="16" height="16">
    <properties>
     <property name="kind" value="unique"/>
    </properties>
@@ -233,7 +233,7 @@
     <property name="kind" value="unique"/>
    </properties>
   </object>
-  <object id="59" name="sheep_1_move_4" type="event" x="0" y="208" width="16" height="16">
+  <object id="59" name="sheep_1_move_4" type="event" x="16" y="208" width="16" height="16">
    <properties>
     <property name="kind" value="unique"/>
    </properties>
@@ -268,7 +268,7 @@
     <property name="kind" value="unique"/>
    </properties>
   </object>
-  <object id="143" name="chick_stray_2" type="event" x="160" y="416" width="16" height="16">
+  <object id="143" name="chick_stray_2" type="event" x="160" y="352" width="16" height="16">
    <properties>
     <property name="kind" value="unique"/>
    </properties>

@@ -6,7 +6,7 @@ ChickLuaData = {
         local self = Instantiate(ChickLuaData, IngameEventBase)
         
         self.vel = 50
-        self.frameInterval = 100
+        self.frameInterval = 200
 
         return self
     end,
@@ -23,22 +23,24 @@ ChickLuaData = {
 
     move = function (self)
         local x, y, c
-        x=self.getX(); y=self.getY();
-
-        while self.doMove(x-16, y) do Yield() end
-
-        c = coroutine.create( self.doSleep )
-        while coroutine.resume(c, 1.0) do Yield() end
         
-        while self.doMove(x, y) do Yield() end
-        while self.doMove(x+16, y) do Yield() end
-        while self.doMove(x, y) do Yield() end
-        while self.doMove(x, y-16) do Yield() end
+        for i = 1, math.random(1, 5), 1 do
+            x=self.getX(); y=self.getY();
+            local r = GetRandomCrosswise16();
+            if self.canMove(x + r.x, y + r.y) then
+                local c = coroutine.create(self.doSleep)
+                while self.doMove(x + r.x, y + r.y) do 
+                    if not coroutine.resume(c, 3.0) then
+                        ErrLog("Chick is stackted at "..x..", "..y.." and break loop.\n")
+                        break
+                    end
+                    Yield() 
+                end    
+            end
+        end
 
         c = coroutine.create( self.doSleep )
         while coroutine.resume(c, 1.0) do Yield() end
-
-        while self.doMove(x, y+16) do Yield() end
     end,
 }
 

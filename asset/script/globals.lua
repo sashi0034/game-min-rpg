@@ -38,12 +38,12 @@ end
 function GetRandomCrosswise16()
     local r = math.random(0, 3)
     if (r==0) then 
-        return {x= -16, y=16}
+        return {x= -16, y=0}
     elseif r==1 then
-        return {x= 16, y=16}
+        return {x= 16, y=0}
     elseif r==2 then
-        return {x= -16, y=-16}
+        return {x= 0, y=-16}
     elseif r==3 then
-        return {x= 16, y=-16}
+        return {x= 0, y=16}
     end
 end

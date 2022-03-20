@@ -112,9 +112,10 @@ namespace ingame
             virtual void animation() = 0;
             virtual void driveTalkEvent();
             virtual void fadeAndDie();
+            bool canMove(double toX, double toY);
+            bool canMove(double toX, double toY, EAngle *getAng);
             bool doMove(double x, double y);
             bool doMoveTemporary(double x, double y);
-
         };
 
         class FieldDecorationBase : public Actor

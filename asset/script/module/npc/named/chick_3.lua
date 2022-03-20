@@ -3,14 +3,11 @@ chick_3 = {
 
     new = function()
         
-        local self = Instantiate(chick_1, ChickLuaData)
+        local self = Instantiate(chick_3, ChickLuaData)
         
         self.events = {
             move = nil,
         }
-
-        OutLog("chick_1 is created.\n")
-
         return self
     end,
 

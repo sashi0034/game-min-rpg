@@ -52,9 +52,6 @@ chicken_by_fence = {
 
             local e3 = MapEventManager.getUnique("chick_stray_3")
             MapEventManager.installCharacter(e3.x, e3.y, "chick", "chick_3")
-
-            local e4 = MapEventManager.getUnique("chick_stray_4")
-            MapEventManager.installCharacter(e4.x, e4.y, "chick", "chick_4")
         end
 
         w:close()
