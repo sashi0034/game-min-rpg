@@ -145,10 +145,24 @@ namespace ingame::main
         void animation() override;
     };
 
+
+    class Chicken : public NPCBase
+    {
+        static const int sprOriginX = -8;
+        static const int sprOriginY = -16 - 4;
+        int mFrameInterval;
+    public:
+        Chicken(double startX, double startY, ECharacterKind characterKind, std::string uniqueName);
+        ~Chicken();
+    protected:
+        void animation() override;
+    };
+
+
     class Chick : public NPCBase
     {
         static const int sprOriginX = 0;
-        static const int sprOriginY = - 4;
+        static const int sprOriginY = -4;
         int mFrameInterval;
     public:
         Chick(double startX, double startY, ECharacterKind characterKind, std::string uniqueName);
@@ -157,21 +171,12 @@ namespace ingame::main
     private:
         int mChickId = 0;
         std::shared_ptr<useful::Vec2<int>> deltaDifference = std::shared_ptr<useful::Vec2<int>>(nullptr);
-        useful::Vec2<double> mFollowVel = useful::Vec2<double>{0, 0};
+        useful::Vec2<double> mFollowVel = useful::Vec2<double>{ 0, 0 };
         bool doFollowPlayer();
         void followMove();
         void followResistWithChracter();
-    };
-
-    class Chicken : public NPCBase
-    {
-        static const int sprOriginX = -4;
-        static const int sprOriginY = -4 - 8;
-        int mFrameInterval;
     public:
-        Chicken(double startX, double startY, ECharacterKind characterKind, std::string uniqueName);
-    protected:
-        void animation() override;
+        static Chicken* ChickenInstance;
     };
 
     class Skull : public NPCBase
@@ -184,7 +189,6 @@ namespace ingame::main
     protected:
         void animation() override;
     };
-
 
 
     class Weed : public FieldDecorationBase

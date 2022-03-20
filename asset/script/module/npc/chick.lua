@@ -31,7 +31,7 @@ ChickLuaData = {
                 local c = coroutine.create(self.doSleep)
                 while self.doMove(x + r.x, y + r.y) do 
                     if not coroutine.resume(c, 3.0) then
-                        ErrLog("Chick is stackted at "..x..", "..y.." and break loop.\n")
+                        OutLog("Caution: chick is stackted at "..x..", "..y.." and break loop.\n")
                         break
                     end
                     Yield() 

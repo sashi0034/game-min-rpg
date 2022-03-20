@@ -107,6 +107,8 @@ namespace ingame
             bool mIsDeath = false;
         public:
             NPCBase(double startX, double startY, ECharacterKind characterKind, std::string uniqueName, int sprOriginX, int sprOriginY);
+            double GetX();
+            double GetY();
         protected:
             virtual void update() override;
             virtual void animation() = 0;

@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 24,
-  nextobjectid = 150,
+  nextobjectid = 164,
   properties = {},
   tilesets = {
     {
@@ -541,8 +541,8 @@ return {
           name = "chicken_by_fence",
           type = "character",
           shape = "rectangle",
-          x = 608,
-          y = 400,
+          x = 560,
+          y = 368,
           width = 16,
           height = 16,
           rotation = 0,
@@ -557,7 +557,7 @@ return {
           type = "event",
           shape = "rectangle",
           x = 592,
-          y = 400,
+          y = 368,
           width = 16,
           height = 16,
           rotation = 0,
@@ -571,8 +571,8 @@ return {
           name = "chicken_by_fence_move_2",
           type = "event",
           shape = "rectangle",
-          x = 576,
-          y = 400,
+          x = 528,
+          y = 352,
           width = 16,
           height = 16,
           rotation = 0,
@@ -586,8 +586,8 @@ return {
           name = "chicken_by_fence_move_3",
           type = "event",
           shape = "rectangle",
-          x = 576,
-          y = 432,
+          x = 528,
+          y = 368,
           width = 16,
           height = 16,
           rotation = 0,
@@ -602,7 +602,7 @@ return {
           type = "event",
           shape = "rectangle",
           x = 592,
-          y = 432,
+          y = 352,
           width = 16,
           height = 16,
           rotation = 0,
@@ -708,6 +708,126 @@ return {
           shape = "rectangle",
           x = 592,
           y = 272,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 155,
+          name = "chicken_by_fence_move_a_1",
+          type = "event",
+          shape = "rectangle",
+          x = 560,
+          y = 352,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 156,
+          name = "chicken_by_fence_move_a_2",
+          type = "event",
+          shape = "rectangle",
+          x = 560,
+          y = 416,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 157,
+          name = "chicken_by_fence_move_a_3",
+          type = "event",
+          shape = "rectangle",
+          x = 336,
+          y = 416,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 159,
+          name = "chicken_by_fence_move_a_4",
+          type = "event",
+          shape = "rectangle",
+          x = 336,
+          y = 368,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 160,
+          name = "chicken_by_fence_move_a_5",
+          type = "event",
+          shape = "rectangle",
+          x = 384,
+          y = 368,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 161,
+          name = "chicken_by_fence_move_a_6",
+          type = "event",
+          shape = "rectangle",
+          x = 384,
+          y = 384,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 162,
+          name = "chicken_by_fence_move_a_7",
+          type = "event",
+          shape = "rectangle",
+          x = 432,
+          y = 384,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "unique"
+          }
+        },
+        {
+          id = 163,
+          name = "chicken_by_fence_move_a_8",
+          type = "event",
+          shape = "rectangle",
+          x = 432,
+          y = 416,
           width = 16,
           height = 16,
           rotation = 0,

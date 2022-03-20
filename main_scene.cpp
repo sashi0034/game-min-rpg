@@ -562,7 +562,7 @@ namespace ingame::main
     void Chick::followMove()
     {
         if (deltaDifference == nullptr)
-        {
+        {// ƒqƒˆƒR‚²‚Æ‚ÉŠî€“_‚ÌŒÂ‘Ì·‚ğİ‚¯‚é
             int posDeg = (mChickId % 5) * 360 / 5;
             int r = 12;
             deltaDifference = std::shared_ptr< useful::Vec2<int> >(new useful::Vec2<int>{
@@ -570,7 +570,21 @@ namespace ingame::main
                     int(std::cos(posDeg * M_PI / 180.0) * r)
                 });
         }
-        useful::Vec2<double> playerXY = useful::Vec2<double>{ Player::Sole->GetX() +deltaDifference->X, Player::Sole->GetY() + deltaDifference->Y};
+
+        double playerGetX{}, playerGetY{};
+        if (!FlagManager::Sole->GetFlag("send_all_chick"))
+        {
+            playerGetX = Player::Sole->GetX();
+            playerGetY = Player::Sole->GetY();
+        }
+        else if (ChickenInstance != nullptr)
+        {
+            playerGetX = ChickenInstance->GetX();
+            playerGetY = ChickenInstance->GetY();
+        }
+
+
+        useful::Vec2<double> playerXY = useful::Vec2<double>{ playerGetX +deltaDifference->X,playerGetY + deltaDifference->Y};
 
         double distanceWithPlayer = useful::Distance(mX - playerXY.X, mY - playerXY.Y);
 
@@ -605,7 +619,7 @@ namespace ingame::main
   
 
         //mAngle = Angle::ToAng(mFollowVel.X, mFollowVel.Y);
-        mAngle = Angle::ToAng(Player::Sole->GetX() - mX, Player::Sole->GetY() - mY);
+        mAngle = Angle::ToAng(playerGetX - mX, playerGetY - mY);
 
         mAnimTime += Time::DeltaMilli() * useful::Distance(mFollowVel.X, mFollowVel.Y);
 
@@ -645,6 +659,8 @@ namespace ingame::main
         //}
         mColbit = UINT(EColbit::BIRD);
     }
+
+    Chicken* Chick::ChickenInstance = nullptr;
 }
 namespace ingame::main
 {
@@ -653,6 +669,13 @@ namespace ingame::main
     {
         mSpr->SetImage(Images->Chicken, 0, 0, 32, 32);
         mFrameInterval = mLuaData["frameInterval"].get_or(0);
+
+        Chick::ChickenInstance = this;
+    }
+
+    Chicken::~Chicken()
+    {
+        Chick::ChickenInstance = nullptr;
     }
 
     void Chicken::animation()

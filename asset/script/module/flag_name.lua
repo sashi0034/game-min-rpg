@@ -17,6 +17,7 @@ FlagName = {
     catch_chick_3 = "",
     catch_chick_4 = "",
     catch_chick_5 = "",
+    send_all_chick = "",
 }
 
 

@@ -239,6 +239,15 @@ namespace ingame::main
         this->sprOriginY = sprOriginY;
     }
 
+    double NPCBase::GetX()
+    {
+        return mX;
+    }
+    double NPCBase::GetY()
+    {
+        return mY;
+    }
+
     void NPCBase::update()
     {
         LuaCollideActor::update();

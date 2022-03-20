@@ -39,12 +39,14 @@ chick_1 = {
         w:streamText([[Ç†ÅAä‘à·Ç¶ÇΩ]].."\n".."Ç“ÇÊÇ“ÇÊ")
         while w:isRunning() do Yield() end
 
-        
-        local e4 = MapEventManager.getUnique("chick_stray_4")
-        MapEventManager.installCharacter(e4.x, e4.y, "chick", "chick_4")
+        if not FlagManager.getFlag(FlagName.pop_chick_2nd) then
+            FlagManager.setFlag(FlagName.pop_chick_2nd, true)
+            local e4 = MapEventManager.getUnique("chick_stray_4")
+            MapEventManager.installCharacter(e4.x, e4.y, "chick", "chick_4")
 
-        local e5 = MapEventManager.getUnique("chick_stray_5")
-        MapEventManager.installCharacter(e5.x, e5.y, "chick", "chick_5")
+            local e5 = MapEventManager.getUnique("chick_stray_5")
+            MapEventManager.installCharacter(e5.x, e5.y, "chick", "chick_5")
+        end
 
         self.events.followPlayer = coroutine.create(ChickLuaData.followPlayer)
         coroutine.resume(self.events.followPlayer, self)
