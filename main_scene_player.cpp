@@ -281,32 +281,35 @@ namespace ingame::main
 
             bool canMove = false;
 
+
+            mColbit = 0;
             switch (ang)
             {
             case EAngle::RIGHT:
                 canMove =
                     Character::CanMappinglyMoveTo(mX + 16 * 3 / 4 + xy.X * moveUnit, mY + 16 * 1 / 4 + xy.Y * moveUnit, ang) &&
-                    Character::CanMappinglyMoveTo(mX + 16 * 3 / 4 + xy.X * moveUnit, mY + 16 * 3 / 4 + xy.Y * moveUnit, ang);
+                    Character::CanMappinglyMoveTo(mX + 16 * 3 / 4 + xy.X * moveUnit, mY + 16 * 3 / 4 + xy.Y * moveUnit, ang) && 
+                    Character::CanCharacterPutIn(mX + xy.X * 8, mY + xy.Y * 0);
                 break;
             case EAngle::DOWN:
                 canMove =
                     Character::CanMappinglyMoveTo(mX + 16 * 1 / 4 + xy.X * moveUnit, mY + 16 * 3 / 4 + xy.Y * moveUnit, ang) &&
-                    Character::CanMappinglyMoveTo(mX + 16 * 3 / 4 + xy.X * moveUnit, mY + 16 * 3 / 4 + xy.Y * moveUnit, ang);
+                    Character::CanMappinglyMoveTo(mX + 16 * 3 / 4 + xy.X * moveUnit, mY + 16 * 3 / 4 + xy.Y * moveUnit, ang) && 
+                    Character::CanCharacterPutIn(mX + xy.X * 0, mY + xy.Y * 8);
                 break;
             case EAngle::LEFT:
                 canMove =
                     Character::CanMappinglyMoveTo(mX + 16 * 1 / 4 + xy.X * moveUnit, mY + 16 * 1 / 4 + xy.Y * moveUnit, ang) &&
-                    Character::CanMappinglyMoveTo(mX + 16 * 1 / 4 + xy.X * moveUnit, mY + 16 * 3 / 4 + xy.Y * moveUnit, ang);
+                    Character::CanMappinglyMoveTo(mX + 16 * 1 / 4 + xy.X * moveUnit, mY + 16 * 3 / 4 + xy.Y * moveUnit, ang) && 
+                    Character::CanCharacterPutIn(mX + xy.X * 8, mY + xy.Y * 0);
                 break;
             case EAngle::UP:
                 canMove =
                     Character::CanMappinglyMoveTo(mX + 16 * 1 / 4 + xy.X * moveUnit, mY + 16 * 1 / 4 + xy.Y * moveUnit, ang) &&
-                    Character::CanMappinglyMoveTo(mX + 16 * 3 / 4 + xy.X * moveUnit, mY + 16 * 1 / 4 + xy.Y * moveUnit, ang);
+                    Character::CanMappinglyMoveTo(mX + 16 * 3 / 4 + xy.X * moveUnit, mY + 16 * 1 / 4 + xy.Y * moveUnit, ang) && 
+                    Character::CanCharacterPutIn(mX + xy.X * 0, mY + xy.Y * 8);
                 break;
             }
-
-            mColbit = 0;
-            canMove = canMove && Character::CanCharacterPutIn(mX + xy.X*16, mY + xy.Y*16);
             mColbit = 1;
 
             if (canMove)

@@ -103,7 +103,7 @@ namespace ingame::main
     bool Character::DoMoveInStep(double* curX, double* curY, double toX, double toY, double vel)
     {
         double vx = 0, vy = 0;
-        double delta = 1.0;
+        double delta = 0.1;
         if (*curX < toX - delta) vx = 1;
         if (*curX > toX + delta) vx = -1;
         if (*curY < toY - delta) vy = 1;
@@ -138,6 +138,8 @@ namespace ingame::main
     }
     void Character::GetMatXY(int* x, int* y)
     {
+        if (*x < 0) *x -= 16;
+        if (*y < 0) *y -= 16;
         *x = *x / 16;
         *y = *y / 16;
     }
@@ -165,8 +167,13 @@ namespace ingame::main
             useful::Vec2 moveXY = Angle::ToXY(toAng);
 
             auto gotoMat = MapManager::Sole->GetMatAt(matX, matY);
+            int backX = matX - moveXY.X;
+            int backY = matY - moveXY.Y;
+            bool isStepExit = MapManager::Sole->IsInRange(backX, backY) 
+                && MapManager::Sole->GetMatAt(backX, backY)->IsStep[static_cast<int>(toAng)];
 
-            return  !MapManager::Sole->GetMatAt(matX - moveXY.X, matY - moveXY.Y)->IsStep[static_cast<int>(toAng)] &&
+            return  
+                !isStepExit &&
                 (gotoMat->IsBridge || !gotoMat->IsWall);
         }
     }

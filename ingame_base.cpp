@@ -324,12 +324,22 @@ namespace ingame::main
         if (!mIsMovingNow)
         {// ìÆÇ´énÇﬂÇÃèàóù
             mAngle = Angle::ToAng(gotoX - mX, gotoY - mY);
+
+            mColbit = 0;
+            bool notCharacterExit = Character::CanCharacterPutIn(gotoX, gotoY);
+            mColbit = 1;
+
             if (!Character::CanMappinglyMoveTo(gotoX + moveUnit / 2, gotoY + moveUnit / 2, mAngle) ||
-                !Character::CanCharacterPutIn(gotoX, gotoY))
+                !notCharacterExit)
             {// êiÇﬂÇ»Ç¢
                 onMoved();
                 return false;
             }
+
+            // 1px ÇæÇØÇ∏ÇÁÇ∑
+            mX += Angle::ToXY(mAngle).X * 1;
+            mX += Angle::ToXY(mAngle).Y * 1;
+            
             mIsMovingNow = true;
         }
 

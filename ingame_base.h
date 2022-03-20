@@ -94,7 +94,7 @@ namespace ingame
         {
             int sprOriginX, sprOriginY;
         protected:
-            static const int moveUnit = 16;
+            static const int moveUnit = 8;
             double mX, mY;
             double mTempGotoX = 0, mTempGotoY = 0;
             bool mHasTempGoto = false;
