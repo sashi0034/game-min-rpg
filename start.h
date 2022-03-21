@@ -58,6 +58,8 @@ namespace ingame
             Graph* Mouse = loadPng("mouse_24x24");
             Graph* Chicken = loadPng("chicken_32x32");
             Graph* Chick = loadPng("chick_16x16");
+            Graph* Skull = loadPng("skull_24x24");
+            Graph* SkullSmall = loadPng("skull_small_16x16");
             Graph* Castle = loadPng("castle_32x32");
             Graph* RockZone = loadPng("rock_zone_16x16");
 

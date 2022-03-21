@@ -181,13 +181,19 @@ namespace ingame::main
 
     class Skull : public NPCBase
     {
-        static const int sprOriginX = -8;
-        static const int sprOriginY = -16 - 8;
+        static const int sprOriginX = -4;
+        static const int sprOriginY = -4 - 8;
+        static const int skullNum = 3;
         int mFrameInterval;
+
+        Sprite* mSkullCohortSpr[3];
     public:
         Skull(double startX, double startY, ECharacterKind characterKind, std::string uniqueName);
     protected:
         void animation() override;
+    private:
+        void skullCohortSetup();
+        void skullCohortAnim();
     };
 
 

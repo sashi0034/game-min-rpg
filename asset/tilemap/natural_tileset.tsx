@@ -31,11 +31,6 @@
    <property name="wall" type="bool" value="true"/>
   </properties>
  </tile>
- <tile id="33">
-  <properties>
-   <property name="name" value=""/>
-  </properties>
- </tile>
  <tile id="34">
   <properties>
    <property name="name" value="grass"/>
@@ -119,6 +114,11 @@
   </properties>
  </tile>
  <tile id="102">
+  <properties>
+   <property name="wall" type="bool" value="false"/>
+  </properties>
+ </tile>
+ <tile id="115">
   <properties>
    <property name="wall" type="bool" value="false"/>
   </properties>
@@ -447,6 +447,11 @@
  <tile id="246">
   <properties>
    <property name="wall" type="bool" value="true"/>
+  </properties>
+ </tile>
+ <tile id="248">
+  <properties>
+   <property name="wall" type="bool" value="false"/>
   </properties>
  </tile>
 </tileset>

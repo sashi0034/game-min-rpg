@@ -709,10 +709,53 @@ namespace ingame::main
     Skull::Skull(double startX, double startY, ECharacterKind characterKind, std::string uniqueName)
         : NPCBase(startX, startY, characterKind, uniqueName, sprOriginX, sprOriginY)
     {
+        mSpr->SetImage(Images->Skull, 0, 0, 24, 24);
+        mFrameInterval = mLuaData["frameInterval"].get_or(0);
+        skullCohortSetup();
     }
 
     void Skull::animation()
     {
+        int frame = (mAnimTime / mFrameInterval);
+
+        mSpr->SetImage((frame % 4) * 24, 0);
+
+        skullCohortAnim();
+
+        mAnimTime += Time::DeltaMilli();
+    }
+
+    void Skull::skullCohortSetup()
+    {
+        for (int i = 0; i < skullNum; ++i)
+        {
+            Sprite** spr = &mSkullCohortSpr[i];
+            *spr = new Sprite(Images->SkullSmall, 0, 0, 16, 16);
+            (*spr)->SetLinkXY(ScrollManager::Sole->GetSpr());
+        }
+    }
+
+    void Skull::skullCohortAnim()
+    {
+        for (int i = 0; i < skullNum; ++i)
+        {
+            double rotSpeed = 0.2;
+            double deg = (360 / skullNum) * i + mAnimTime * rotSpeed;
+            double rad = deg * M_PI / 180.0;
+            double r = 12 + 8 * std::sin(mAnimTime * (rotSpeed/10) * M_PI / 180.0);
+            double centerX = mX + 8;
+            double centerY = mY + 8 - 8;
+            int width = 16, height = 16;
+
+            double x = centerX + r * std::cos(rad) - width / 2;
+            double y = centerY + r * std::sin(rad) - height / 2;
+
+            int frame = int(deg / mFrameInterval);
+
+            mSkullCohortSpr[i]->SetXY(x, y);
+            mSkullCohortSpr[i]->SetZ(Character::GetZFromY(y));
+            mSkullCohortSpr[i]->SetImage((frame%3)*16, 0);
+        }
     }
 
 }

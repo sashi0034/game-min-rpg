@@ -52,6 +52,31 @@ IngameEventBase = {
 
         self.events[key] = coroutine.create(self[key])
         coroutine.resume(self.events[key], self, e)
-    end
+    end,
+
+    awaits = {
+        sleep = function (time)
+            local t = 0
+            while t<time do 
+                t = t + Time.deltaSec()
+                Yield()
+            end
+        end,
+
+        streamText = function (m, str)
+            m:streamText(str)
+            while m:isRunning() do Yield() end
+        end,
+
+        selectionWindow = function (table)
+            local s = SelectionWindow.open(table)
+            while s:isRunning() do Yield() end
+            local index=s:selectedIndex()
+            local word = s:selectedWord()
+            s:close()
+            return index, word
+        end
+    }
+
 }
 

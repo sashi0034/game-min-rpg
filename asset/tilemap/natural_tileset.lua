@@ -58,12 +58,6 @@ return {
       }
     },
     {
-      id = 33,
-      properties = {
-        ["name"] = ""
-      }
-    },
-    {
       id = 34,
       properties = {
         ["name"] = "grass"
@@ -164,6 +158,12 @@ return {
     },
     {
       id = 102,
+      properties = {
+        ["wall"] = false
+      }
+    },
+    {
+      id = 115,
       properties = {
         ["wall"] = false
       }
@@ -551,6 +551,12 @@ return {
       id = 246,
       properties = {
         ["wall"] = true
+      }
+    },
+    {
+      id = 248,
+      properties = {
+        ["wall"] = false
       }
     }
   }

@@ -6,6 +6,7 @@ local base = {
     "slime",
     "chick",
     "chicken",
+    "skull",
 }
 
 
@@ -23,6 +24,7 @@ local named = {
     "chick_3",
     "chick_4",
     "chick_5",
+    "skull_last",
 }
 
 
