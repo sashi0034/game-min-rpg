@@ -49,7 +49,7 @@ mouse_fast = {
             FlagManager.getFlag(FlagName.obtain_super_dash) or
             FlagManager.getFlag(FlagName.friend_with_mouse) 
         then
-            m:streamText([[ぼ、僕は悪くないっぴ!]])
+            m:streamText([[僕を食べない優しい方で]].."\n"..[[よかったっぴ!]])
             while m:isRunning() do Yield() end
 
             m:close()

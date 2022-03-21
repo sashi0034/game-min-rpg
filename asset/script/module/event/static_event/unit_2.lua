@@ -1,7 +1,5 @@
 MapEventManager:addStaticEvents({
-    summonMouse = function (self)
 
-    end,
     -- sayHello = function (self)
     --     local c = coroutine.create(self.doSleep)
     --     while coroutine.resume(c, 3.0) do Yield() end

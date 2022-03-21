@@ -22,6 +22,9 @@ MapEventManager:addMapEvents({
                 while m:isRunning() do Yield() end
                 m:streamText("\n"..[[Šë‚È‚¢‚©‚çSpaceƒL[‚Å’²‚×‚Ä‚Í‚¢‚©‚ñ‚¼]])
                 while m:isRunning() do Yield() end
+            elseif not FlagManager.getFlag(FlagName.kill_slime) then
+                m:streamText("\n"..[[ŠF‚©‚çŠ´Ó‚³‚ê‚é‚±‚Æ‚ğ‚µ‚È‚³‚¢]]..[[‚»‚¤‚·‚ê‚Î‹F‚è‚ª“Í‚­‚¶‚á‚ë‚¤]])
+                while m:isRunning() do Yield() end
             else
                 m:streamText("\n"..[[‚í‚µ‚©‚çŒ¾‚¦‚é‚±‚Æ‚Í‚à‚¤‚È‚¢]].."\n"..[[¶‚«‚é‚Ì‚¶‚á‚¼]])
                 while m:isRunning() do Yield() end

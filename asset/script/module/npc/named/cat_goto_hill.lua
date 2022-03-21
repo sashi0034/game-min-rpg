@@ -8,8 +8,8 @@ cat_goto_hill = {
             move = nil,
         }
 
-        self.vel = 100
-        self.frameInterval = 120
+        self.vel = 200
+        self.frameInterval = 150
 
         OutLog("cat_goto_hill is created.\n")
 
@@ -45,8 +45,15 @@ cat_goto_hill = {
         w:streamText([[ƒjƒƒ‚É‚á‚É‚á! ]])
         while w:isRunning() do Yield() end
 
-        -- w:streamText([[‚±‚±‚Å”L¨‚³‚ñ‚Æ]].."\n"..[[o‰ï‚Á‚½‚Ì‚Í‰½‚©‚Ì‰‚É‚á]])
-        -- while w:isRunning() do Yield() end
+        if not FlagManager.getFlag(FlagName.talked_with_cat_goto_hill) then
+            w:streamText("\n"..[[‚±‚±‚Å”L¨‚Ì‚¨ì‚³‚ñ‚Æ]].."\n"..[[o‰ï‚Á‚½‚Ì‚Í‰½‚©‚Ì‰‚É‚á]])
+            while w:isRunning() do Yield() end
+    
+            w:streamText("\n"..[[”L¨‚³‚ñ‚Ì‚²Šˆ–ô‚ğ]].."\n"..[[‹­‚­‹F‚Á‚Ä‚¨‚­ƒjƒƒ]])
+            while w:isRunning() do Yield() end
+
+            FlagManager.setFlag(FlagName.talked_with_cat_goto_hill, true)
+        end
 
         w:close()
     end

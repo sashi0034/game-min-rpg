@@ -24,6 +24,7 @@ FlagName = {
     gave_herbs = "",
     try_dump_paper = "",
     dump_paper_by_eat = "",
+    talked_with_cat_goto_hill = "",
 }
 
 
