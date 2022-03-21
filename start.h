@@ -63,6 +63,8 @@ namespace ingame
             Graph* Castle = loadPng("castle_32x32");
             Graph* RockZone = loadPng("rock_zone_16x16");
 
+            Graph* EffectSpirit = loadPng("effect/spirit_64x64");
+
             Graph* UiWindowBlack = loadPng("ui/window_black");
             Graph* UiArrow = loadPng("ui/arrow_16x16");
 

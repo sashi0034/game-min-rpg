@@ -14,6 +14,8 @@
 
 namespace ingame::main::effect
 {
+	void StartEffect();
+
 	class CloudController : public Actor
 	{
 	public:
@@ -38,6 +40,29 @@ namespace ingame::main::effect
 	protected:
 		void update() override;
 		void updateCloud();
+	};
+
+	class SpiritController : public Actor
+	{
+	public:
+		SpiritController();
+	protected:
+		void update() override;
+	};
+
+	class Spirit : public Actor
+	{
+		static const useful::Vec2<int> imageSize;
+		useful::Vec2<int> mSprOriginPt;
+		useful::Vec2<double> mPt;
+		useful::Vec2<double> mVel;
+		int mAnimTIme{};
+	public:
+		Spirit(SpiritController* parent);
+	protected:
+		void update() override;
+	private:
+		void updateSpirit(int deltaMilli);
 	};
 
 

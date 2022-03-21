@@ -174,7 +174,7 @@ namespace ingame
             new BackGroundManager();
             new MapEventManager();
             new FlagManager();
-            new effect::CloudController();
+            effect::StartEffect();
             MessageWindow::Init();
             SelectionWindow::Init();
             

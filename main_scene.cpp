@@ -742,7 +742,7 @@ namespace ingame::main
             double rotSpeed = 0.2;
             double deg = (360 / skullNum) * i + mAnimTime * rotSpeed;
             double rad = deg * M_PI / 180.0;
-            double r = 12 + 8 * std::sin(mAnimTime * (rotSpeed/10) * M_PI / 180.0);
+            double r = 24 + 8 * std::sin(mAnimTime * (rotSpeed/10) * M_PI / 180.0);
             double centerX = mX + 8;
             double centerY = mY + 8 - 8;
             int width = 16, height = 16;
