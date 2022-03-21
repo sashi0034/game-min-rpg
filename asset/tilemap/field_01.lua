@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 24,
-  nextobjectid = 164,
+  nextobjectid = 172,
   properties = {},
   tilesets = {
     {
@@ -834,6 +834,96 @@ return {
           visible = true,
           properties = {
             ["kind"] = "unique"
+          }
+        },
+        {
+          id = 164,
+          name = "house_r_1",
+          type = "event",
+          shape = "rectangle",
+          x = 416,
+          y = 32,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "reach"
+          }
+        },
+        {
+          id = 165,
+          name = "house_r_3",
+          type = "event",
+          shape = "rectangle",
+          x = 416,
+          y = 96,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "reach"
+          }
+        },
+        {
+          id = 167,
+          name = "house_r_2",
+          type = "event",
+          shape = "rectangle",
+          x = 400,
+          y = 64,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "reach"
+          }
+        },
+        {
+          id = 168,
+          name = "herbs_near_bush",
+          type = "event",
+          shape = "rectangle",
+          x = 464,
+          y = 336,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "touch"
+          }
+        },
+        {
+          id = 169,
+          name = "herbs_under_tree",
+          type = "event",
+          shape = "rectangle",
+          x = 304,
+          y = 400,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "touch"
+          }
+        },
+        {
+          id = 171,
+          name = "herbs_near_castle",
+          type = "event",
+          shape = "rectangle",
+          x = 32,
+          y = 400,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "touch"
           }
         }
       }

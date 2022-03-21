@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="40" height="28" tilewidth="16" tileheight="16" infinite="0" nextlayerid="24" nextobjectid="164">
+<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="40" height="28" tilewidth="16" tileheight="16" infinite="0" nextlayerid="24" nextobjectid="172">
  <editorsettings>
   <export target="field_01.lua" format="lua"/>
  </editorsettings>
@@ -336,6 +336,36 @@
   <object id="163" name="chicken_by_fence_move_a_8" type="event" x="432" y="416" width="16" height="16">
    <properties>
     <property name="kind" value="unique"/>
+   </properties>
+  </object>
+  <object id="164" name="house_r_1" type="event" x="416" y="32" width="16" height="16">
+   <properties>
+    <property name="kind" value="reach"/>
+   </properties>
+  </object>
+  <object id="165" name="house_r_3" type="event" x="416" y="96" width="16" height="16">
+   <properties>
+    <property name="kind" value="reach"/>
+   </properties>
+  </object>
+  <object id="167" name="house_r_2" type="event" x="400" y="64" width="16" height="16">
+   <properties>
+    <property name="kind" value="reach"/>
+   </properties>
+  </object>
+  <object id="168" name="herbs_near_bush" type="event" x="464" y="336" width="16" height="16">
+   <properties>
+    <property name="kind" value="touch"/>
+   </properties>
+  </object>
+  <object id="169" name="herbs_under_tree" type="event" x="304" y="400" width="16" height="16">
+   <properties>
+    <property name="kind" value="touch"/>
+   </properties>
+  </object>
+  <object id="171" name="herbs_near_castle" type="event" x="32" y="400" width="16" height="16">
+   <properties>
+    <property name="kind" value="touch"/>
    </properties>
   </object>
  </objectgroup>

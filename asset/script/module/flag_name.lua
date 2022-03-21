@@ -18,6 +18,12 @@ FlagName = {
     catch_chick_4 = "",
     catch_chick_5 = "",
     send_all_chick = "",
+    obtain_herbs_near_bush = "",
+    obtain_herbs_under_tree = "",
+    obtain_herbs_near_castle = "",
+    gave_herbs = "",
+    try_dump_paper = "",
+    dump_paper_by_eat = "",
 }
 
 

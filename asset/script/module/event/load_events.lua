@@ -1,6 +1,7 @@
 
 local staticEvent = {
     "unit_1",
+    "unit_2",
 }
 
 
@@ -8,10 +9,13 @@ local mapEvent = {
     "house_1",
     "house_3",
     "house_2",
+    "house_r_1",
+    "house_r_3",
+    "house_r_2",
     "house_on_hill",
     "tree_1",
     "tree_on_upstream",
-
+    "herbs",
 }
 
 

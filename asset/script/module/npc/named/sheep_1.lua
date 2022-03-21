@@ -59,8 +59,72 @@ sheep_1 = {
         w:streamText([[ƒ`Aƒ`]])
         while w:isRunning() do Yield() end
 
-        w:streamText("\n"..[[‚½‚­‚³‚ñ‘–‚Á‚ÄŒ’N‚É‚È‚è‚Ü‚µ‚å‚¤!]])
-        while w:isRunning() do Yield() end
+        if 
+            FlagManager.getFlag(FlagName.try_dump_paper) and  
+            not FlagManager.getFlag(FlagName.dump_paper_by_eat)
+        then
+            local s = SelectionWindow.open({[[‚±‚êH‚×‚Ä]]})
+            while s:isRunning() do Yield() end
+            s:close()
+
+            w:streamText("\n"..[[‰½‚±‚êA‰½‚©‚Ì‘—Ş‚Å‚·‚©?]])
+            while w:isRunning() do Yield() end
+
+            w:streamText("\n"..[[‚°‚°A‚Ú‚­‚Íƒ„ƒM‚¶‚á‚È‚­‚Ä]].."\n"..[[—r‚³‚ñ‚Å‚·..]])
+            while w:isRunning() do Yield() end
+
+            local checkedContent = false
+
+            repeat     
+                local table = {[[‚Í‚¢‚Ç‚¤‚¼]]}
+                if not checkedContent then
+                    table[#table+1]=[[’†g‚ğŠm”F]]
+                end 
+                local s1 = SelectionWindow.open(table)
+                while s1:isRunning() do Yield() end
+                local index=s1:selectedIndex()
+                s1:close()
+
+                if index==1 then
+                    w:close()
+                    w=MessageWindow.open()
+
+                    w:streamText([[ˆê‰’†g‚ğŠm”F‚µ‚Ä‚İ‚æ‚¤]])
+                    while w:isRunning() do Yield() end
+
+                    w:streamText("\n"..[[‚¤‚íA‚È‚ñ‚©‚¦‚Á‚¿‚¾..]])
+                    while w:isRunning() do Yield() end
+
+                    w:streamText("\n"..[[Œ©‚È‚©‚Á‚½‚±‚Æ‚É‚µ‚æ‚¤]])
+                    while w:isRunning() do Yield() end
+
+                    w:close()
+                    w=MessageWindow.open()
+
+                    w:streamText([[‚Ú‚­‚Í—r‚³‚ñ‚Å‚·..]])
+                    while w:isRunning() do Yield() end
+
+                    checkedContent = true
+                end
+            until index==0
+
+            w:streamText("\n"..[[‚µ‚å‚¤‚ª‚È‚¢‚È`A]])
+            while w:isRunning() do Yield() end
+            w:streamText([[‚à‚®..‚à‚®]])
+            while w:isRunning() do Yield() end
+            w:streamText("\n"..[[‚Ü‚¸‚¢‚Å‚·..‚Ò‚¦‚ñ]])
+            while w:isRunning() do Yield() end
+
+            FlagManager.setFlag(FlagName.dump_paper_by_eat, true)
+        else
+            if not FlagManager.getFlag(FlagName.dump_paper_by_eat) then
+                w:streamText("\n"..[[‘‰Ô‚ÉˆÍ‚Ü‚ê‚Ä‘–‚é‚Ì‚Í‚¢‚¢‚Å‚·‚Ë`]])
+                while w:isRunning() do Yield() end
+            else
+                w:streamText("\n"..[[‚Ú‚­‚Í—r‚Å‚·‚æ`]])
+                while w:isRunning() do Yield() end
+            end
+        end
 
         w:close()
     end
