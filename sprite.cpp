@@ -82,6 +82,16 @@ void Sprite::GetImage(Graph** image, int* u, int* v, int* width, int* height)
     *height = this->height;
 }
 
+void Sprite::SetScale(double scale)
+{
+    this->scale = scale;
+}
+
+double Sprite::GetScale()
+{
+    return this->scale;
+}
+
 
 void Sprite::SetXY(double x, double y)
 {
@@ -223,6 +233,7 @@ Sprite* Sprite::CopyVisuallyFrom(Sprite* fromSpr)
     int u, v, width, height;
     bool isFlip;
     double rad;
+    double scale;
     int blendMode, blendPal;
     Sprite* linkXY=nullptr;
 
@@ -231,6 +242,7 @@ Sprite* Sprite::CopyVisuallyFrom(Sprite* fromSpr)
     fromSpr->GetImage(&image, &u, &v, &width, &height);
     isFlip = fromSpr->GetFlip();
     rad = fromSpr->GetRotationRad();
+    scale = fromSpr->GetScale();
     fromSpr->GetBlend(&blendMode, &blendPal);
     linkXY = fromSpr->GetLinkXY();
 
@@ -240,6 +252,7 @@ Sprite* Sprite::CopyVisuallyFrom(Sprite* fromSpr)
     spr->SetImage(image, u, v, width, height);
     spr->SetFlip(isFlip);
     spr->SetRotationRad(rad);
+    spr->SetScale(scale);
     spr->SetBlend(blendMode, blendPal);
     spr->SetLinkXY(linkXY);
     
@@ -248,13 +261,13 @@ Sprite* Sprite::CopyVisuallyFrom(Sprite* fromSpr)
 
 
 
-void Sprite::Dispose(Sprite* spr)
+void Sprite::Destroy(Sprite* spr)
 {
-    Dispose(spr, false);
+    Destroy(spr, false);
 }
 
 
-void Sprite::Dispose(Sprite* spr, bool isRootParentOnly)
+void Sprite::Destroy(Sprite* spr, bool isRootParentOnly)
 {
     if (spr == nullptr) return;
 
@@ -280,7 +293,7 @@ void Sprite::Dispose(Sprite* spr, bool isRootParentOnly)
     {// q‚à‚·‚×‚ÄÁ‚·
         if (child == nullptr) continue;
         const_cast<Sprite*>(child)->linkActive = nullptr; // e‚ª€‚ñ‚¾‚±‚Æ‚ğ’Ê’m
-        Dispose(const_cast<Sprite*>(child), true);
+        Destroy(const_cast<Sprite*>(child), true);
     }
 
 }
@@ -289,7 +302,7 @@ void Sprite::DisposeAll()
 {
     for (Sprite* spr : sprites)
     {
-        Dispose(spr, true);
+        Destroy(spr, true);
     }
     collectGarbageSprites();
 }
@@ -390,7 +403,10 @@ void Sprite::DrawingKind::DotByDot(Sprite* hSpr, int hX, int hY)
 }
 void Sprite::DrawingKind::Draw(Sprite* hSpr, int x, int y, int scale)
 {
-    hSpr->image->DrawGraph(x, y, hSpr->u, hSpr->v, hSpr->width, hSpr->height, scale, hSpr->rotationRad, hSpr->isFlip);
+    double dx = (1.0 - hSpr->scale) * (hSpr->width  / (double(PX_PER_GRID) / scale)) / 2.0;
+    double dy = (1.0 - hSpr->scale) * (hSpr->height / (double(PX_PER_GRID) / scale)) / 2.0;
+
+    hSpr->image->DrawGraph(x + dx, y + dy, hSpr->u, hSpr->v, hSpr->width, hSpr->height, scale * hSpr->scale, hSpr->rotationRad, hSpr->isFlip);
 }
 
 

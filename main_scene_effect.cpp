@@ -99,30 +99,38 @@ namespace ingame::main::effect
 {
 	SpiritController::SpiritController() : Actor()
 	{
-		for (int i = 0; i < 64; ++i)
-		{
+		//for (int i = 0; i < 64; ++i)
+		//{
+		//	new Spirit(this);
+		//}
+		mGenerateTImer = EventTimer([&]() {
 			new Spirit(this);
-		}
+			return true; }, 200);
 	}
 	void SpiritController::update()
 	{
 		Actor::update();
+		mGenerateTImer.Update();
 	}
 
 	const useful::Vec2<int> Spirit::imageSize = useful::Vec2<int>{ 64, 64 };
 
 	Spirit::Spirit(SpiritController* parent) : Actor()
 	{
-		mSprOriginPt = useful::Vec2<int>{ imageSize.X/2, imageSize.Y/2 } / PX_PER_GRID * -1;
+		mSprOriginPt = useful::Vec2<int>{ imageSize.X / 2, imageSize.Y / 2 } / PX_PER_GRID * -1;
 		mPt = useful::Vec2<double>{ (double)Rand->Get(GRID_WIDTH), (double)Rand->Get(GRID_HEIGHT) };
+		mPt.X -= ScrollManager::Sole->GetX();
+		mPt.Y -= ScrollManager::Sole->GetY();
 
 		int deg = Rand->Get(360);
 		double rad = deg * M_PI / 180;
-		mVel = useful::Vec2<double>{ std::cos(rad), std::sin(rad)} * 20;
+		mVel = useful::Vec2<double>{ std::cos(rad), std::sin(rad) } *20;
 
 		mSpr->SetImage(Images->EffectSpirit, 0, 0, imageSize.X, imageSize.Y);
 		mSpr->SetDrawingMethod(Sprite::DrawingKind::DotByDot);
+		mSpr->SetScale(100.0/(100+Rand->Get(100)));
 		mSpr->SetZ(double(ZIndex::CLOUD) + 1);
+		mSpr->SetBlendPal(0);
 		mSpr->SetLinkXY(ScrollManager::Sole->GetSpr());
 		mSpr->SetLinkActive(parent->GetSpr());
 	}
@@ -135,6 +143,12 @@ namespace ingame::main::effect
 
 	void Spirit::updateSpirit(int deltaMilli)
 	{
+		const double blendSpeed = 0.2;
+		double blendRad = mAnimTIme * blendSpeed * M_PI / 180;
+		mSpr->SetBlendPal(100 - std::cos(blendRad) * 100);
+		mSpr->SetRotationRad(blendRad);
+		mSpr->SetXY(mPt.X + mSprOriginPt.X, mPt.Y + mSprOriginPt.Y);
+
 		mPt = mPt + mVel * (deltaMilli/1000.0);
 
 		int x, y;
@@ -147,18 +161,14 @@ namespace ingame::main::effect
 			y < mSprOriginPt.Y ||
 			GRID_HEIGHT - mSprOriginPt.Y < y)
 		{
-			mAnimTIme = 0;
-			mPt = useful::Vec2<double>{ (double)Rand->Get(GRID_WIDTH), (double)Rand->Get(GRID_HEIGHT) };
-			mPt.X -= ScrollManager::Sole->GetX();
-			mPt.Y -= ScrollManager::Sole->GetY();
+			Sprite::Destroy(mSpr);
+			return;
+			//mAnimTIme = 0;
+			//mPt = useful::Vec2<double>{ (double)Rand->Get(GRID_WIDTH), (double)Rand->Get(GRID_HEIGHT) };
+			//mPt.X -= ScrollManager::Sole->GetX();
+			//mPt.Y -= ScrollManager::Sole->GetY();
 		}
 
-
-		const double blendSpeed = 0.2;
-		double blendRad = mAnimTIme * blendSpeed * M_PI / 180;
-		mSpr->SetBlendPal(100-std::cos(blendRad)*100);
-		mSpr->SetRotationRad(blendRad);
-		mSpr->SetXY(mPt.X+mSprOriginPt.X, mPt.Y+mSprOriginPt.Y);
 		mAnimTIme += deltaMilli;
 	}
 

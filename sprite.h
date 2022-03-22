@@ -18,6 +18,7 @@ class Sprite
     int v = 0;
     int width = 0;
     int height = 0;
+    double scale = 1.0;
     bool isFlip = false;
     const Sprite* linkXY = nullptr;
     const Sprite* linkActive = nullptr;
@@ -49,6 +50,9 @@ public:
     void SetImage(int u, int v, int width, int height);
     void SetImage(Graph* image, int u, int v, int width, int height);
     void GetImage(Graph** image, int *u, int *v, int *width, int *height);
+
+    void SetScale(double scale);
+    double GetScale();
 
     void SetXY(double x, double y);
     void GetXY(double *x, double *y);
@@ -83,8 +87,8 @@ public:
 
     static Sprite* CopyVisuallyFrom(Sprite* fromSpr);
 
-    static void Dispose(Sprite* spr);
-    static void Dispose(Sprite* spr, bool isParentOnly);
+    static void Destroy(Sprite* spr);
+    static void Destroy(Sprite* spr, bool isParentOnly);
 
     static void DisposeAll();
 

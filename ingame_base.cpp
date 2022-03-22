@@ -189,7 +189,7 @@ namespace ingame
         mEventTImer.Update();
         if (mEventTImer.IsAlive() == false)
         {
-            Sprite::Dispose(mSpr);
+            Sprite::Destroy(mSpr);
             return;
         }
     }
@@ -287,7 +287,7 @@ namespace ingame::main
             copy->SetBlendPal(*count % 2 == 0 ? 16 : 224);
             if (*count > 20)
             {
-                Sprite::Dispose(copy);
+                Sprite::Destroy(copy);
                 return false;
             }
             return true; 

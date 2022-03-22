@@ -379,7 +379,7 @@ namespace ingame::main
             "animShake", &MessageWindow::AnimShake,
             "animFlash", & MessageWindow::AnimFlash,
             "isRunning", &MessageWindow::GetIsRunning,
-            "close", [](MessageWindow* self) {Sprite::Dispose(self->GetSpr()); });
+            "close", [](MessageWindow* self) {Sprite::Destroy(self->GetSpr()); });
     }
 }
 
@@ -524,7 +524,7 @@ namespace ingame::main
             "isRunning", &SelectionWindow::GetIsRunning,
             "selectedIndex", &SelectionWindow::GetSelectedIndex,
             "selectedWord", & SelectionWindow::GetSelectedWord,
-            "close", [](SelectionWindow* self) {Sprite::Dispose(self->GetSpr()); });
+            "close", [](SelectionWindow* self) {Sprite::Destroy(self->GetSpr()); });
     }
 }
 

@@ -165,7 +165,7 @@ namespace ingame::main
                 afterimage->SetBlendPal((std::max)(0, 120 - (* time) * 10));
                 if (*time > 10)
                 {
-                    Sprite::Dispose(afterimage);
+                    Sprite::Destroy(afterimage);
                     return false;
                 }
 

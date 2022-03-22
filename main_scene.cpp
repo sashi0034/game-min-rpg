@@ -365,7 +365,7 @@ namespace ingame::main
         NPCBase::update();
         if (mIsDeath)
         {
-            Sprite::Dispose(mSpr);
+            Sprite::Destroy(mSpr);
             return;
         }
     }
@@ -435,7 +435,7 @@ namespace ingame::main
         NPCBase::update();
         if (mIsDeath)
         {
-            Sprite::Dispose(mSpr);
+            Sprite::Destroy(mSpr);
             return;
         }
     }
@@ -489,7 +489,7 @@ namespace ingame::main
         NPCBase::update();
         if (mIsDeath)
         {
-            Sprite::Dispose(mSpr);
+            Sprite::Destroy(mSpr);
             return;
         }
     }

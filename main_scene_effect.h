@@ -44,6 +44,7 @@ namespace ingame::main::effect
 
 	class SpiritController : public Actor
 	{
+		EventTimer mGenerateTImer;
 	public:
 		SpiritController();
 	protected:
