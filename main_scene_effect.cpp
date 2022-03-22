@@ -105,7 +105,8 @@ namespace ingame::main::effect
 		//}
 		mGenerateTImer = EventTimer([&]() {
 			new Spirit(this);
-			return true; }, 200);
+			return true; 
+			}, 500);
 	}
 	void SpiritController::update()
 	{
@@ -114,6 +115,8 @@ namespace ingame::main::effect
 	}
 
 	const useful::Vec2<int> Spirit::imageSize = useful::Vec2<int>{ 64, 64 };
+
+	int Spirit::AliveCount = 0;
 
 	Spirit::Spirit(SpiritController* parent) : Actor()
 	{
@@ -124,15 +127,59 @@ namespace ingame::main::effect
 
 		int deg = Rand->Get(360);
 		double rad = deg * M_PI / 180;
-		mVel = useful::Vec2<double>{ std::cos(rad), std::sin(rad) } *20;
+		mVel = useful::Vec2<double>{ std::cos(rad), std::sin(rad) } *velMax;
+		resetAccel();
+
+		if (Rand->Get(100) < 20)
+		{// •ª—ô‚µ‚Ä‚¢‚­
+			createSplitAfterImage();
+		}
 
 		mSpr->SetImage(Images->EffectSpirit, 0, 0, imageSize.X, imageSize.Y);
 		mSpr->SetDrawingMethod(Sprite::DrawingKind::DotByDot);
-		mSpr->SetScale(100.0/(100+Rand->Get(100)));
+		mSpr->SetScale(100.0 / (100 + Rand->Get(100)));
 		mSpr->SetZ(double(ZIndex::CLOUD) + 1);
+		if (Rand->Get(100) < 5) mSpr->SetBlendMode(DX_BLENDMODE_ADD);
 		mSpr->SetBlendPal(0);
 		mSpr->SetLinkXY(ScrollManager::Sole->GetSpr());
 		mSpr->SetLinkActive(parent->GetSpr());
+	}
+
+	void Spirit::createSplitAfterImage()
+	{
+		auto spliter = new EventTimerAsActor([&]() {
+			Sprite* afterimage = Sprite::CopyVisuallyFrom(mSpr);
+			afterimage->SetZ(afterimage->GetZ() + 0.001);
+			afterimage->SetDrawingMethod(Sprite::DrawingKind::DotByDot);
+			auto time = std::shared_ptr<int>(new int{ 0 });
+
+			auto created = new EventTimerAsActor(
+				[this, afterimage, time]() {
+					(*time)++;
+					int mode, pal;
+					this->GetSpr()->GetBlend(&mode, &pal);
+					afterimage->SetBlendPal((std::max)(0, pal * (10 - *time) / 10));
+					if (*time > 10)
+					{
+						Sprite::Destroy(afterimage);
+						return false;
+					}
+
+					return true;
+				}
+			, 100);
+			afterimage->SetLinkActive(mSpr);
+			created->GetSpr()->SetLinkActive(mSpr);
+			return true;
+			}, 200);
+		spliter->GetSpr()->SetLinkActive(mSpr);
+	}
+
+	void Spirit::resetAccel()
+	{
+		int accDeg = Rand->Get(360);
+		double accRad = accDeg * M_PI / 180;
+		mAccel = useful::Vec2<double>{ std::cos(accRad), std::sin(accRad) } * velMax;
 	}
 
 	void Spirit::update()
@@ -146,8 +193,16 @@ namespace ingame::main::effect
 		const double blendSpeed = 0.2;
 		double blendRad = mAnimTIme * blendSpeed * M_PI / 180;
 		mSpr->SetBlendPal(100 - std::cos(blendRad) * 100);
+		//mSpr->SetBlendPal(255);
 		mSpr->SetRotationRad(blendRad);
 		mSpr->SetXY(mPt.X + mSprOriginPt.X, mPt.Y + mSprOriginPt.Y);
+
+		mVel = mVel +mAccel * (deltaMilli / 1000.0);
+		if (useful::Distance(mVel.X, mVel.Y) > velMax)
+		{
+			mVel = mVel * 0.9;
+			resetAccel();
+		}
 
 		mPt = mPt + mVel * (deltaMilli/1000.0);
 
@@ -161,12 +216,16 @@ namespace ingame::main::effect
 			y < mSprOriginPt.Y ||
 			GRID_HEIGHT - mSprOriginPt.Y < y)
 		{
-			Sprite::Destroy(mSpr);
-			return;
-			//mAnimTIme = 0;
-			//mPt = useful::Vec2<double>{ (double)Rand->Get(GRID_WIDTH), (double)Rand->Get(GRID_HEIGHT) };
-			//mPt.X -= ScrollManager::Sole->GetX();
-			//mPt.Y -= ScrollManager::Sole->GetY();
+			mLifeCount--;
+			if (mLifeCount <= 0)
+			{
+				Sprite::Destroy(mSpr);
+				return;
+			}
+			mAnimTIme = 0;
+			mPt = useful::Vec2<double>{ (double)Rand->Get(GRID_WIDTH), (double)Rand->Get(GRID_HEIGHT) };
+			mPt.X -= ScrollManager::Sole->GetX();
+			mPt.Y -= ScrollManager::Sole->GetY();
 		}
 
 		mAnimTIme += deltaMilli;

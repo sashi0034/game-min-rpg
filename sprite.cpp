@@ -17,7 +17,7 @@ void Sprite::Init()
 
 void Sprite::End()
 {
-    Sprite::DisposeAll();
+    Sprite::DestroyAll();
 }
 
 
@@ -40,6 +40,10 @@ Sprite::Sprite(Graph* image, int u, int v, int w, int h)
     this->drawingMethod = Sprite::DrawingKind::AlignGrid;
 
     sprites.push_back(this);
+}
+Sprite::~Sprite()
+{
+    //std::cout OUT_LOG "Sprite deleted " << this;
 }
 
 
@@ -298,7 +302,7 @@ void Sprite::Destroy(Sprite* spr, bool isRootParentOnly)
 
 }
 
-void Sprite::DisposeAll()
+void Sprite::DestroyAll()
 {
     for (Sprite* spr : sprites)
     {
@@ -336,8 +340,14 @@ void Sprite::collectGarbageSprites()
 
 void Sprite::UpdateAll()
 {
-    for (Sprite* spr : sprites)
+    // auto ‚¾‚Æpush_back‚µ‚½‚Æ‚«‚É“ä‚Ìƒƒ‚ƒŠƒoƒO‚ª”­¶
+    //for (auto spr : sprites)
+    //{
+
+    int size = sprites.size();
+    for (int i=0; i< size; ++i)
     {
+        Sprite* spr = sprites[i];
         if (spr != nullptr)
         {
             if (spr->updateMethod != nullptr) spr->updateMethod(spr);

@@ -82,7 +82,7 @@ namespace ingame
         if (luaManager::CanRestartProgram)
         {// Ä‹N“®
             luaManager::CanRestartProgram = false;
-            Sprite::DisposeAll();
+            Sprite::DestroyAll();
             printfDx("Hot reloaded  at %s.\n", useful::GetDateTimeStr().c_str());
             goto restart;
         }

@@ -38,6 +38,7 @@ public:
     Sprite();
     Sprite(Graph* image);
     Sprite(Graph* image, int u, int v, int w, int h);
+    ~Sprite();
 
     static void Init();
     static void End();
@@ -90,7 +91,7 @@ public:
     static void Destroy(Sprite* spr);
     static void Destroy(Sprite* spr, bool isParentOnly);
 
-    static void DisposeAll();
+    static void DestroyAll();
 
 
     static void UpdateAll();

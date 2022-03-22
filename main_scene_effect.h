@@ -54,16 +54,22 @@ namespace ingame::main::effect
 	class Spirit : public Actor
 	{
 		static const useful::Vec2<int> imageSize;
+		inline static const double velMax = 20;
 		useful::Vec2<int> mSprOriginPt;
 		useful::Vec2<double> mPt;
 		useful::Vec2<double> mVel;
+		useful::Vec2<double> mAccel;
 		int mAnimTIme{};
+		int mLifeCount = 2;
+
 	public:
 		Spirit(SpiritController* parent);
 	protected:
 		void update() override;
 	private:
+		void createSplitAfterImage();
 		void updateSpirit(int deltaMilli);
+		void resetAccel();
 	};
 
 
