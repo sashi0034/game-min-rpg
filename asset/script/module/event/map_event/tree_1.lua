@@ -29,8 +29,8 @@ MapEventManager:addMapEvents({
             m:streamText("\n"..[[‰½‚©‚ÉŽg‚¦‚»‚¤‚¾‚©‚ç‚Æ‚Á‚Ä‚¨‚±‚¤]])
             while m:isRunning() do Yield() end
 
-            FlagManager.setFlag(FlagName.have_tree_branch, true)
             FlagManager.setFlag(FlagName.broke_tree_branch, true)
+            FlagManager.setFlag(FlagName.have_tree_branch, true)
         end
 
         m:close()

@@ -39,6 +39,8 @@ chick_1 = {
         w:streamText([[Ç†ÅAä‘à·Ç¶ÇΩ]].."\n".."Ç“ÇÊÇ“ÇÊ")
         while w:isRunning() do Yield() end
 
+        FlagManager.setFlag(FlagName.catch_chick_1, true)
+
         if not FlagManager.getFlag(FlagName.pop_chick_2nd) then
             FlagManager.setFlag(FlagName.pop_chick_2nd, true)
             local e4 = MapEventManager.getUnique("chick_stray_4")
@@ -51,7 +53,6 @@ chick_1 = {
         self.events.followPlayer = coroutine.create(ChickLuaData.followPlayer)
         coroutine.resume(self.events.followPlayer, self)
         self.events.move = nil
-        FlagManager.setFlag(FlagName.catch_chick_1, true)
 
         w:close()
     end,

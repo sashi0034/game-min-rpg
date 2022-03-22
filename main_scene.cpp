@@ -264,6 +264,10 @@ namespace ingame::main{
     void FlagManager::SetFlag(std::string flagName, bool flag)
     {
         mFlag[flagName] = flag;
+        if (flag)
+        {
+            new FlagInfoWindow(GetDescription(flagName));
+        }
     }
 
     bool FlagManager::GetFlag(std::string flagName)
@@ -273,6 +277,11 @@ namespace ingame::main{
             std::cout OUT_LOG "Caution: flag `" << flagName << "` does not exit now.\n";
         }
         return mFlag[flagName];
+    }
+
+    std::string FlagManager::GetDescription(std::string flagName)
+    {
+        return luaManager::Lua["FlagDescriptions"][flagName].get_or(std::string("(null)"));
     }
 
 }

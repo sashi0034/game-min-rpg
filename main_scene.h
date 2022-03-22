@@ -83,7 +83,6 @@ namespace ingame::main
         static const std::string LUA_CLASS;
     };
 
-
     class FlagManager : public Actor, public ISingleton<FlagManager>
     {
         std::map<std::string, bool> mFlag{};
@@ -95,6 +94,7 @@ namespace ingame::main
         ~FlagManager();
         void SetFlag(std::string flagName, bool flag);
         bool GetFlag(std::string flagName);
+        std::string GetDescription(std::string flagName);
         static const std::string LUA_CLASS;
     };
 

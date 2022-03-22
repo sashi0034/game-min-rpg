@@ -362,8 +362,9 @@ void Sprite::UpdateAll()
 /// </summary>
 void Sprite::DrawingAll()
 {
-    std::sort(sprites.begin(), sprites.end(),
+    std::stable_sort(sprites.begin(), sprites.end(),
         [](Sprite* left, Sprite* right) { return left->GetZ() > right->GetZ(); });
+
 
     for (Sprite* spr : sprites)
     {

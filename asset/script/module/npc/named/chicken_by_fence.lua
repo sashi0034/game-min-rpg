@@ -52,8 +52,6 @@ chicken_by_fence = {
         local w = MessageWindow.open()
 
         if not FlagManager.getFlag(FlagName.pop_chick_1st) then
-            FlagManager.setFlag(FlagName.pop_chick_1st, true)
-
             w:streamText([[5‰H‚Ìq‚Ç‚à‚½‚¿‚ª–Àq‚É‚È‚Á‚Ä‚µ‚Ü‚Á‚Ä]].."\n"..[[¢‚Á‚½‚í..]])
             while w:isRunning() do Yield() end
 
@@ -65,6 +63,8 @@ chicken_by_fence = {
 
             local e3 = MapEventManager.getUnique("chick_stray_3")
             MapEventManager.installCharacter(e3.x, e3.y, "chick", "chick_3")
+            
+            FlagManager.setFlag(FlagName.pop_chick_1st, true)
         elseif not FlagManager.getFlag(FlagName.send_all_chick) then
             local catchCount = 0
 

@@ -1,35 +1,39 @@
 
 FlagName = {
-    broke_tree_branch="",
-    have_tree_branch="",
-    have_wood_sword="",
-    kill_bee="",
-    obtain_honey="",
-    heard_mouse_rumor="",
-    obtain_super_dash="",
-    friend_with_mouse="",
-    obtain_solt="",
-    kill_slime="",
-    pop_chick_1st = "",
-    pop_chick_2nd = "",
-    catch_chick_1 = "",
-    catch_chick_2 = "",
-    catch_chick_3 = "",
-    catch_chick_4 = "",
-    catch_chick_5 = "",
-    send_all_chick = "",
-    obtain_herbs_near_bush = "",
-    obtain_herbs_under_tree = "",
-    obtain_herbs_near_castle = "",
-    gave_herbs = "",
-    try_dump_paper = "",
-    dump_paper_by_eat = "",
-    talked_with_cat_goto_hill = "",
+    broke_tree_branch=[[木の枝を折った]],
+    have_tree_branch=[[木の枝を手に入れた]],
+    have_wood_sword=[[木刀を手に入れた]],
+    kill_bee=[[蜂を倒した]],
+    obtain_honey=[[はちみつを手に入れた]],
+    heard_mouse_rumor=[[ネズミのうわさを聞いた]],
+    obtain_super_dash=[[速く走れるようになった]],
+    friend_with_mouse=[[ネズミと友達になった]],
+    obtain_solt=[[岩塩を手に入れた]],
+    kill_slime=[[スライムを倒した]],
+    pop_chick_1st = [[迷子のひよこの話を聞いた]],
+    pop_chick_2nd = [[ヒヨコはまだいそうだ]],
+    catch_chick_1 = [[ヒヨコAを保護した]],
+    catch_chick_2 = [[ヒヨコBを保護した]],
+    catch_chick_3 = [[ヒヨコCを保護した]],
+    catch_chick_4 = [[ヒヨコDを保護した]],
+    catch_chick_5 = [[ヒヨコEを保護した]],
+    send_all_chick = [[ヒヨコたちを送り届けた]],
+    obtain_herbs_near_bush = [[薬草Cを手に入れた]],
+    obtain_herbs_under_tree = [[薬草Bを手に入れた]],
+    obtain_herbs_near_castle = [[薬草Aを手に入れた]],
+    gave_herbs = [[薬草をあげた]],
+    try_dump_paper = [[書類を処分する依頼を受けた]],
+    dump_paper_by_eat = [[書類を処分した]],
+    talked_with_cat_goto_hill = [[走ってたネコと話した]],
 }
 
+FlagDescriptions = {}
 
 for key, value in pairs(FlagName) do
+    FlagDescriptions[key] = value
     FlagName[key] = key..""
 end
+
+
 
 

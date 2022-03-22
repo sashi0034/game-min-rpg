@@ -23,9 +23,11 @@ MapEventManager:addMapEvents({
     
             m:streamText("\n"..[[ª‹’‚Í‚È‚¢‚¯‚Ç]])
             while m:isRunning() do Yield() end
+
+            FlagManager.setFlag(FlagName.heard_mouse_rumor, true)
         end
 
         m:close()
-        FlagManager.setFlag(FlagName.heard_mouse_rumor, true)
+
     end
 })

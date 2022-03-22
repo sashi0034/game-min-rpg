@@ -20,6 +20,7 @@ loadfile([[.\asset\script\module\game_controller.lua]])()
 loadfile([[./asset\script\module\message_window.lua]])()
 loadfile([[./asset\script\module\selection_window.lua]])()
 loadfile([[./asset\script\module\limit_time_window.lua]])()
+loadfile([[./asset\script\module\flag_info_window.lua]])()
 
 loadfile([[./asset\script\debug_start.lua]])()
 

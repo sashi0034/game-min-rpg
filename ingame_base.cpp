@@ -222,6 +222,7 @@ namespace ingame::main
     {
         mSpr->SetLinkXY(ScrollManager::Sole->GetSpr());
         mSpr->SetZ(double(ZIndex::CHARACTER));
+        mSpr->SetXY(startX+sprOriginX, startY+sprOriginY);
 
         mX = startX;
         mY = startY;

@@ -166,6 +166,8 @@ namespace ingame::main
         DxLib::SetDrawScreen(DX_SCREEN_BACK);
     }
 
+
+
 }
 
 
@@ -174,6 +176,7 @@ namespace ingame::main
 
     void StartUi()
     {
+        FlagInfoWindow::ActiveCount = 0;
         MessageWindow::Init();
         SelectionWindow::Init();
         new LimitTimeWindow();
@@ -629,6 +632,7 @@ namespace ingame::main
         
         GameController::Sole->OnGameTimeChanged.push_back([&](int minu, int sec) {renderText(minu, sec); });
         renderText(GameController::GAME_TIME_START / 60, GameController::GAME_TIME_START % 60);
+        
     }
 
     void LimitTimeWindow::update()
@@ -642,6 +646,98 @@ namespace ingame::main
         oss << minutue << ":" << std::setfill('0') << std::setw(2) << sec;
         mTextField->SetText(oss.str());
     }
+
+
+    int FlagInfoWindow::ActiveCount = 0;
+
+
+
+    FlagInfoWindow::FlagInfoWindow(std::string flagInfo) : LuaActor("FlagInfoWindowLuaData", true)
+    {
+        double newCenterY = mLuaData["centerY"].get_or(0) + mLuaData["height"].get_or(0) * 1.1 * ActiveCount;
+
+        // ウィンドウ
+        mWindow = new NinePatchImage(
+            mLuaData["centerX"].get_or(0),
+            newCenterY,
+            mLuaData["width"].get_or(0),
+            mLuaData["height"].get_or(0),
+            0.2, 0.2,
+            Images->UiWhiteRoundRect);
+        mWindow->GetSpr()->SetBlendPal(mLuaData["opacity"].get_or(0));
+        mWindow->GetSpr()->SetLinkAlive(this->mSpr);
+        mWindow->GetSpr()->SetLinkXY(this->mSpr);
+        mWindow->GetSpr()->SetZ(double(ZIndex::UI) - 10);
+
+        mTextField = new TextField(Fonts->Font12Edged, mLuaData["width"].get_or(0), mLuaData["height"].get_or(0));
+        mTextField->SetPaddingStart(mLuaData["paddingLeft"].get_or(0), mLuaData["paddingTop"].get_or(0));
+        sol::table fore = mLuaData["textForegroundColor"];
+        sol::table back = mLuaData["textEdgegroundColor"];
+        mTextField->SetColor(
+            DxLib::GetColor(fore[1].get_or(0), fore[2].get_or(0), fore[3].get_or(0)),
+            DxLib::GetColor(back[1].get_or(0), back[2].get_or(0), back[3].get_or(0)));
+        mTextField->GetSpr()->SetLinkAlive(this->mSpr);
+        mTextField->GetSpr()->SetLinkXY(this->mSpr);
+        mTextField->GetSpr()->SetZ(double(ZIndex::UI) - 11);
+        mTextField->SetCenterXY(mLuaData["centerX"].get_or(0), newCenterY);
+        mTextField->SetText(flagInfo);
+        appeaAndFadeAnim();
+
+        mIndex = ActiveCount;
+        ActiveCount++;
+    }
+
+    FlagInfoWindow::~FlagInfoWindow()
+    {
+        if (mIndex + 1 == ActiveCount)
+        {
+            ActiveCount = 0;
+        }
+    }
+
+    void FlagInfoWindow::appeaAndFadeAnim()
+    {
+        auto x = std::shared_ptr<double>(new double{});
+        auto vx = std::shared_ptr<double>(new double{0});
+        *x = -mLuaData["centerX"].get_or(0);
+        mSpr->SetXY(*x, 0);
+
+        // appear
+        new EventTimerAsActor([this, x, vx]() {
+            *vx = *vx + 0.2;
+            *x = (std::min)(*x + *vx, 0.0);
+            mSpr->SetXY(*x, 0);
+            if (*x >= 0)
+            {
+                // stop
+                new EventTimerAsActor([this]() {
+                    auto y = std::shared_ptr<double>(new double{0});
+                    auto vy = std::shared_ptr<double>(new double{ 0 });
+                    // fade
+                    new EventTimerAsActor([this, y, vy](){
+                        *vy -= 0.2;
+                        *y = *y + *vy;
+                        mSpr->SetXY(0, *y);
+                        if (*y < -GRID_HEIGHT)
+                        {
+                            Sprite::Destroy(mSpr);
+                            return false;
+                        }
+                        return true;
+                    }, int(FPS60_MILLI));
+                    return false;
+                }, 1000 * 3);
+                return false;
+            }
+            return true;
+        }, int(FPS60_MILLI));
+    }
+
+    void FlagInfoWindow::update()
+    {
+        Actor::update();
+    }
+
 
 }
 

@@ -150,6 +150,21 @@ namespace ingame::main
         void renderText(int minutue, int sec);
     };
 
+    class FlagInfoWindow : public LuaActor
+    {
+        NinePatchImage* mWindow;
+        TextField* mTextField;
+        int mIndex = 0;
+
+        void appeaAndFadeAnim();
+    public:
+        FlagInfoWindow(std::string str);
+        ~FlagInfoWindow();
+        static int ActiveCount;
+    protected:
+        void update() override;
+    };
+
     void StartUi();
 
 }
