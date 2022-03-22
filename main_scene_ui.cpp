@@ -124,7 +124,7 @@ namespace ingame::main
         mHeight = mLuaData["height"].get_or(0) * PX_PER_GRID / 2;
         //new UiWindow(GRID_WIDTH / 2, mLuaData["centerY"].get_or(0), mLuaData["width"].get_or(0), mLuaData["height"].get_or(0), 0.2, 0.2);
         mTextWindow = new UiWindow(GRID_WIDTH / 2, mLuaData["centerY"].get_or(0), mLuaData["width"].get_or(0), mLuaData["height"].get_or(0), 0.2, 0.2);
-        mTextWindow->GetSpr()->SetLinkActive(this->mSpr);
+        mTextWindow->GetSpr()->SetLinkAlive(this->mSpr);
         mTextWindow->GetSpr()->SetLinkXY(this->mSpr);
 
         mTextReadIndex = 0;
@@ -144,7 +144,7 @@ namespace ingame::main
         mTextSpr->SetDrawingMethod(Sprite::DrawingKind::TwoDots);
         mTextSpr->SetXY(GRID_WIDTH / 2 - mLuaData["width"].get_or(0) / 2, mLuaData["centerY"].get_or(0) - mLuaData["height"].get_or(0) / 2);
         mTextSpr->SetZ(double(ZIndex::UI) - 1);
-        mTextSpr->SetLinkActive(this->mSpr);
+        mTextSpr->SetLinkAlive(this->mSpr);
         mTextSpr->SetLinkXY(this->mSpr);
     }
 
@@ -193,7 +193,7 @@ namespace ingame::main
             return true;
             }, int(FPS60_MILLI));
 
-        timer->GetSpr()->SetLinkActive(mSpr);
+        timer->GetSpr()->SetLinkAlive(mSpr);
     }
 
     void MessageWindow::AnimFlash()
@@ -234,7 +234,7 @@ namespace ingame::main
             return true;
             }, int(frame*FPS60_MILLI));
 
-        timer->GetSpr()->SetLinkActive(mSpr);
+        timer->GetSpr()->SetLinkAlive(mSpr);
     }
 
     bool MessageWindow::hasUnreadText()
@@ -409,7 +409,7 @@ namespace ingame::main
             mGridUnitWidth,
             mGridUnitHeight,
             0.2, 0.2);
-        mWindow->GetSpr()->SetLinkActive(this->mSpr);
+        mWindow->GetSpr()->SetLinkAlive(this->mSpr);
         mWindow->GetSpr()->SetZ(double(ZIndex::UI) - 10);
 
         // テキスト
@@ -424,7 +424,7 @@ namespace ingame::main
         // カーソル
         mCursorSpr = new Sprite();
         mCursorSpr->SetLinkXY(this->mSpr);
-        mCursorSpr->SetLinkActive(this->mSpr);
+        mCursorSpr->SetLinkAlive(this->mSpr);
         mCursorSpr->SetZ(double(ZIndex::UI) - 12);
         //mCursorSpr->SetDrawingMethod(Sprite::DrawingKind::TwoDots);
         resetCursor();

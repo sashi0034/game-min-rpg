@@ -60,10 +60,12 @@ namespace ingame::main::effect
 		useful::Vec2<double> mVel;
 		useful::Vec2<double> mAccel;
 		int mAnimTIme{};
-		int mLifeCount = 2;
+		int mLifeCount = 1;
 
 	public:
 		Spirit(SpiritController* parent);
+		~Spirit();
+		static int AliveCount;
 	protected:
 		void update() override;
 	private:

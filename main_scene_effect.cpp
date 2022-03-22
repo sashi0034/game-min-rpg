@@ -28,7 +28,7 @@ namespace ingame::main::effect
 
 	Cloud::Cloud(CloudController* parent) : Actor()
 	{
-		mSpr->SetLinkActive(parent->GetSpr());
+		mSpr->SetLinkAlive(parent->GetSpr());
 		mSpr->SetLinkXY(parent->GetSpr());
 
 		int r = Rand->Get(3);
@@ -104,9 +104,12 @@ namespace ingame::main::effect
 		//	new Spirit(this);
 		//}
 		mGenerateTImer = EventTimer([&]() {
-			new Spirit(this);
+			if (Spirit::AliveCount < 20)
+			{
+				new Spirit(this);
+			}
 			return true; 
-			}, 500);
+			}, 50);
 	}
 	void SpiritController::update()
 	{
@@ -120,6 +123,8 @@ namespace ingame::main::effect
 
 	Spirit::Spirit(SpiritController* parent) : Actor()
 	{
+		AliveCount++;
+
 		mSprOriginPt = useful::Vec2<int>{ imageSize.X / 2, imageSize.Y / 2 } / PX_PER_GRID * -1;
 		mPt = useful::Vec2<double>{ (double)Rand->Get(GRID_WIDTH), (double)Rand->Get(GRID_HEIGHT) };
 		mPt.X -= ScrollManager::Sole->GetX();
@@ -139,10 +144,15 @@ namespace ingame::main::effect
 		mSpr->SetDrawingMethod(Sprite::DrawingKind::DotByDot);
 		mSpr->SetScale(100.0 / (100 + Rand->Get(100)));
 		mSpr->SetZ(double(ZIndex::CLOUD) + 1);
-		if (Rand->Get(100) < 5) mSpr->SetBlendMode(DX_BLENDMODE_ADD);
+		//if (Rand->Get(100) < 5) mSpr->SetBlendMode(DX_BLENDMODE_ADD);
 		mSpr->SetBlendPal(0);
 		mSpr->SetLinkXY(ScrollManager::Sole->GetSpr());
-		mSpr->SetLinkActive(parent->GetSpr());
+		mSpr->SetLinkAlive(parent->GetSpr());
+	}
+
+	Spirit::~Spirit()
+	{
+		AliveCount--;
 	}
 
 	void Spirit::createSplitAfterImage()
@@ -168,11 +178,11 @@ namespace ingame::main::effect
 					return true;
 				}
 			, 100);
-			afterimage->SetLinkActive(mSpr);
-			created->GetSpr()->SetLinkActive(mSpr);
+			afterimage->SetLinkAlive(mSpr);
+			created->GetSpr()->SetLinkAlive(mSpr);
 			return true;
 			}, 200);
-		spliter->GetSpr()->SetLinkActive(mSpr);
+		spliter->GetSpr()->SetLinkAlive(mSpr);
 	}
 
 	void Spirit::resetAccel()

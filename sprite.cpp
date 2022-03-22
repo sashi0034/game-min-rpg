@@ -164,16 +164,16 @@ Sprite* Sprite::GetLinkXY()
 /// Disposeするタイミングの同期
 /// </summary>
 /// <param name="linkSpr"></param>
-void Sprite::SetLinkActive(const Sprite* linkSpr)
+void Sprite::SetLinkAlive(const Sprite* linkSpr)
 {
-    if (this->linkActive != nullptr)
+    if (this->linkAlive != nullptr)
     {
-        Sprite* oldParent = const_cast<Sprite*>(this->linkActive);
-        oldParent->linkedChildActives.erase(this);
+        Sprite* oldParent = const_cast<Sprite*>(this->linkAlive);
+        oldParent->linkedChildAlives.erase(this);
     }
     Sprite* parent = const_cast<Sprite*>(linkSpr);
-    this->linkActive = linkSpr;
-    parent->linkedChildActives.insert(this);
+    this->linkAlive = linkSpr;
+    parent->linkedChildAlives.insert(this);
 }
 
 
@@ -277,7 +277,7 @@ void Sprite::Destroy(Sprite* spr, bool isRootParentOnly)
 
     if (isRootParentOnly)
     {
-        if (spr->linkActive != nullptr) return; // 子なら返る
+        if (spr->linkAlive != nullptr) return; // 子なら返る
     }
 
     if (spr->destructorMethod != nullptr)
@@ -288,15 +288,15 @@ void Sprite::Destroy(Sprite* spr, bool isRootParentOnly)
 
     spr->sprites[findIndex(spr)] = nullptr;
 
-    if (spr->linkActive != nullptr)
+    if (spr->linkAlive != nullptr)
     {// 親から自分を消す
-        auto& childrenOfParent = const_cast<Sprite*>(spr->linkActive)->linkedChildActives;
+        auto& childrenOfParent = const_cast<Sprite*>(spr->linkAlive)->linkedChildAlives;
         childrenOfParent.erase(spr);
     }
-    for (auto& child : spr->linkedChildActives)
+    for (auto& child : spr->linkedChildAlives)
     {// 子もすべて消す
         if (child == nullptr) continue;
-        const_cast<Sprite*>(child)->linkActive = nullptr; // 親が死んだことを通知
+        const_cast<Sprite*>(child)->linkAlive = nullptr; // 親が死んだことを通知
         Destroy(const_cast<Sprite*>(child), true);
     }
 

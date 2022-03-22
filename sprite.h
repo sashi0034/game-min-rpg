@@ -21,8 +21,8 @@ class Sprite
     double scale = 1.0;
     bool isFlip = false;
     const Sprite* linkXY = nullptr;
-    const Sprite* linkActive = nullptr;
-    std::unordered_set<const Sprite*> linkedChildActives = std::unordered_set<const Sprite*>{};
+    const Sprite* linkAlive = nullptr;
+    std::unordered_set<const Sprite*> linkedChildAlives = std::unordered_set<const Sprite*>{};
     double rotationRad = 0;
     int blendMode = DX_BLENDMODE_ALPHA;
     int blendPal = 255;
@@ -73,7 +73,7 @@ public:
     void SetLinkXY(const Sprite* linkSpr);
     Sprite* GetLinkXY();
 
-    void SetLinkActive(const Sprite* linkSpr);
+    void SetLinkAlive(const Sprite* linkSpr);
 
     void GetLinkDifferenceXY(double* x, double* y);
 
