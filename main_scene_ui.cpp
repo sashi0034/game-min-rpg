@@ -2,6 +2,7 @@
 #include "main_scene_ui.h"
 #include "start.h"
 #include "main_scene_player.h"
+#include "main_scene_controller.h"
 
 
 namespace ingame::main
@@ -89,26 +90,95 @@ namespace ingame::main
 
 
 
-    UiWindow::UiWindow(double drawCenterX, double drawCenterY, int gridUnitWidth, int gridUnitHeight, double sideRatioX, double sideRatioY)
+    UiBlackWindow::UiBlackWindow(double drawCenterX, double drawCenterY, int gridUnitWidth, int gridUnitHeight, double sideRatioX, double sideRatioY)
         : NinePatchImage(drawCenterX, drawCenterY, 8, gridUnitHeight, sideRatioX, sideRatioY, Images->UiWindowBlack)
     {
         mCurWidth = 8;
         mToWidth = gridUnitWidth;
-        mHeight = gridUnitHeight;
+        mSprHeight = gridUnitHeight;
     }
 
 
-    void UiWindow::update()
+    void UiBlackWindow::update()
     {
         if (mCurWidth < mToWidth)
         {
             mCurWidth += Time::DeltaMilli();
             mCurWidth = (std::min)(mCurWidth, mToWidth);
-            NinePatchImage::SetSize(useful::Vec2<double>{mCurWidth, mHeight});
+            NinePatchImage::SetSize(useful::Vec2<double>{mCurWidth, mSprHeight});
         }
 
         NinePatchImage::update();
     }
+
+
+
+    TextField::TextField(Graph* fontData, int width, int height) : Actor()
+    {
+        mFontGraph = fontData;
+        mSprWidth = width;
+        mSprHeight = height;
+        mRenderWidth = mSprWidth * PX_PER_GRID / 2;
+        mRenderHeight = mSprHeight * PX_PER_GRID / 2;
+        mForegroundColor = DxLib::GetColor(255, 255, 255);
+        mEdgegroundColor = DxLib::GetColor(32, 32, 32);
+
+        mGraph = std::unique_ptr<Graph>(new Graph(DxLib::MakeScreen(mRenderWidth, mRenderHeight, TRUE)));
+        mSpr->SetImage(mGraph.get(), 0, 0, mRenderWidth, mRenderHeight);
+        mSpr->SetDrawingMethod(Sprite::DrawingKind::TwoDots);
+    }
+
+    void TextField::SetColor(UINT foreground, UINT background)
+    {
+        mForegroundColor = foreground;
+        mEdgegroundColor = background;
+    }
+
+    void TextField::SetText(std::string str)
+    {
+        mText = str;
+        RenderDirect([&]() {
+            DxLib::DrawStringToHandle(mPaddingLeft, mPaddingTop, mText.c_str(), mForegroundColor, mFontGraph->GetHandler(), mEdgegroundColor);
+            });
+    }
+
+    void TextField::SetStartXY(double x, double y)
+    {
+        mSpr->SetXY(x, y);
+    }
+
+    void TextField::SetCenterXY(double x, double y)
+    {
+        mSpr->SetXY(x - mSprWidth/2.0, y - mSprHeight/2.0);
+    }
+
+    void TextField::SetPaddingStart(int left, int top)
+    {
+        mPaddingLeft = left;
+        mPaddingTop = top;
+    }
+
+    void TextField::RenderDirect(std::function<void()> callback)
+    {
+        DxLib::SetDrawScreen(mGraph->GetHandler());
+        DxLib::ClearDrawScreen();
+        callback();
+        DxLib::SetDrawScreen(DX_SCREEN_BACK);
+    }
+
+}
+
+
+namespace ingame::main
+{
+
+    void StartUi()
+    {
+        MessageWindow::Init();
+        SelectionWindow::Init();
+        new LimitTimeWindow();
+    }
+
 
 };
 
@@ -120,10 +190,10 @@ namespace ingame::main
 
     MessageWindow::MessageWindow() : LuaActor("MessageWindowLuaData", true)
     {
-        mWidth = mLuaData["width"].get_or(0) * PX_PER_GRID / 2;
-        mHeight = mLuaData["height"].get_or(0) * PX_PER_GRID / 2;
+        mSprWidth = mLuaData["width"].get_or(0) * PX_PER_GRID / 2;
+        mSprHeight = mLuaData["height"].get_or(0) * PX_PER_GRID / 2;
         //new UiWindow(GRID_WIDTH / 2, mLuaData["centerY"].get_or(0), mLuaData["width"].get_or(0), mLuaData["height"].get_or(0), 0.2, 0.2);
-        mTextWindow = new UiWindow(GRID_WIDTH / 2, mLuaData["centerY"].get_or(0), mLuaData["width"].get_or(0), mLuaData["height"].get_or(0), 0.2, 0.2);
+        mTextWindow = new UiBlackWindow(GRID_WIDTH / 2, mLuaData["centerY"].get_or(0), mLuaData["width"].get_or(0), mLuaData["height"].get_or(0), 0.2, 0.2);
         mTextWindow->GetSpr()->SetLinkAlive(this->mSpr);
         mTextWindow->GetSpr()->SetLinkXY(this->mSpr);
 
@@ -139,8 +209,8 @@ namespace ingame::main
     void MessageWindow::constructTextArea()
     {
         mTextSpr = new Sprite();
-        mTextFieldGraph = new Graph(DxLib::MakeScreen(mWidth, mHeight, TRUE));
-        mTextSpr->SetImage(mTextFieldGraph, 0, 0, mWidth, mHeight);
+        mTextFieldGraph = new Graph(DxLib::MakeScreen(mSprWidth, mSprHeight, TRUE));
+        mTextSpr->SetImage(mTextFieldGraph, 0, 0, mSprWidth, mSprHeight);
         mTextSpr->SetDrawingMethod(Sprite::DrawingKind::TwoDots);
         mTextSpr->SetXY(GRID_WIDTH / 2 - mLuaData["width"].get_or(0) / 2, mLuaData["centerY"].get_or(0) - mLuaData["height"].get_or(0) / 2);
         mTextSpr->SetZ(double(ZIndex::UI) - 1);
@@ -276,7 +346,7 @@ namespace ingame::main
                 mNextLetterX = mLuaData["paddingX"].get_or(0);
                 int lineHeight = fontSize + mLuaData["lineMargin"].get_or(0);
 
-                if (mNextLetterY + lineHeight < mHeight - fontSize - mLuaData["paddingY"].get_or(0))
+                if (mNextLetterY + lineHeight < mSprHeight - fontSize - mLuaData["paddingY"].get_or(0))
                 {// 改行
                     mNextLetterY += lineHeight;
                 }
@@ -297,10 +367,10 @@ namespace ingame::main
                 useful::WideStrToNarrowStr(wstr, str);
                 char* c = const_cast<char*>(str.c_str());
 
-                DxLib::DrawStringToHandle(mNextLetterX, mNextLetterY, c, DxLib::GetColor(255, 255, 255), Images->Font18Edged->GetHandler(), DxLib::GetColor(32, 32, 32));
-                mNextLetterX += (int)(DxLib::GetDrawStringWidthToHandle(c, (int)(DxLib::strlenDx(c)), Images->Font18Edged->GetHandler()) * 0.9);
+                DxLib::DrawStringToHandle(mNextLetterX, mNextLetterY, c, DxLib::GetColor(255, 255, 255), Fonts->Font18Edged->GetHandler(), DxLib::GetColor(32, 32, 32));
+                mNextLetterX += (int)(DxLib::GetDrawStringWidthToHandle(c, (int)(DxLib::strlenDx(c)), Fonts->Font18Edged->GetHandler()) * 0.9);
 
-                if (mNextLetterX > mWidth - mLuaData["paddingX"].get_or(0) - fontSize)
+                if (mNextLetterX > mSprWidth - mLuaData["paddingX"].get_or(0) - fontSize)
                 {// 文が端まで行った
                     returnLine();
                 }
@@ -343,9 +413,9 @@ namespace ingame::main
         DxLib::SetDrawScreen(mTextFieldGraph->GetHandler());
         {
             int top = mLuaData["paddingY"].get_or(0);
-            int handler = DxLib::MakeScreen(mWidth, mHeight - top - 1, TRUE);
+            int handler = DxLib::MakeScreen(mSprWidth, mSprHeight - top - 1, TRUE);
             {
-                int a = GetDrawScreenGraph(0, top + 1, mWidth, mHeight, handler);
+                int a = GetDrawScreenGraph(0, top + 1, mSprWidth, mSprHeight, handler);
                 DxLib::ClearDrawScreen();
                 DxLib::DrawGraph(0, top, handler, TRUE);
                 //const RECT rect = RECT{ 0, 0, mWidth, mLuaData["paddingY"].get_or(0) };
@@ -403,7 +473,7 @@ namespace ingame::main
             + mOptionNum * mLuaData["lineHeight"].get_or(0) * 2 / PX_PER_GRID;
 
         // ウィンドウ
-        mWindow = new UiWindow(
+        mWindow = new UiBlackWindow(
             mLuaData["centerX"].get_or(0), 
             mLuaData["bottomY"].get_or(0)- mGridUnitHeight /2,
             mGridUnitWidth,
@@ -471,7 +541,7 @@ namespace ingame::main
             int x = mLuaData["paddingX"].get_or(0);
             int y = mLuaData["paddingY"].get_or(0) + i * mLuaData["lineHeight"].get_or(0);
             
-            DxLib::DrawStringToHandle(x, y, mOptions[i].c_str(), DxLib::GetColor(255, 255, 255), Images->Font18Edged->GetHandler(), DxLib::GetColor(32, 32, 32));
+            DxLib::DrawStringToHandle(x, y, mOptions[i].c_str(), DxLib::GetColor(255, 255, 255), Fonts->Font18Edged->GetHandler(), DxLib::GetColor(32, 32, 32));
         }
         DxLib::SetDrawScreen(DX_SCREEN_BACK);
     }
@@ -527,4 +597,62 @@ namespace ingame::main
             "close", [](SelectionWindow* self) {Sprite::Destroy(self->GetSpr()); });
     }
 }
+
+
+
+namespace ingame::main
+{
+    LimitTimeWindow::LimitTimeWindow() : LuaActor("LimitTimeWindowLuaData", true)
+    {
+        // ウィンドウ
+        mWindow = new NinePatchImage(
+            mLuaData["centerX"].get_or(0),
+            mLuaData["centerY"].get_or(0),
+            mLuaData["width"].get_or(0),
+            mLuaData["height"].get_or(0),
+            0.2, 0.2,
+            Images->UiWhiteRoundRect);
+        mWindow->GetSpr()->SetBlendPal(mLuaData["opacity"].get_or(0));
+        mWindow->GetSpr()->SetLinkAlive(this->mSpr);
+        mWindow->GetSpr()->SetZ(double(ZIndex::UI) - 10);
+
+        mTextField = new TextField(Fonts->Font18EdgedThick, mLuaData["width"].get_or(0), mLuaData["height"].get_or(0));
+        mTextField->SetPaddingStart(mLuaData["paddingLeft"].get_or(0), mLuaData["paddingTop"].get_or(0));
+        sol::table fore = mLuaData["textForegroundColor"];
+        sol::table back = mLuaData["textEdgegroundColor"];
+        mTextField->SetColor(
+            DxLib::GetColor(fore[1].get_or(0), fore[2].get_or(0), fore[3].get_or(0)), 
+            DxLib::GetColor(back[1].get_or(0), back[2].get_or(0), back[3].get_or(0)));
+        mTextField->GetSpr()->SetLinkAlive(this->mSpr);
+        mTextField->GetSpr()->SetZ(double(ZIndex::UI) - 11);
+        mTextField->SetCenterXY(mLuaData["centerX"].get_or(0), mLuaData["centerY"].get_or(0));
+        
+        GameController::Sole->OnGameTimeChanged.push_back([&](int minu, int sec) {renderText(minu, sec); });
+        renderText(GameController::GAME_TIME_START / 60, GameController::GAME_TIME_START % 60);
+    }
+
+    void LimitTimeWindow::update()
+    {
+        LuaActor::update();
+    }
+
+    void LimitTimeWindow::renderText(int minutue, int sec)
+    {
+        std::ostringstream oss;
+        oss << minutue << ":" << std::setfill('0') << std::setw(2) << sec;
+        mTextField->SetText(oss.str());
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
 

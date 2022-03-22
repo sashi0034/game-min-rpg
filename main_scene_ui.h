@@ -35,29 +35,49 @@ namespace ingame::main
     };
 
 
-    class UiWindow : public NinePatchImage
+    class UiBlackWindow : public NinePatchImage
     {
     private:
         double mCurWidth = 0;
         double mToWidth;
-        double mHeight;
+        double mSprHeight;
     public:
-        UiWindow(double drawCenterX, double drawCenterY, int gridUnitWidth, int gridUnitHeight, double sideRatioX, double sideRatioY);
+        UiBlackWindow(double drawCenterX, double drawCenterY, int gridUnitWidth, int gridUnitHeight, double sideRatioX, double sideRatioY);
     protected:
         void update() override;
     };
 
+    class TextField : public Actor
+    {
+        int mSprWidth, mSprHeight;
+        int mRenderWidth, mRenderHeight;
+        UINT mForegroundColor;
+        UINT mEdgegroundColor;
+        int mPaddingTop = 0;
+        int mPaddingLeft = 0;
+        Graph* mFontGraph = nullptr;
+        std::unique_ptr<Graph> mGraph;
+        std::string mText;
+    public:
+        TextField(Graph* fontData, int width, int height);
+        void SetColor(UINT foreground, UINT background);
+        void SetText(std::string str);
+        void SetStartXY(double x, double y);
+        void SetCenterXY(double x, double y);
+        void SetPaddingStart(int left, int top);
+        void RenderDirect(std::function<void()> callback);
+    };
 
     class MessageWindow : public LuaActor
     {
         const int fontSize = 18;
         EventTimer mWriteLetterTimer;
         EventTimer mScrollTimer;
-        int mWidth, mHeight;
+        int mSprWidth, mSprHeight;
         int mNextLetterX{}, mNextLetterY{};
         Sprite* mTextSpr;
         Graph* mTextFieldGraph;
-        UiWindow* mTextWindow;
+        UiBlackWindow* mTextWindow;
         std::wstring mTextBuffer{};
         int mTextReadIndex = 0;
         int mReadIntervalTimeBuffer = 0;
@@ -93,7 +113,7 @@ namespace ingame::main
         int mGridUnitWidth, mGridUnitHeight;
         int mWindowHeight;
         Graph* mTextFieldGraph;
-        UiWindow* mWindow;
+        UiBlackWindow* mWindow;
         std::vector<std::string> mOptions{};
         int mOptionNum = 0;
 
@@ -116,6 +136,21 @@ namespace ingame::main
         static const std::string CLASS_NAME;
         static void Init();
     };
+
+
+
+    class LimitTimeWindow : public LuaActor
+    {
+        NinePatchImage* mWindow;
+        TextField* mTextField;
+    public:
+        LimitTimeWindow();
+    protected:
+        void update() override;
+        void renderText(int minutue, int sec);
+    };
+
+    void StartUi();
 
 }
 

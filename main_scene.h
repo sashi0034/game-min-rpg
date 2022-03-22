@@ -12,6 +12,7 @@
 
 #include "main_scene_ui.h"
 #include "main_scene_effect.h"
+#include "main_scene_controller.h"
 
 namespace ingame::main
 {

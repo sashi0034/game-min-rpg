@@ -36,7 +36,7 @@ namespace ingame
     useful::Random* Rand = nullptr;
     int GameState = 0;
     resorce::Image* Images = nullptr;
-
+    resorce::Font* Fonts = nullptr;
 
     int doProcess()
     {
@@ -68,6 +68,7 @@ namespace ingame
         new Input();
         Rand = new useful::Random();
         Images = new resorce::Image(); //âÊëúì«Ç›çûÇ›
+        Fonts = new resorce::Font();
 
 
     restart:
@@ -172,11 +173,11 @@ namespace ingame
             new ScrollManager();
             new MapManager(1);
             new BackGroundManager();
+            new GameController();
             new MapEventManager();
             new FlagManager();
             effect::StartEffect();
-            MessageWindow::Init();
-            SelectionWindow::Init();
+            StartUi();
             
             SceneBase::loop();
 

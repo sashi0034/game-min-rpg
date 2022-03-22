@@ -94,14 +94,14 @@ namespace ingame::main
 		}
 
 		
-		mWidth = fieldTable["width"].get_or(0);
-		mHeight = fieldTable["height"].get_or(0);
+		mSprWidth = fieldTable["width"].get_or(0);
+		mSprHeight = fieldTable["height"].get_or(0);
 
 
 		// タイルマップの読み込み
-		if (mWidth != 0 && mHeight != 0)
+		if (mSprWidth != 0 && mSprHeight != 0)
 		{
-			mMat.resize(mWidth, std::vector<MapMatElement*>(mHeight));
+			mMat.resize(mSprWidth, std::vector<MapMatElement*>(mSprHeight));
 			for (auto& row : mMat)
 				for (auto& ele : row)
 					ele = new MapMatElement();
@@ -132,7 +132,7 @@ namespace ingame::main
 			for (auto& ele : row)
 				ele->update();
 
-        ScrollManager::Sole->SetRange(-(mWidth*16-GRID_WIDTH), -(mHeight*16-GRID_HEIGHT), 0, 0);
+        ScrollManager::Sole->SetRange(-(mSprWidth*16-GRID_WIDTH), -(mSprHeight*16-GRID_HEIGHT), 0, 0);
 	}
 
 
@@ -142,13 +142,13 @@ namespace ingame::main
     /// <param name="layer">Luaテーブル</param>
     void MapManager::loadTileLayer(sol::table layer)
     {
-        for (int y = 0; y < mHeight; ++y)
+        for (int y = 0; y < mSprHeight; ++y)
         {
-            for (int x = 0; x < mWidth; ++x)
+            for (int x = 0; x < mSprWidth; ++x)
             {
                 // Tiledのレイヤー要素のマップタイルのIDは+1加算されているので
                 // -1する必要がある
-                int chipNo = layer["data"][x + y * mWidth + 1].get_or(0) - 1;
+                int chipNo = layer["data"][x + y * mSprWidth + 1].get_or(0) - 1;
                 if (mTilechips.count(chipNo) != 0)
                 {
                     TileMapChip* chip = mTilechips[chipNo];
@@ -165,7 +165,7 @@ namespace ingame::main
                         mMat[x][y]->IsStep[(int)EAngle::LEFT] = true;
                         mMat[x - 1][y]->IsStep[(int)EAngle::RIGHT] = true;
                     }
-                    if (chip->IsStepRight && x + 1 <= mWidth - 1) {
+                    if (chip->IsStepRight && x + 1 <= mSprWidth - 1) {
                         mMat[x][y]->IsStep[(int)EAngle::RIGHT] = true;
                         mMat[x + 1][y]->IsStep[(int)EAngle::LEFT] = true;
                     }
@@ -292,19 +292,19 @@ namespace ingame::main
 
 	int MapManager::GetWidth()
 	{
-		return mWidth;
+		return mSprWidth;
 	}
 
 	int MapManager::GetHeight()
 	{
-		return mHeight;
+		return mSprHeight;
 	}
 
 	bool MapManager::IsInRange(int x, int y)
 	{
 		return 
-			0<=x && x<=mWidth-1 &&
-			0<=y && y<=mHeight-1;
+			0<=x && x<=mSprWidth-1 &&
+			0<=y && y<=mSprHeight-1;
 	}
 
 

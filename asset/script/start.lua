@@ -15,9 +15,11 @@ loadfile([[.\asset\script\module\npc\load_npc.lua]])()
 
 loadfile([[.\asset\script\module\map_event_manager.lua]])()
 loadfile([[.\asset\script\module\event\load_events.lua]])()
+loadfile([[.\asset\script\module\game_controller.lua]])()
 
 loadfile([[./asset\script\module\message_window.lua]])()
 loadfile([[./asset\script\module\selection_window.lua]])()
+loadfile([[./asset\script\module\limit_time_window.lua]])()
 
 loadfile([[./asset\script\debug_start.lua]])()
 

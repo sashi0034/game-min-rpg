@@ -118,7 +118,7 @@ sheep_1 = {
             FlagManager.setFlag(FlagName.dump_paper_by_eat, true)
         else
             if not FlagManager.getFlag(FlagName.dump_paper_by_eat) then
-                w:streamText("\n"..[[‘‰Ô‚ÉˆÍ‚Ü‚ê‚Ä‘–‚é‚Ì‚Í‚¢‚¢‚Å‚·‚Ë`]])
+                w:streamText("\n"..[[‘‰Ô‚Íl‚ğ–L‚©‚É‚·‚é‚Æv‚¢‚Ü‚·]])
                 while w:isRunning() do Yield() end
             else
                 w:streamText("\n"..[[‚Ú‚­‚Í—r‚Å‚·‚æ`]])

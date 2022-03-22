@@ -11,6 +11,8 @@
 #include <random>
 #include <iostream>
 #include <string>
+#include <sstream>
+#include <iomanip>
 #include <windows.h>
 #include <unordered_set>
 #include <map>

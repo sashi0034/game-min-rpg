@@ -99,8 +99,8 @@ namespace ingame
 			Graph* mTilesetGraph;
 			std::map<int, TileMapChip*> mTilechips{};
 
-			int mWidth;
-			int mHeight;
+			int mSprWidth;
+			int mSprHeight;
 			std::vector<std::vector<MapMatElement*>> mMat{};
 			std::map<std::string, UniqueEventValue*> mUniqueEvents;
 		private:

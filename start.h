@@ -67,8 +67,8 @@ namespace ingame
 
             Graph* UiWindowBlack = loadPng("ui/window_black");
             Graph* UiArrow = loadPng("ui/arrow_16x16");
+            Graph* UiWhiteRoundRect = loadPng("ui/white_rounnd_rect");
 
-            Graph* Font18Edged = new Graph(DxLib::CreateFontToHandle("", 18, 1, DX_FONTTYPE_EDGE));
 #if 0
             int Templa = LoadGraph(R"(.png)");
 #endif // 0
@@ -76,6 +76,14 @@ namespace ingame
             Image()
             {
             }
+        };
+
+        class Font
+        {
+        public:
+            Graph* Font12Edged = new Graph(DxLib::CreateFontToHandle("", 12, 1, DX_FONTTYPE_EDGE));
+            Graph* Font18Edged = new Graph(DxLib::CreateFontToHandle("", 18, 1, DX_FONTTYPE_EDGE));
+            Graph* Font18EdgedThick = new Graph(DxLib::CreateFontToHandle("", 18, 10, DX_FONTTYPE_EDGE));
         };
 
     }
@@ -97,7 +105,7 @@ namespace ingame{
     extern int GameState;
 
     extern resorce::Image* Images;
-
+    extern resorce::Font* Fonts;
 
     int doProcess();
     int SceneTransition();
