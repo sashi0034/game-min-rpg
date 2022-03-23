@@ -25,6 +25,27 @@ namespace gameUtils
 		static const Graph* NONE;
 	};
 
+	class Sound
+	{
+	private:
+		int mHandler;
+		int mVolume = 255;
+		bool mIsLoop = false;;
+	public:
+		Sound(int handler);
+		~Sound();
+		int GetHandler();
+		void SetVolume(int vol);
+		void SetLoop(bool isLoop);
+		void Play();
+		void Stop();
+
+		static Sound* LoadSound(const char* path);
+		static const Sound* NONE;
+	};
+
+
+
 	class Input : public Singleton<Input>
 	{
 	private:

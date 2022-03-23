@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 24,
-  nextobjectid = 175,
+  nextobjectid = 176,
   properties = {},
   tilesets = {
     {
@@ -939,6 +939,21 @@ return {
           visible = true,
           properties = {
             ["kind"] = "skull"
+          }
+        },
+        {
+          id = 175,
+          name = "loophole_to_boss",
+          type = "event",
+          shape = "rectangle",
+          x = 576,
+          y = 96,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["kind"] = "reach"
           }
         }
       }

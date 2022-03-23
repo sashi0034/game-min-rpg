@@ -25,6 +25,7 @@ FlagName = {
     try_dump_paper = [[‘—Ş‚ğˆ•ª‚·‚éˆË—Š‚ğó‚¯‚½]],
     dump_paper_by_eat = [[‘—Ş‚ğˆ•ª‚µ‚½]],
     talked_with_cat_goto_hill = [[‘–‚Á‚Ä‚½ƒlƒR‚Æ˜b‚µ‚½]],
+    find_loophole_to_boss = [[‰B‚³‚ê‚½”²‚¯“¹‚ğŒ©‚Â‚¯‚½]],
 }
 
 FlagDescriptions = {}

@@ -16,6 +16,7 @@ local mapEvent = {
     "tree_1",
     "tree_on_upstream",
     "herbs",
+    "loophole_to_boss",
 }
 
 

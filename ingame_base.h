@@ -51,6 +51,18 @@ namespace ingame
     //    void Update();
     //};
 
+    class SoundManager : public Actor, public ISingleton<SoundManager>
+    {
+        std::unordered_set<Sound*> mSoundBuffer{};
+    public:
+        SoundManager();
+        ~SoundManager();
+        void Play(Sound* sound);
+    protected:
+        void update() override;
+    };
+
+
 
     class ILuaUser
     {

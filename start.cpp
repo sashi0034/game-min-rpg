@@ -35,8 +35,9 @@ namespace ingame
     const char* GAME_TITLE_NAME = "Min RPG";
     useful::Random* Rand = nullptr;
     int GameState = 0;
-    resorce::Image* Images = nullptr;
-    resorce::Font* Fonts = nullptr;
+    resorce::ImageRes* Images = nullptr;
+    resorce::FontRes* Fonts = nullptr;
+    resorce::SoundRes* Sounds = nullptr;
 
     int doProcess()
     {
@@ -67,8 +68,9 @@ namespace ingame
         new Time();
         new Input();
         Rand = new useful::Random();
-        Images = new resorce::Image(); //‰æ‘œ“Ç‚Ýž‚Ý
-        Fonts = new resorce::Font();
+        Images = new resorce::ImageRes(); //‰æ‘œ“Ç‚Ýž‚Ý
+        Fonts = new resorce::FontRes();
+        Sounds = new resorce::SoundRes();
 
 
     restart:
@@ -127,10 +129,21 @@ namespace ingame
 
 namespace ingame::resorce 
 {
-    Graph* Image::loadPng(std::string fileName)
+    Graph* ImageRes::loadPng(std::string fileName)
     {
         std::string filePath = R"(.\asset\image\)" + fileName + ".png";
         Graph* ret = Graph::LoadGraph(filePath.c_str());
+        if (ret->GetHandler() == -1)
+        {
+            std::cerr ERR_LOG fileName << " cannot be loaded.";
+        }
+        return ret;
+    }
+
+    Sound* SoundRes::loadMp3(std::string fileName)
+    {
+        std::string filePath = R"(.\asset\sound\)" + fileName + ".mp3";
+        Sound* ret = Sound::LoadSound(filePath.c_str());
         if (ret->GetHandler() == -1)
         {
             std::cerr ERR_LOG fileName << " cannot be loaded.";
@@ -170,6 +183,7 @@ namespace ingame
     {
         MainScene::MainScene() : SceneBase()
         {
+            new SoundManager();
             new ScrollManager();
             new MapManager(1);
             new BackGroundManager();

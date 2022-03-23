@@ -246,6 +246,8 @@ namespace ingame::main
     }
     void MessageWindow::AnimShake(double intensity)
     {
+        SoundManager::Sole->Play(Sounds->PlayerAtack);
+
         mRunningCount++;
 
         auto t = std::shared_ptr<int>(new int{0});
@@ -271,6 +273,8 @@ namespace ingame::main
 
     void MessageWindow::AnimFlash()
     {
+        SoundManager::Sole->Play(Sounds->PlayerDamaged);
+
         mRunningCount++;
 
         auto t = std::shared_ptr<int>(new int{ 0 });
@@ -394,6 +398,7 @@ namespace ingame::main
                     this->mWriteLetterTimer = EventTimer([&]()->bool {
                         if (Input::Sole->GetKeyDown(KEY_INPUT_SPACE))
                         {
+                            SoundManager::Sole->Play(Sounds->WindowPush);
                             //mIsRunning = false;
                             new EventTimerAsActor([&]()->bool {mRunningCount--; return false; }, 100);
                             return false;
@@ -554,16 +559,19 @@ namespace ingame::main
         mButton.Update();
         if (mButton.ChackIntervalPress(KEY_INPUT_W, mLuaData["buttonIntervalFirst"].get_or(1), mLuaData["buttonIntervalSecond"].get_or(1)))
         {
+            SoundManager::Sole->Play(Sounds->SelectMove);
             mSelectedIndex--;
         }
         else if (mButton.ChackIntervalPress(KEY_INPUT_S, mLuaData["buttonIntervalFirst"].get_or(1), mLuaData["buttonIntervalSecond"].get_or(1)))
         {
+            SoundManager::Sole->Play(Sounds->SelectMove);
             mSelectedIndex++;
         }
         mSelectedIndex = (mSelectedIndex + mOptionNum) % mOptionNum;
 
         if (mButton.CheckJustAfterPress(KEY_INPUT_SPACE))
         {
+            SoundManager::Sole->Play(Sounds->SelectOk);
             mIsRunning = false;
             return false;
         }
@@ -697,6 +705,8 @@ namespace ingame::main
 
     void FlagInfoWindow::appeaAndFadeAnim()
     {
+        SoundManager::Sole->Play(Sounds->FlagOn);
+
         auto x = std::shared_ptr<double>(new double{});
         auto vx = std::shared_ptr<double>(new double{0});
         *x = -mLuaData["centerX"].get_or(0);

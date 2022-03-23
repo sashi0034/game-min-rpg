@@ -39,7 +39,7 @@ namespace ingame
 
     namespace resorce 
     {
-        class Image
+        class ImageRes
         {
         private:
             Graph* loadPng(std::string fileName);
@@ -73,17 +73,34 @@ namespace ingame
             int Templa = LoadGraph(R"(.png)");
 #endif // 0
 
-            Image()
+            ImageRes()
             {
             }
         };
 
-        class Font
+        class FontRes
         {
         public:
             Graph* Font12Edged = new Graph(DxLib::CreateFontToHandle("", 12, 1, DX_FONTTYPE_EDGE));
             Graph* Font18Edged = new Graph(DxLib::CreateFontToHandle("", 18, 1, DX_FONTTYPE_EDGE));
             Graph* Font18EdgedThick = new Graph(DxLib::CreateFontToHandle("", 18, 10, DX_FONTTYPE_EDGE));
+        };
+
+        class SoundRes
+        {
+        private:
+            Sound* loadMp3(std::string fileName);
+        public:
+            Sound* MewSheep = loadMp3("mew_sheep");
+            Sound* MewChick = loadMp3("mew_chick");
+            Sound* PlayerDamaged = loadMp3("player_damaged");
+            Sound* PlayerAtack = loadMp3("player_atack");
+            Sound* SelectMove = loadMp3("select_move");
+            Sound* SelectOk = loadMp3("select_ok");
+            Sound* WindowPush = loadMp3("window_push");
+            Sound* FlagOn = loadMp3("flag_on");
+
+            SoundRes() {};
         };
 
     }
@@ -104,8 +121,9 @@ namespace ingame{
 
     extern int GameState;
 
-    extern resorce::Image* Images;
-    extern resorce::Font* Fonts;
+    extern resorce::ImageRes* Images;
+    extern resorce::FontRes* Fonts;
+    extern resorce::SoundRes* Sounds;
 
     int doProcess();
     int SceneTransition();

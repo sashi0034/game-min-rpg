@@ -2,7 +2,7 @@
 
 DebugStart = function ()
     --FlagManager.setFlag(FlagName.obtain_solt, true)
-    --FlagManager.setFlag(FlagName.kill_slime, true)
+    FlagManager.setFlag(FlagName.kill_slime, true)
 
     -- local e1 = MapEventManager.getUnique("chick_stray_1")
     -- MapEventManager.installCharacter(e1.x, e1.y, "chick", "chick_1")

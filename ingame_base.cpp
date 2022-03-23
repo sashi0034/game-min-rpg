@@ -198,6 +198,37 @@ namespace ingame
         return &mEventTImer;
     }
 
+    SoundManager::SoundManager() : Actor()
+    {
+        Sole = this;
+    }
+
+    SoundManager::~SoundManager()
+    {
+        Sole = nullptr;
+    }
+
+    void SoundManager::Play(Sound* sound)
+    {
+        if (mSoundBuffer.count(sound) == 0)
+        {
+            mSoundBuffer.insert(sound);
+        }
+    }
+
+    void SoundManager::update()
+    {
+        if (mSoundBuffer.size() != 0)
+        {
+            for (auto sound : mSoundBuffer)
+            {
+                sound->Play();
+            }
+
+            mSoundBuffer = {};
+        }
+    }
+
 }
 
 

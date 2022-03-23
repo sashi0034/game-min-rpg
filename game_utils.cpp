@@ -69,6 +69,52 @@ namespace gameUtils
 
 	const Graph* Graph::NONE = new Graph(-1);
 
+
+	Sound::Sound(int handler)
+	{
+		mHandler = handler;
+	}
+
+	Sound::~Sound()
+	{
+		DxLib::DeleteSoundMem(mHandler);
+	}
+
+	int Sound::GetHandler()
+	{
+		return mHandler;
+	}
+
+	void Sound::SetVolume(int vol)
+	{
+		mVolume = vol;
+		DxLib::ChangeVolumeSoundMem(mHandler, vol);
+	}
+
+	void Sound::SetLoop(bool isLoop)
+	{
+		mIsLoop = isLoop;
+	}
+
+	void Sound::Play()
+	{
+		DxLib::PlaySoundMem(mHandler, 
+			mIsLoop ? DX_PLAYTYPE_LOOP : DX_PLAYTYPE_BACK
+			);
+	}
+
+	void Sound::Stop()
+	{
+		DxLib::StopSoundMem(mHandler);
+	}
+
+	Sound* Sound::LoadSound(const char* path)
+	{
+		return new Sound(DxLib::LoadSoundMem(path));
+	}
+
+	const Sound* Sound::NONE = new Sound(-1);
+
 	
 	namespace useful
 	{
@@ -151,6 +197,7 @@ namespace gameUtils
 	{
 		return DxLib::CheckHitKey(key);
 	}
+
 
 }
 
