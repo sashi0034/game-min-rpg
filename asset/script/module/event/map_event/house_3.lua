@@ -37,7 +37,7 @@ MapEventManager:addMapEvents({
                 m:streamText("\n"..[[‚¨‘Ò‚½‚¹‚µ‚Ü‚µ‚½]].."\n"..[[–Ø‚ÌŒ•‚ªŠ®¬‚µ‚½‚Ì‚Å·‚µã‚°‚Ü‚·]])
                 while m:isRunning() do Yield() end
 
-                FlagManager.setFlag(FlagName.have_tree_branch, false)
+                --FlagManager.setFlag(FlagName.have_tree_branch, false)
                 FlagManager.setFlag(FlagName.have_wood_sword, true)
             elseif index==1 then
                 m:streamText("\n"..[[‚¦`]].."\n"..[[‚¯‚¿[!]])

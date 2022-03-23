@@ -7,6 +7,8 @@ IngameEventBase = {
         self.events = {}
         self.pausedEvents = {}
         
+        setmetatable(self.awaits, {__index = self})
+        
         return self
     end,
 
@@ -55,7 +57,7 @@ IngameEventBase = {
     end,
 
     awaits = {
-        sleep = function (time)
+        sleep = function (self, time)
             local t = 0
             while t<time do 
                 t = t + Time.deltaSec()
@@ -63,12 +65,12 @@ IngameEventBase = {
             end
         end,
 
-        streamText = function (m, str)
+        streamText = function (self, m, str)
             m:streamText(str)
             while m:isRunning() do Yield() end
         end,
 
-        selectionWindow = function (table)
+        selectionWindow = function (self, table)
             local s = SelectionWindow.open(table)
             while s:isRunning() do Yield() end
             local index=s:selectedIndex()

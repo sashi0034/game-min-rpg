@@ -31,27 +31,141 @@ skull_last = {
         while self.doMove(x-16, y) do Yield() end
         while self.doMove(x+16, y) do Yield() end
         while self.doMove(x, y) do Yield() end
-        self.awaits.sleep(4.0)
+        self.awaits:sleep(4.0)
         while self.doMove(x, y-16) do Yield() end
         while self.doMove(x, y+16) do Yield() end
         while self.doMove(x, y) do Yield() end
-        self.awaits.sleep(4.0)
+        self.awaits:sleep(4.0)
 
     end,
 
     talk = function (self, e)
-        local w = MessageWindow.open()
+        local index, word
+        local m = MessageWindow.open()
 
-        self.awaits.streamText(w, [[にゃんにゃん]])
-        local index, word = self.awaits.selectionWindow({"はい", "いいえ"})
+        self.awaits:streamText(m, [[にゃんにゃん]])
+        index, word = self.awaits:selectionWindow({[[やっつける]], [[なんでや]], [[にゃおん]]})
 
         if index==0 then
-            self.awaits.streamText(w, [[まじかよ..]])
-        else
-            self.awaits.streamText(w, [[なんでやねん]])
+            self.awaits:streamText(m, "\n"..[[ち、冗談の通じないやつめ]])
+        elseif index==1 then
+            self.awaits:streamText(m, "\n"..[[いいツッコミですね]])
+        elseif index==2 then
+            self.awaits:streamText(m, "\n"..[[さすが猫耳を継承する勇者ですね]])
+        end
+        self.awaits:streamText(m, "\n"..[[まあ、それはそうと]].."\n"..[[ある提案があるのですが]])
+        index, word = self.awaits:selectionWindow({[[提案?]], [[断る!]]})
+
+        if index==0 then
+            self.awaits:streamText(m, "\n"..[[あなたはこの世界をどう思いますか?]])
+            index, word = self.awaits:selectionWindow({[[欲しい]], [[いらない]]})
+            if index==0 then
+                self.awaits:streamText(m, "\n"..[[ほう、いい返事ですね]])    
+                self.awaits:streamText(m, "\n"..[[ならば私と一緒に世界を征服しましょう]])
+                index, word = self.awaits:selectionWindow({[[はい]], [[いいえ]]})
+                if index==0 then
+                    self.awaits:streamText(m, "\n"..[[ふふふ、やはりあなたも]].."\n"..[[私と同じ考えだったのですな]])
+                    self.awaits:streamText(m, "\n"..[[では、世界を制しにいきましょうか]])
+                elseif index==1 then
+                    self.awaits:streamText(m, "\n"..[[交渉決裂というわけですな]])
+                    self.awaits:streamText(m, "\n"..[[まあ予想はしていました]])
+                end
+            elseif index==1 then
+                self.awaits:streamText(m, "\n"..[[そうですか、いらないのですか]])
+                self.awaits:streamText(m, "\n"..[[ならば私と一緒に滅ぼしましょう]])
+                index, word = self.awaits:selectionWindow({[[はい]], [[いいえ]]})
+                if index==0 then
+                    self.awaits:streamText(m, "\n"..[[ふふふ、やはりあなたも]].."\n"..[[私と同じ考えだったのですな]])
+                    self.awaits:streamText(m, "\n"..[[では、世界を壊しにいきましょうか]])
+                elseif index==1 then
+                    self.awaits:streamText(m, "\n"..[[交渉決裂というわけですな]])
+                    self.awaits:streamText(m, "\n"..[[まあ予想はしていました]])
+                end
+            end
+        elseif index==1 then
+            self.awaits:streamText(m, "\n"..[[まだこちらは何も言ってないのに..]])
+            self.awaits:streamText(m, "\n"..[[こちらの話を聞く耳を持たないのですね]].."\n"..[[いい度胸です]])
         end
 
-        w:close()
+        m:close()
+        m = MessageWindow.open()
+        
+        self.awaits:streamText(m, [[では、我々は闘う理由を]].."\n"..[[持ちあわせているということで]].."\n".."我々は争わなければいけません")
+        index, word = self.awaits:selectionWindow({[[こうげき]], [[にげる]], [[いのる]]})
+
+        local enemyAtack = function ()
+            self.awaits:streamText(m, "\n"..[[では、私のターンです]])
+            self.awaits:streamText(m, "\n"..[[ヒュー、ドカン]])
+            --m:streamText("\n"..[[ヒュー、ドカン]]); 
+            m:animFlash()
+            while m:isRunning() do Yield() end
+        end
+
+        if index==0 then
+            m:close()
+            m = MessageWindow.open()
+
+            m:streamText([[とりゃ、]]); m:animShake(1.0)
+            while m:isRunning() do Yield() end
+
+            m:streamText([[うりゃ!]]); m:animShake(1.5)
+            while m:isRunning() do Yield() end
+
+            m:close()
+            m = MessageWindow.open()
+
+            self.awaits:streamText(m, [[ハハハ、私をそんな攻撃で倒せるとでも?]])
+            enemyAtack()
+        elseif index==1 then
+            self.awaits:streamText(m, "\n"..[[逃げられませんよ?]])
+            enemyAtack()
+        elseif index==2 then
+            m:close()
+            m = MessageWindow.open()
+
+            self.awaits:streamText(m, [[とりあえず祈ってみた]])
+            self.awaits:sleep(1.0)
+            m:streamText([[..]])
+            self.awaits:sleep(1.0)
+            m:streamText([[..]])
+            self.awaits:sleep(1.0)
+
+            local prayPower = 0
+            local prayFlagInc = function (flagname)
+                if FlagManager.getFlag(flagname) then
+                    prayPower = prayPower+1
+                end
+            end
+            prayFlagInc(FlagName.talked_with_cat_goto_hill)
+            prayFlagInc(FlagName.friend_with_mouse)
+            prayFlagInc(FlagName.gave_herbs)
+            prayFlagInc(FlagName.send_all_chick)
+            prayFlagInc(FlagName.dump_paper_by_eat)
+            if prayPower>=3 then
+                self.awaits:streamText(m, "\n"..[[みんなの感謝の気持ちを感じる]])
+                self.awaits:streamText(m, "\n"..[[祈りが届いたようだ]])
+                self.awaits:streamText(m, "\n"..[[これが祈りの力だ!]])
+                m:animShake(1.5)
+                while m:isRunning() do Yield() end
+
+                m:animShake(2.5)
+                while m:isRunning() do Yield() end
+
+                m:close()
+                m = MessageWindow.open()
+
+                self.awaits:streamText(m, [[ど、どうやらあなたを侮っていたようですね]])
+            else
+                self.awaits:streamText(m, "\n"..[[しかし祈りが届かなかった]])
+                m:close()
+                m = MessageWindow.open()
+                self.awaits:streamText(m, [[どうやら残念なようですね]])
+                enemyAtack()
+            end
+
+        end
+
+        m:close()
     end
     
 }

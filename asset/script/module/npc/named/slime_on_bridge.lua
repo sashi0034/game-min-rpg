@@ -76,10 +76,8 @@ slime_on_bridge = {
                 while m:isRunning() do Yield() end
 
                 m:streamText("\n"..[[Ç¶Ç¢Ç¡!]])
+                m:animShake(0.5)
                 while m:isRunning() do Yield() end
-
-                local sleep=coroutine.create(self.doSleep)
-                while coroutine.resume(sleep, 1.0) do Yield() end
 
                 m:close()
                 m = MessageWindow.open()
@@ -89,15 +87,16 @@ slime_on_bridge = {
 
                 m:streamText("\n"..[[îΩåÇÇ∑ÇÈÉXÉâ!]])
                 while m:isRunning() do Yield() end
+
+                m:animFlash()
+                while m:isRunning() do Yield() end
             elseif word==[[ñÿÇÃåï]] then
                 m:streamText("\n"..[[åïÇ≈çUåÇÇæ!]])
                 while m:isRunning() do Yield() end
 
                 m:streamText("\n"..[[Ç∆ÇËÇ·Ç¡!]])
+                m:animShake(1.5)
                 while m:isRunning() do Yield() end
-
-                local sleep=coroutine.create(self.doSleep)
-                while coroutine.resume(sleep, 1.0) do Yield() end
 
                 m:close()
                 m = MessageWindow.open()
@@ -110,15 +109,16 @@ slime_on_bridge = {
 
                 m:streamText("\n"..[[îΩåÇÇ∑ÇÈÉXÉâ!]])
                 while m:isRunning() do Yield() end
+
+                m:animFlash()
+                while m:isRunning() do Yield() end
             elseif word==[[Ç®âñ]] then
                 m:streamText("\n"..[[Ç®âñÇÇ©ÇØÇΩÇÁè¨Ç≥Ç≠Ç»ÇÈÇÕÇ∏Çæ!]])
                 while m:isRunning() do Yield() end
 
                 m:streamText("\n"..[[Ç¶Ç¢Ç¡!]])
+                m:animShake(1.5)
                 while m:isRunning() do Yield() end
-
-                local sleep=coroutine.create(self.doSleep)
-                while coroutine.resume(sleep, 1.0) do Yield() end
 
                 m:close()
                 m = MessageWindow.open()

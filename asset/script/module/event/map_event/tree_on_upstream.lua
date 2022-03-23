@@ -62,6 +62,9 @@ MapEventManager:addMapEvents({
             m = MessageWindow.open()
             m:streamText([[‚¤‚íA–I‚³‚ñ‚ª“{‚Á‚Ä‚é!!]])
             while m:isRunning() do Yield() end
+
+            m:animFlash()
+            while m:isRunning() do Yield() end
         elseif word=="–Ø“" then
             m:streamText("\n"..[[‚³‚Á‚«ì‚Á‚Ä‚à‚ç‚Á‚½Œ•‚ÅUŒ‚‚µ‚Ä‚İ‚æ‚¤]])
             while m:isRunning() do Yield() end

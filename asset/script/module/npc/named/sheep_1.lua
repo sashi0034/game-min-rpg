@@ -1,7 +1,4 @@
 
--- todo: 手紙を破ってもらう機能を持たせる
-
-
 
 sheep_1 = {
 
@@ -63,11 +60,11 @@ sheep_1 = {
             FlagManager.getFlag(FlagName.try_dump_paper) and  
             not FlagManager.getFlag(FlagName.dump_paper_by_eat)
         then
-            local s = SelectionWindow.open({[[これ食べて]]})
+            local s = SelectionWindow.open({[[書類食べて]]})
             while s:isRunning() do Yield() end
             s:close()
 
-            w:streamText("\n"..[[何これ、何かの書類ですか?]])
+            w:streamText("\n"..[[何これ、え、食べるのですか?]])
             while w:isRunning() do Yield() end
 
             w:streamText("\n"..[[げげ、ぼくはヤギじゃなくて]].."\n"..[[羊さんです..]])
@@ -89,7 +86,7 @@ sheep_1 = {
                     w:close()
                     w=MessageWindow.open()
 
-                    w:streamText([[一応中身を確認してみよう]])
+                    w:streamText([[一応書類の中身を確認してみよう]])
                     while w:isRunning() do Yield() end
 
                     w:streamText("\n"..[[うわ、なんかえっちだ..]])
