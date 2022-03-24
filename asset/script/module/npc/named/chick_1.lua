@@ -36,6 +36,7 @@ chick_1 = {
         w:streamText("Ç…Ç·ÇÒÇ…Ç·ÇÒÅA")
         while w:isRunning() do Yield() end
 
+        Sound.dynamic("mew_chick.mp3")
         w:streamText([[Ç†ÅAä‘à·Ç¶ÇΩ]].."\n".."Ç“ÇÊÇ“ÇÊ")
         while w:isRunning() do Yield() end
 

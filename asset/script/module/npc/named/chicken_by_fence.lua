@@ -51,6 +51,8 @@ chicken_by_fence = {
     talk = function (self, e)
         local w = MessageWindow.open()
 
+        self.awaits:sleep(0.5); Sound.dynamic("mew_chicken.mp3")
+
         if not FlagManager.getFlag(FlagName.pop_chick_1st) then
             w:streamText([[5‰H‚Ìq‚Ç‚à‚½‚¿‚ª–Àq‚É‚È‚Á‚Ä‚µ‚Ü‚Á‚Ä]].."\n"..[[¢‚Á‚½‚í..]])
             while w:isRunning() do Yield() end

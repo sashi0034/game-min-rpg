@@ -33,6 +33,7 @@ chick_2 = {
 
         local w = MessageWindow.open()
 
+        self.awaits:sleep(0.5); Sound.dynamic("mew_chick.mp3")
         w:streamText("Ç“ÇÊÅAÇ“ÇÊ..")
         while w:isRunning() do Yield() end
 

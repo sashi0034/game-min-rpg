@@ -54,10 +54,12 @@ namespace ingame
     class SoundManager : public Actor, public ISingleton<SoundManager>
     {
         std::unordered_set<Sound*> mSoundBuffer{};
+        std::map<std::string, std::unique_ptr<Sound>> mDynamicSoundFile{};
     public:
         SoundManager();
         ~SoundManager();
         void Play(Sound* sound);
+        void DynamicPlay(std::string filename);
     protected:
         void update() override;
     };

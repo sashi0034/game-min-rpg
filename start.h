@@ -91,13 +91,12 @@ namespace ingame
         private:
             Sound* loadMp3(std::string fileName);
         public:
-            Sound* MewSheep = loadMp3("mew_sheep");
-            Sound* MewChick = loadMp3("mew_chick");
             Sound* PlayerDamaged = loadMp3("player_damaged");
             Sound* PlayerAtack = loadMp3("player_atack");
             Sound* SelectMove = loadMp3("select_move");
             Sound* SelectOk = loadMp3("select_ok");
             Sound* WindowPush = loadMp3("window_push");
+            Sound* WindowOpen = loadMp3("window_open");
             Sound* FlagOn = loadMp3("flag_on");
 
             SoundRes() {};

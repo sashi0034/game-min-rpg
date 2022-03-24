@@ -201,6 +201,8 @@ namespace ingame
     SoundManager::SoundManager() : Actor()
     {
         Sole = this;
+        luaManager::Lua["Sound"] = luaManager::Lua.create_table();
+        luaManager::Lua["Sound"]["dynamic"] = [&](std::string filename) {DynamicPlay("./asset/sound/"+filename); };
     }
 
     SoundManager::~SoundManager()
@@ -214,6 +216,24 @@ namespace ingame
         {
             mSoundBuffer.insert(sound);
         }
+    }
+
+    void SoundManager::DynamicPlay(std::string filename)
+    {
+        if (mDynamicSoundFile.count(filename) == 0)
+        {
+            mDynamicSoundFile[filename] = std::unique_ptr<Sound>(Sound::LoadSound(filename.c_str()));
+
+            if (mDynamicSoundFile[filename]->GetHandler() == -1)
+            {
+                std::cerr ERR_LOG "Failed load sound file " << filename;
+            }
+            else
+            {
+                std::cout OUT_LOG "Loaded sound file " << filename << " dynamically.";
+            }
+        }
+        Play(mDynamicSoundFile[filename].get());
     }
 
     void SoundManager::update()

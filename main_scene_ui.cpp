@@ -193,6 +193,8 @@ namespace ingame::main
 
     MessageWindow::MessageWindow() : LuaActor("MessageWindowLuaData", true)
     {
+        SoundManager::Sole->Play(Sounds->WindowOpen);
+
         mSprWidth = mLuaData["width"].get_or(0) * PX_PER_GRID / 2;
         mSprHeight = mLuaData["height"].get_or(0) * PX_PER_GRID / 2;
         //new UiWindow(GRID_WIDTH / 2, mLuaData["centerY"].get_or(0), mLuaData["width"].get_or(0), mLuaData["height"].get_or(0), 0.2, 0.2);
@@ -305,7 +307,9 @@ namespace ingame::main
             }
             if ((*t * frame) > finish && Input::Sole->GetKeyDown(KEY_INPUT_SPACE))
             {
-                mRunningCount--;
+                //mRunningCount--;
+                new EventTimerAsActor([&]() {mRunningCount--; return false; }, 100);
+
                 return false;
             }
             return true;

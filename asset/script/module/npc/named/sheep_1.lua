@@ -53,6 +53,7 @@ sheep_1 = {
     talk = function (self, e)
         local w = MessageWindow.open()
 
+        self.awaits:sleep(0.5); Sound.dynamic("mew_sheep.mp3")
         w:streamText([[ƒ`Aƒ`]])
         while w:isRunning() do Yield() end
 

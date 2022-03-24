@@ -43,6 +43,8 @@ skull_last = {
         local index, word
         local m = MessageWindow.open()
 
+        self.awaits:sleep(0.5); Sound.dynamic("mew_boss.mp3")
+
         self.awaits:streamText(m, [[‚É‚á‚ñ‚É‚á‚ñ]])
         index, word = self.awaits:selectionWindow({[[‚â‚Á‚Â‚¯‚é]], [[‚È‚ñ‚Å‚â]], [[‚É‚á‚¨‚ñ]]})
 
@@ -130,18 +132,9 @@ skull_last = {
             m:streamText([[..]])
             self.awaits:sleep(1.0)
 
-            local prayPower = 0
-            local prayFlagInc = function (flagname)
-                if FlagManager.getFlag(flagname) then
-                    prayPower = prayPower+1
-                end
-            end
-            prayFlagInc(FlagName.talked_with_cat_goto_hill)
-            prayFlagInc(FlagName.friend_with_mouse)
-            prayFlagInc(FlagName.gave_herbs)
-            prayFlagInc(FlagName.send_all_chick)
-            prayFlagInc(FlagName.dump_paper_by_eat)
-            if prayPower>=3 then
+            local prayPower = CountFlagForPray()
+
+            if prayPower>=5 then
                 self.awaits:streamText(m, "\n"..[[‚İ‚ñ‚È‚ÌŠ´Ó‚Ì‹C‚¿‚ğŠ´‚¶‚é]])
                 self.awaits:streamText(m, "\n"..[[‹F‚è‚ª“Í‚¢‚½‚æ‚¤‚¾]])
                 self.awaits:streamText(m, "\n"..[[‚±‚ê‚ª‹F‚è‚Ì—Í‚¾!]])

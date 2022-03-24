@@ -35,6 +35,22 @@ for key, value in pairs(FlagName) do
     FlagName[key] = key..""
 end
 
+CountFlagForPray = function ()
+    local count = 0
+    local prayFlagInc = function (flagname)
+        if FlagManager.getFlag(flagname) then
+            count = count+1
+        end
+    end
+    prayFlagInc(FlagName.obtain_solt)
+    prayFlagInc(FlagName.kill_slime)
+    prayFlagInc(FlagName.talked_with_cat_goto_hill)
+    prayFlagInc(FlagName.friend_with_mouse)
+    prayFlagInc(FlagName.gave_herbs)
+    prayFlagInc(FlagName.send_all_chick)
+    prayFlagInc(FlagName.dump_paper_by_eat)
+    return count
+end
 
 
 

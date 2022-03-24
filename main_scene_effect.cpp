@@ -104,7 +104,10 @@ namespace ingame::main::effect
 		//	new Spirit(this);
 		//}
 		mGenerateTImer = EventTimer([&]() {
-			if (Spirit::AliveCount < 20)
+			int prayFlag = luaManager::Lua["CountFlagForPray"]();
+			int maxSpirit = 16 + int(std::pow(2, prayFlag));// + 8 * prayFlag;
+
+			if (Spirit::AliveCount < maxSpirit)
 			{
 				new Spirit(this);
 			}
