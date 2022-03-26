@@ -18,7 +18,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         freopen_s(&stream, "CONOUT$", "w", stderr);
     }
 
-    return ingame::doProcess();
+    return ingame::DoProcess();
     
 }
 
@@ -39,7 +39,7 @@ namespace ingame
     resorce::FontRes* Fonts = nullptr;
     resorce::SoundRes* Sounds = nullptr;
 
-    int doProcess()
+    int DoProcess()
     {
         setlocale(LC_CTYPE, "");
 
@@ -106,23 +106,49 @@ namespace ingame
         //new test::Scene();
         while (LOOP)
         {
-            //new top::Scene();
-            new main::MainScene();
+            ExecuteScene((SceneBase*)(new title::TitleScene()));
+            ExecuteScene((SceneBase*)(new main::MainScene()));
         }
 
         return 0;
     }
 
 
-    void LoopBasicUpdate()
+    void ExecuteScene(SceneBase* scene)
     {
-        Sprite::UpdateAll();
-        DxLib::SetDrawScreen(DX_SCREEN_BACK);
-        DxLib::ClearDrawScreen();
-        Sprite::DrawingAll();
-        DxLib::ScreenFlip();
-        Time::Sole->update();
+        scene->Loop();
+        delete scene;
     }
+
+
+    SceneBase::SceneBase() : Singleton<SceneBase>()
+    {}
+
+    SceneBase::~SceneBase()
+    {}
+
+    void SceneBase::EnableExit()
+    {
+        canExit = true;
+    }
+
+    void SceneBase::Loop()
+    {
+        Time::Sole->Restart();
+        while (LOOP)
+        {
+            if (canExit) break;
+            Sprite::UpdateAll();
+            DxLib::SetDrawScreen(DX_SCREEN_BACK);
+            DxLib::ClearDrawScreen();
+            Sprite::DrawingAll();
+            DxLib::ScreenFlip();
+            Time::Sole->update();
+        }
+    }
+
+
+
 }
 
 
@@ -159,29 +185,23 @@ namespace ingame::resorce
 
 namespace ingame
 {
-
-    SceneBase::SceneBase()
+    namespace title
     {
-
-    }
-
-    void SceneBase::loop()
-    {
-        Time::Sole->Restart();
-        while (LOOP)
+        TitleScene::TitleScene()
         {
-            LoopBasicUpdate();
+            new TitleManager();
+        }
+        TitleScene::~TitleScene()
+        {
+
         }
     }
-
-
-
 
 
     //ÉÅÉCÉìÉVÅ[Éì
     namespace main
     {
-        MainScene::MainScene() : SceneBase()
+        MainScene::MainScene()
         {
             new SoundManager();
             new ScrollManager();
@@ -192,11 +212,10 @@ namespace ingame
             new FlagManager();
             effect::StartEffect();
             StartUi();
-            
-            SceneBase::loop();
-
+        }
+        MainScene::~MainScene()
+        {
             delete MapManager::Sole;
-            delete this;
         }
     }
 

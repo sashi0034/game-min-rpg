@@ -446,8 +446,8 @@ namespace ingame::main
         LuaActor::update();
         if (mTime > 500)
         {// ウインドウの展開のためちょっと待つ
-            mWriteLetterTimer.Update();
-            mScrollTimer.Update();
+            mWriteLetterTimer.Loop();
+            mScrollTimer.Loop();
         }
     }
 
@@ -560,7 +560,7 @@ namespace ingame::main
 
     bool SelectionWindow::inputOptions()
     {
-        mButton.Update();
+        mButton.Loop();
         if (mButton.ChackIntervalPress(KEY_INPUT_W, mLuaData["buttonIntervalFirst"].get_or(1), mLuaData["buttonIntervalSecond"].get_or(1)))
         {
             SoundManager::Sole->Play(Sounds->SelectMove);
@@ -597,7 +597,7 @@ namespace ingame::main
         LuaActor::update();
         //if (mTime > 500)
         {// ウインドウの展開のためちょっと待つ
-            mInputTimer.Update();
+            mInputTimer.Loop();
         }
     }
     void SelectionWindow::Init()

@@ -69,7 +69,7 @@ namespace ingame::main::effect
 
 	void Cloud::update()
 	{
-		mUpdateTimer.Update();
+		mUpdateTimer.Loop();
 
 		Actor::update();
 	}
@@ -117,7 +117,7 @@ namespace ingame::main::effect
 	void SpiritController::update()
 	{
 		Actor::update();
-		mGenerateTImer.Update();
+		mGenerateTImer.Loop();
 	}
 
 	const useful::Vec2<int> Spirit::imageSize = useful::Vec2<int>{ 64, 64 };

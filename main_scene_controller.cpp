@@ -33,7 +33,7 @@ namespace ingame::main
 	void GameController::update()
 	{
 		Actor::update();
-		mCountDownTimer.Update();
+		mCountDownTimer.Loop();
 	}
 }
 

@@ -139,7 +139,7 @@ namespace ingame
     /// 押しているボタンの経過時間を+1する
     /// EventTimerの内部で使われることを前提
     /// </summary>
-    void ButtonInTimer::Update()
+    void ButtonInTimer::Loop()
     {
         mButtonTime;
         for (auto itr = mButtonTime.begin(); itr != mButtonTime.end(); ++itr)
@@ -186,7 +186,7 @@ namespace ingame
     void EventTimerAsActor::update()
     {
         Actor::update();
-        mEventTImer.Update();
+        mEventTImer.Loop();
         if (mEventTImer.IsAlive() == false)
         {
             Sprite::Destroy(mSpr);

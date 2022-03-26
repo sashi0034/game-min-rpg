@@ -58,7 +58,7 @@ namespace gameEngine {
 		mDoEvent = doEvent;
 		mInterval = intervalMilliSec;
 	}
-	void EventTimer::Update()
+	void EventTimer::Loop()
 	{
 		if (!mIsAlive) return;
 

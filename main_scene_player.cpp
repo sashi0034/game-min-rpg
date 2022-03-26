@@ -40,7 +40,7 @@ namespace ingame::main
         , 1000 * 15);
 
         mRegularTimer = EventTimer([&]() {
-            mButton.Update();
+            mButton.Loop();
             return true;
             }, 1000 / 60);
 
@@ -59,8 +59,8 @@ namespace ingame::main
         mSpr->SetZ(Character::GetZFromY(mY));
         animation();
 
-        mRegularTimer.Update();
-        debugTimer.Update();
+        mRegularTimer.Loop();
+        debugTimer.Loop();
     }
     double Player::GetX()
     {

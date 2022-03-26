@@ -26,7 +26,7 @@ namespace ingame
         ButtonInTimer();
         bool CheckJustAfterPress(int keyCode);
         bool ChackIntervalPress(int keyCode, int firstTime, int intervalTime);
-        void Update();
+        void Loop();
     };
 
     class EventTimerAsActor : public Actor

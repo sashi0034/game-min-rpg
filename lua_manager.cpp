@@ -94,7 +94,7 @@ namespace luaManager
 
     void LuaDebugManager::update()
     {
-        mCheckEvent.Update();
+        mCheckEvent.Loop();
     }
 
     /*

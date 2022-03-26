@@ -10,11 +10,11 @@ MapEventManager:addMapEvents({
         while m:isRunning() do Yield() end
 
         local opt = {[[ãCÇ…ÇµÇ»Ç¢]], [[â£ÇÈ]]}
-        if FlagManager.getFlag(FlagName.have_tree_branch) then
-            opt[#opt+1] = [[ñÿÇÃé}]]
-        end
+        
         if FlagManager.getFlag(FlagName.have_wood_sword) then
             opt[#opt+1] = [[ñÿìÅ]]
+        elseif FlagManager.getFlag(FlagName.have_tree_branch) then
+            opt[#opt+1] = [[ñÿÇÃé}]]
         end
 
         local s = SelectionWindow.open(opt)

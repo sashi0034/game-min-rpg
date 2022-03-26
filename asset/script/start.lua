@@ -22,6 +22,8 @@ loadfile([[./asset\script\module\selection_window.lua]])()
 loadfile([[./asset\script\module\limit_time_window.lua]])()
 loadfile([[./asset\script\module\flag_info_window.lua]])()
 
+loadfile([[./asset\script\module\title_manager.lua]])()
+
 loadfile([[./asset\script\debug_start.lua]])()
 
 

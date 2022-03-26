@@ -145,7 +145,7 @@ namespace gameEngine
 	public:
 		EventTimer();
 		EventTimer(std::function<bool()> doEvent, int intervalMilliSec);
-		void Update();
+		void Loop();
 		void SetInterval(int interval);
 		void SetDoEvent(std::function<bool()> doEvent);
 		bool IsAlive();

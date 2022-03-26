@@ -36,7 +36,7 @@ namespace gameUtils
 			}
 			Sole = static_cast<T*>(this);
 		}
-		~Singleton()
+		virtual ~Singleton()
 		{
 			Sole = nullptr;
 		}

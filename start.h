@@ -12,6 +12,7 @@
 #include "lua_manager.h"
 #include "ingame_manager.h"
 #include "main_scene.h"
+#include "title_scene.h"
 
 
 #define DEBUG
@@ -68,6 +69,7 @@ namespace ingame
             Graph* UiWindowBlack = loadPng("ui/window_black");
             Graph* UiArrow = loadPng("ui/arrow_16x16");
             Graph* UiWhiteRoundRect = loadPng("ui/white_rounnd_rect");
+            Graph* UiTitleLogo = loadPng("ui/title_logo");
 
 #if 0
             int Templa = LoadGraph(R"(.png)");
@@ -124,37 +126,40 @@ namespace ingame{
     extern resorce::FontRes* Fonts;
     extern resorce::SoundRes* Sounds;
 
-    int doProcess();
+    int DoProcess();
     int SceneTransition();
 
-    void LoopBasicUpdate();
-
-
-    class SceneBase
+    class SceneBase : public Singleton<SceneBase>
     {
-    protected:
-        void loop();
+        bool canExit = false;
     public:
         SceneBase();
+        virtual void Loop();
+        virtual ~SceneBase();
+        void EnableExit();
     };
+
+    void ExecuteScene(SceneBase* scene);
+
+    namespace title
+    {
+        class TitleScene : SceneBase
+        {
+        public:
+            TitleScene();
+            ~TitleScene();
+        };
+    }
+
 
     namespace main 
     {
-        class MainScene : public SceneBase
+        class MainScene : SceneBase
         {
         public:
             MainScene();
+            ~MainScene();
         };
-
-
-
-
-
-
-
-
-
- 
     }
 }
 
