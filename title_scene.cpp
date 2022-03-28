@@ -8,7 +8,8 @@ namespace ingame::title
 	{
 		startLogo();
 		startBack();
-		new Walker(0);
+		startDecoration();
+		//new Walker(0);
 		new Walker(1);
 	}
 	void TitleManager::update()
@@ -56,6 +57,29 @@ namespace ingame::title
 				}
 			}
 		});
+	}
+
+	void TitleManager::startDecoration()
+	{
+		const int margin = 32;
+		for (int x = 0; x < 2; ++x) 
+		{
+			for (int y = 0; y < 4; ++y)
+			{
+				int sprX = x == 0 ? margin : GRID_WIDTH - 16 - margin;
+				int sprY = 32 + y * 32;
+				sprX += x == 0 ? (3 - y) * 16 : -(3 - y) *16;
+
+				Sprite* spr = new Sprite(Images->Tree, 0, 0, 16, 16);
+				spr->SetXY(sprX, sprY);
+				auto t = std::shared_ptr<int>(new int(0));
+				new EventTimerAsActor([this, t, spr]() {
+					*t = (*t + 1) % 4;
+					spr->SetImage(*t * 16, 0);
+					return true;
+				}, 200);
+			}
+		}
 	}
 
 	

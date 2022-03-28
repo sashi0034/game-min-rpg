@@ -21,6 +21,7 @@ namespace ingame::title
 	private:
 		void startLogo();
 		void startBack();
+		void startDecoration();
 	};
 
 	class Walker : public Actor
