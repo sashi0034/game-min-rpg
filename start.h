@@ -70,6 +70,7 @@ namespace ingame
             Graph* UiArrow = loadPng("ui/arrow_16x16");
             Graph* UiWhiteRoundRect = loadPng("ui/white_rounnd_rect");
             Graph* UiTitleLogo = loadPng("ui/title_logo");
+            Graph* UiTitleBack = loadPng("ui/title_back_32x32");
 
 #if 0
             int Templa = LoadGraph(R"(.png)");
@@ -143,7 +144,7 @@ namespace ingame{
 
     namespace title
     {
-        class TitleScene : SceneBase
+        class TitleScene : public SceneBase
         {
         public:
             TitleScene();
@@ -154,7 +155,7 @@ namespace ingame{
 
     namespace main 
     {
-        class MainScene : SceneBase
+        class MainScene : public SceneBase
         {
         public:
             MainScene();

@@ -108,6 +108,7 @@ namespace ingame
         {
             ExecuteScene((SceneBase*)(new title::TitleScene()));
             ExecuteScene((SceneBase*)(new main::MainScene()));
+            break;
         }
 
         return 0;
@@ -193,7 +194,7 @@ namespace ingame
         }
         TitleScene::~TitleScene()
         {
-
+            Sprite::DestroyAll();
         }
     }
 

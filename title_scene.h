@@ -9,13 +9,28 @@ using namespace gameUtils;
 
 namespace ingame::title
 {
-	class TitleManager : public LuaActor
+	class TitleManager : public SelfDrawingActor
 	{
+		Sprite* mBackSpr;
 		Sprite* mLogoSpr;
 	public:
 		TitleManager();
+	protected:
+		void update() override;
+		void drawing(int hX, int hY) override;
 	private:
 		void startLogo();
+		void startBack();
+	};
+
+	class Walker : public Actor
+	{
+		int mId{};
+		double mX, mY;
+	public:
+		Walker(int id);
+	protected:
+		void update() override;
 	};
 }
 
