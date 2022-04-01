@@ -17,6 +17,15 @@ namespace ingame
     static const double FPS60_MILLI = 1000.0 / 60;
     static const double FPS60_SEC = 1.0 / 60;
 
+    enum class ZIndex
+    {
+        FLOOR = 1000,
+        CHARACTER = 0,
+        CLOUD = -1000,
+        UI = -2000,
+        CURTAIN = -3000,
+    };
+
 
     class ButtonInTimer
     {

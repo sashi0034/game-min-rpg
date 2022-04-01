@@ -531,7 +531,7 @@ namespace ingame::main
 
 
 
-    FloorLayer::FloorLayer() : FieldLayerBase(double(main::ZIndex::FLOOR))
+    FloorLayer::FloorLayer() : FieldLayerBase(double(ZIndex::FLOOR))
     {
     }
 

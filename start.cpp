@@ -191,6 +191,7 @@ namespace ingame
         TitleScene::TitleScene()
         {
             new TitleManager();
+            IntermissionCurtain::CreateOpen([]() {});
         }
         TitleScene::~TitleScene()
         {
@@ -213,6 +214,7 @@ namespace ingame
             new FlagManager();
             effect::StartEffect();
             StartUi();
+            IntermissionCurtain::CreateOpen([](){});
         }
         MainScene::~MainScene()
         {

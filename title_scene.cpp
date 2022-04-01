@@ -17,9 +17,10 @@ namespace ingame::title
 		double temp = 200.0;
 		mBackSpr->SetXY(0, -(mTime%(int(32 * temp)))/temp);
 
-		if (Input::Sole->GetKeyDown(KEY_INPUT_SPACE))
-		{
-			TitleScene::Sole->EnableExit();
+		if (mIsOpen && Input::Sole->GetKeyDown(KEY_INPUT_SPACE))
+		{	
+			mIsOpen = false;
+			IntermissionCurtain::CreateClose([]() {TitleScene::Sole->EnableExit(); });
 		}
 
 		SelfDrawingActor::update();

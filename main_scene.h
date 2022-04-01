@@ -23,15 +23,6 @@ namespace ingame::main
         BIRD = 1 << 1,
     };
 
-    enum class ZIndex
-    {
-        FLOOR = 1000,
-        CHARACTER = 0,
-        CLOUD = -1000,
-        UI = -2000,
-    };
-
-
     class Angle
     {
     public:

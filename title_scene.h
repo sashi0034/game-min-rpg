@@ -2,6 +2,7 @@
 
 #include "stdafx.h"
 #include "ingame_base.h"
+#include "ingame_intermission_curtain.h"
 
 using namespace gameEngine;
 using namespace gameUtils;
@@ -11,6 +12,7 @@ namespace ingame::title
 {
 	class TitleManager : public SelfDrawingActor
 	{
+		bool mIsOpen = true;
 		Sprite* mBackSpr;
 		Sprite* mLogoSpr;
 	public:

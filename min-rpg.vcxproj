@@ -168,6 +168,7 @@
   <ItemGroup>
     <ClCompile Include="game_engine.cpp" />
     <ClCompile Include="game_utils.cpp" />
+    <ClCompile Include="ingame_intermission_curtain.cpp" />
     <ClCompile Include="lua_manager.cpp" />
     <ClCompile Include="main_scene.cpp" />
     <ClCompile Include="ingame_base.cpp" />
