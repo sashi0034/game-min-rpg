@@ -242,7 +242,22 @@ namespace ingame
         {
             for (auto sound : mSoundBuffer)
             {
-                sound->Play();
+                if (isModifyVolume)
+                {
+                    if (modifiedVolumeSounds.count(sound) == 0)
+                    {
+                        int vol = sound->GetVolume();
+                        sound->SetVolume(int(vol * modifyVolumeRate));
+                        modifiedVolumeSounds.insert(sound);
+                    }
+
+                    sound->Play();
+                }
+                else
+                {
+                    sound->Play();
+                }
+                
             }
 
             mSoundBuffer = {};

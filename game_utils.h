@@ -36,6 +36,7 @@ namespace gameUtils
 		~Sound();
 		int GetHandler();
 		void SetVolume(int vol);
+		int GetVolume();
 		void SetLoop(bool isLoop);
 		void Play();
 		void Stop();

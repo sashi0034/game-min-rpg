@@ -88,7 +88,12 @@ namespace gameUtils
 	void Sound::SetVolume(int vol)
 	{
 		mVolume = vol;
-		DxLib::ChangeVolumeSoundMem(mHandler, vol);
+		DxLib::ChangeVolumeSoundMem(vol, mHandler);
+	}
+
+	int Sound::GetVolume()
+	{
+		return DxLib::GetVolumeSoundMem2(mHandler);
 	}
 
 	void Sound::SetLoop(bool isLoop)
