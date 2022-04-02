@@ -12,8 +12,11 @@ MapEventManager:addStaticEvents({
         MapEventManager.installCharacter(e.x, e.y, "mouse", "mouse_fast")
     end,
     walkerToHill = function (self)
+        Yield()
+        while not FlagManager.getFlag(FlagName.kill_slime) do Yield() end
+
         local c = coroutine.create(self.doSleep)
-        while coroutine.resume(c, 30.0) do Yield() end
+        while coroutine.resume(c, 1.0) do Yield() end
 
         OutLog("cat_goto_hill is ready to summon.\n")
 
@@ -21,6 +24,14 @@ MapEventManager:addStaticEvents({
 
         MapEventManager.installCharacter(e.x, e.y, "punicat", "cat_goto_hill")
     end,
+    test = function (self)
+        self.awaits:sleep(5.0)
+
+        
+        --MapEventManager.winningPlayer()
+    end,
+
+
     -- sayHello = function (self)
     --     local c = coroutine.create(self.doSleep)
     --     while coroutine.resume(c, 3.0) do Yield() end

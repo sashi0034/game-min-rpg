@@ -313,6 +313,9 @@ namespace ingame::main
 
         luaManager::Lua[LUA_CLASS]["killPlayer"] =
             [&](std::string message) {Player::Sole->EnableKilled(message); };
+
+        luaManager::Lua[LUA_CLASS]["winningPlayer"] =
+            [&]() {Player::Sole->EnableWinning(); };
     }
 
     void MapEventManager::update()
@@ -724,6 +727,16 @@ namespace ingame::main
         mSpr->SetImage(Images->Skull, 0, 0, 24, 24);
         mFrameInterval = mLuaData["frameInterval"].get_or(0);
         skullCohortSetup();
+    }
+
+    void Skull::update()
+    {
+        NPCBase::update();
+        if (mIsDeath)
+        {
+            Sprite::Destroy(mSpr);
+            return;
+        }
     }
 
     void Skull::animation()

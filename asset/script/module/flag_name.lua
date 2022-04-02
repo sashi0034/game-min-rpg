@@ -53,4 +53,16 @@ CountFlagForPray = function ()
 end
 
 
+GetCompletedFlagRate = function ()
+    local count = 0
+    local size = 0
+    for key, value in pairs(FlagName) do
+        if FlagManager.getFlag(key) then count = count + 1 end
+        size = size + 1
+    end
+    return count / size
+end
+
+
+
 

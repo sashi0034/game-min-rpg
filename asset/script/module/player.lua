@@ -18,7 +18,8 @@ PlayerLuaData = {
     update = function(self)
         IngameEventBase.update(self)
 
-        if (self.events.move==nil and self.events.killed==nil) then
+        if (self.events.move==nil and 
+            self.events.killed==nil and self.events.winning==nil) then
             if (self.doWaitForMove() and self.isFixed()==false) then
                 --OutLog("Player is prepareing for move.\n")
                 self.events.move = coroutine.create(self.move)
@@ -45,7 +46,28 @@ PlayerLuaData = {
         while true do
             Yield()
         end
-    end
+    end,
+
+    winning = function (self, e)
+        self.awaits:sleep(3.0)
+        e.blackFadeOut()
+        self.awaits:sleep(2.0)
+
+        local m = MessageWindow.open()
+        self.awaits:streamText(m, [[–‚‰¤‚Í“|‚³‚ê‚½]])
+        self.awaits:streamText(m, "\n"..[[‚±‚¤‚µ‚Ä¢ŠE‚Í‹~‚í‚ê‚½‚Ì‚Å‚ ‚Á‚½]])
+
+        local p = math.floor(GetCompletedFlagRate() * 100)
+
+        self.awaits:streamText(m, "\n"..[[ƒtƒ‰ƒOŠJ•ú—¦: ]]..p.." %")
+        self.awaits:sleep(5.0)
+        e.exitScene()
+
+        while true do
+            Yield()
+        end
+    end,
+
 }
 
 

@@ -21,7 +21,6 @@ namespace luaManager
 
 
 
-        new luaManager::LuaDebugManager();
         return 0;
     }
     void DefineTable()

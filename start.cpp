@@ -189,6 +189,8 @@ namespace ingame
     {
         TitleScene::TitleScene()
         {
+            new luaManager::LuaDebugManager();
+
             new TitleManager();
             IntermissionCurtain::CreateOpen([]() {});
         }
@@ -204,11 +206,13 @@ namespace ingame
     {
         MainScene::MainScene()
         {
+            new luaManager::LuaDebugManager();
+
+            new GameController();
             new SoundManager();
             new ScrollManager();
             new MapManager(1);
             new BackGroundManager();
-            new GameController();
             new MapEventManager();
             new FlagManager();
             effect::StartEffect();

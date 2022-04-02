@@ -182,6 +182,7 @@ namespace ingame::main
     public:
         Skull(double startX, double startY, ECharacterKind characterKind, std::string uniqueName);
     protected:
+        void update() override;
         void animation() override;
     private:
         void skullCohortSetup();

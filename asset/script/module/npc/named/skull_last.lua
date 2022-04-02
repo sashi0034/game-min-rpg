@@ -68,6 +68,9 @@ skull_last = {
                 if index==0 then
                     self.awaits:streamText(m, "\n"..[[‚Ó‚Ó‚ÓA‚â‚Í‚è‚ ‚È‚½‚à]].."\n"..[[„‚Æ“¯‚¶l‚¦‚¾‚Á‚½‚Ì‚Å‚·‚È]])
                     self.awaits:streamText(m, "\n"..[[‚Å‚ÍA¢ŠE‚ğ§‚µ‚É‚¢‚«‚Ü‚µ‚å‚¤‚©]])
+                    m:close()
+                    MapEventManager.killPlayer([[‚±‚¤‚µ‚Ä¢ŠE‚ª–‚‚Ìè‚É—‚¿‚Ä‚µ‚Ü‚Á‚½..]])
+                    return
                 elseif index==1 then
                     self.awaits:streamText(m, "\n"..[[ŒğÂŒˆ—ô‚Æ‚¢‚¤‚í‚¯‚Å‚·‚È]])
                     self.awaits:streamText(m, "\n"..[[‚Ü‚ —\‘z‚Í‚µ‚Ä‚¢‚Ü‚µ‚½]])
@@ -79,6 +82,9 @@ skull_last = {
                 if index==0 then
                     self.awaits:streamText(m, "\n"..[[‚Ó‚Ó‚ÓA‚â‚Í‚è‚ ‚È‚½‚à]].."\n"..[[„‚Æ“¯‚¶l‚¦‚¾‚Á‚½‚Ì‚Å‚·‚È]])
                     self.awaits:streamText(m, "\n"..[[‚Å‚ÍA¢ŠE‚ğ‰ó‚µ‚É‚¢‚«‚Ü‚µ‚å‚¤‚©]])
+                    m:close()
+                    MapEventManager.killPlayer([[‚±‚¤‚µ‚Ä¢ŠE‚ª”j‰ó‚³‚ê‚Ä‚µ‚Ü‚Á‚½..]])
+                    return
                 elseif index==1 then
                     self.awaits:streamText(m, "\n"..[[ŒğÂŒˆ—ô‚Æ‚¢‚¤‚í‚¯‚Å‚·‚È]])
                     self.awaits:streamText(m, "\n"..[[‚Ü‚ —\‘z‚Í‚µ‚Ä‚¢‚Ü‚µ‚½]])
@@ -131,12 +137,11 @@ skull_last = {
             self.awaits:sleep(1.0)
             m:streamText([[..]])
             self.awaits:sleep(1.0)
-            m:streamText([[..]])
-            self.awaits:sleep(1.0)
+            while m:isRunning() do Yield() end
 
             local prayPower = CountFlagForPray()
 
-            if prayPower>=5 then
+            if prayPower>=0 then
                 self.awaits:streamText(m, "\n"..[[‚İ‚ñ‚È‚ÌŠ´Ó‚Ì‹C‚¿‚ğŠ´‚¶‚é]])
                 self.awaits:streamText(m, "\n"..[[‹F‚è‚ª“Í‚¢‚½‚æ‚¤‚¾]])
                 self.awaits:streamText(m, "\n"..[[‚±‚ê‚ª‹F‚è‚Ì—Í‚¾!]])
@@ -148,8 +153,11 @@ skull_last = {
 
                 m:close()
                 m = MessageWindow.open()
+                self.awaits:streamText(m, [[‚¤‚¬‚á[!]])
+                self.awaits:streamText(m, "\n"..[[‚ÇA‚Ç‚¤‚â‚ç‚ ‚È‚½‚ğ]].."\n"..[[•‚Á‚Ä‚¢‚½‚æ‚¤‚Å‚·‚Ë..]])
+                self.fadeAndDie()
 
-                self.awaits:streamText(m, [[‚ÇA‚Ç‚¤‚â‚ç‚ ‚È‚½‚ğ•‚Á‚Ä‚¢‚½‚æ‚¤‚Å‚·‚Ë]])
+                MapEventManager.winningPlayer()
             else
                 self.awaits:streamText(m, "\n"..[[‚µ‚©‚µ‹F‚è‚ª“Í‚©‚È‚©‚Á‚½]])
                 m:close()

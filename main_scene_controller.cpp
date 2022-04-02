@@ -28,7 +28,7 @@ namespace ingame::main
 			}
 
 			mGameTime--;
-			if (mGameTime < 0)
+			if (mGameTime <= 0)
 			{
 				std::cout OUT_LOG "Enter game over.";
 				for (auto fn : OnGameTimeStopped) fn(mGameTime / 60, mGameTime % 60);
@@ -45,7 +45,7 @@ namespace ingame::main
 	}
 	bool GameController::GetIsPlaying()
 	{
-		return !Player::Sole->GetIsKilled();
+		return !Player::Sole->GetIsKilled() && !Player::Sole->GetIsWinning();
 	}
 }
 

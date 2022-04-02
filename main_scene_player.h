@@ -19,6 +19,7 @@ namespace ingame::main
         int mWaitTime = 0;
         int mFixedCount = 0;
         bool mIsKilled = false;
+        bool mIsWinning = false;
         bool isFixed();
         EventTimer debugTimer;
         EventTimer mRegularTimer;
@@ -33,6 +34,7 @@ namespace ingame::main
         void IncreaseFixed();
         void DecreaseFixed();
         void EnableKilled(std::string message);
+        void EnableWinning();
 
         bool CanPopReachEvent(int x, int y);
         bool HasPopReachEvent();
@@ -41,6 +43,7 @@ namespace ingame::main
         bool CanPopTouchEvent(int x, int y);
         bool HasPopTouchEvent();
         bool GetIsKilled();
+        bool GetIsWinning();
         PlayerEventProps PopTouchEvent();
     protected:
         void update() override;

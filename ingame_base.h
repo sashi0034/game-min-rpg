@@ -63,7 +63,7 @@ namespace ingame
     class SoundManager : public Actor, public ISingleton<SoundManager>
     {
         const bool isModifyVolume = true;
-        const double modifyVolumeRate = 0.5;
+        const double modifyVolumeRate = 0.2;
         std::unordered_set<Sound*> modifiedVolumeSounds = {};
 
         std::unordered_set<Sound*> mSoundBuffer{};

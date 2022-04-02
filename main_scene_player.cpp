@@ -22,7 +22,7 @@ namespace ingame::main
 
         mX = startX;
         mY = startY;
-        
+
 
         mLuaData = luaManager::Lua[mLuaClassName]["new"]();
         mLuaData["doWaitForMove"] = [&]()->bool {return this->doWaitForMove(); };
@@ -44,7 +44,13 @@ namespace ingame::main
             return true;
             }, 1000 / 60);
 
-        //new UiWindow(GRID_WIDTH/2, GRID_HEIGHT-120, 200,120,0.2, 0.2);
+
+        GameController::Sole->OnGameTimeStopped.push_back([&](int minu, int sec) {
+            if (minu == 0 && sec == 0)
+            {
+                EnableKilled("Šˆ“®ŽžŠÔ‚ð’´‚¦‚Ä‚µ‚Ü‚Á‚½..");
+            }
+            });
     }
     Player::~Player()
     {
@@ -94,6 +100,19 @@ namespace ingame::main
         e["exitScene"] = [&]() {IntermissionCurtain::CreateClose([&]() {MainScene::Sole->EnableExit(); }); };
 
         mLuaData["eventDrive"](mLuaData, "killed", e);
+    }
+
+    void Player::EnableWinning()
+    {
+        if (mIsWinning) return;
+        mIsWinning = true;
+
+        sol::table e = luaManager::Lua.create_table();
+
+        e["blackFadeOut"] = [&]() {blackFadeOut(); };
+        e["exitScene"] = [&]() {IntermissionCurtain::CreateClose([&]() {MainScene::Sole->EnableExit(); }); };
+
+        mLuaData["eventDrive"](mLuaData, "winning", e);
     }
 
     void Player::blackFadeOut()
@@ -247,6 +266,10 @@ namespace ingame::main
     bool Player::GetIsKilled()
     {
         return mIsKilled;
+    }
+    bool Player::GetIsWinning()
+    {
+        return mIsWinning;
     }
     PlayerEventProps Player::PopTouchEvent()
     {
