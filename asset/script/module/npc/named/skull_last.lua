@@ -101,6 +101,8 @@ skull_last = {
             --m:streamText("\n"..[[ヒュー、ドカン]]); 
             m:animFlash()
             while m:isRunning() do Yield() end
+
+            MapEventManager.killPlayer([[あと少しなのに倒れてしまった..]])
         end
 
         if index==0 then

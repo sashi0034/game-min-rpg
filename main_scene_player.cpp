@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "start.h"
 #include "main_scene_player.h"
-
+#include "ingame_intermission_curtain.h"
 
 namespace ingame::main
 {
@@ -80,6 +80,40 @@ namespace ingame::main
     void Player::DecreaseFixed()
     {
         mFixedCount--;
+    }
+
+    void Player::EnableKilled(std::string message)
+    {
+        if (mIsKilled) return;
+        mIsKilled = true;
+
+        sol::table e = luaManager::Lua.create_table();
+
+        e["message"] = message;
+        e["blackFadeOut"] = [&]() {blackFadeOut(); };
+        e["exitScene"] = [&]() {IntermissionCurtain::CreateClose([&]() {MainScene::Sole->EnableExit(); }); };
+
+        mLuaData["eventDrive"](mLuaData, "killed", e);
+    }
+
+    void Player::blackFadeOut()
+    {
+        Sprite* blackSpr = new Sprite(Images->UiBlackScreen);
+        auto alpha = std::shared_ptr<int>(new int(0));
+        blackSpr->SetBlendPal(*alpha);
+        blackSpr->SetZ(double(ZIndex::UI) + 1);
+        
+        new EventTimerAsActor([=]() {
+            *alpha += 2;
+            blackSpr->SetBlendPal(*alpha);
+
+            if (*alpha > 255)
+            {
+                return false;
+            }
+
+            return true;
+        }, (int)FPS60_MILLI);
     }
 
     bool Player::CanPopReachEvent(int x, int y)
@@ -189,6 +223,7 @@ namespace ingame::main
         return dashLevel;
     }
 
+
     void Player::touchSomething()
     {
         if (mFixedCount == 0)
@@ -209,6 +244,10 @@ namespace ingame::main
     {
         return mSenddingTouchEvent.HasValue;
     }
+    bool Player::GetIsKilled()
+    {
+        return mIsKilled;
+    }
     PlayerEventProps Player::PopTouchEvent()
     {
         PlayerEventProps ret = mSenddingTouchEvent;
@@ -218,52 +257,59 @@ namespace ingame::main
 
     void Player::animation()
     {
-        int t = getDashLevel();
-
-        int frame = (mAnimTime / (200/t));
-        mSpr->SetFlip(false);
-        if (mWaitTime > 50)
-        {// ‘Ò‹@
-            switch (mAngle)
-            {
-            case EAngle::DOWN:
-                mSpr->SetImage((frame % 4) * 32, 0);
-                break;
-            case EAngle::RIGHT:
-                mSpr->SetImage((frame % 3) * 32, 32 * 1);
-                break;
-            case EAngle::UP:
-                mSpr->SetImage((frame % 4) * 32, 32 * 2);
-                break;
-            case EAngle::LEFT:
-                mSpr->SetImage((frame % 3) * 32, 32 * 1);
-                mSpr->SetFlip(true);
-                break;
-            }
+        if (mIsKilled)
+        {// Ž€‚ñ‚¾
+            mSpr->SetImage(0 * 32, 6 * 32);
         }
         else
-        {// ˆÚ“®
+        {// ¶‚«‚Ä‚¢‚é
+            int t = getDashLevel();
 
-            switch (mAngle)
-            {
-            case EAngle::DOWN:
-                mSpr->SetImage((frame % 4) * 32, 32 * 3);
-                break;
-            case EAngle::RIGHT:
-                mSpr->SetImage((frame % 6) * 32, 32 * 4);
-                break;
-            case EAngle::UP:
-                mSpr->SetImage((frame % 4) * 32, 32 * 5);
-                break;
-            case EAngle::LEFT:
-                mSpr->SetImage((frame  % 6) * 32, 32 * 4);
-                mSpr->SetFlip(true);
-                break;
+            int frame = (mAnimTime / (200 / t));
+            mSpr->SetFlip(false);
+            if (mWaitTime > 50)
+            {// ‘Ò‹@
+                switch (mAngle)
+                {
+                case EAngle::DOWN:
+                    mSpr->SetImage((frame % 4) * 32, 0);
+                    break;
+                case EAngle::RIGHT:
+                    mSpr->SetImage((frame % 3) * 32, 32 * 1);
+                    break;
+                case EAngle::UP:
+                    mSpr->SetImage((frame % 4) * 32, 32 * 2);
+                    break;
+                case EAngle::LEFT:
+                    mSpr->SetImage((frame % 3) * 32, 32 * 1);
+                    mSpr->SetFlip(true);
+                    break;
+                }
             }
+            else
+            {// ˆÚ“®
+
+                switch (mAngle)
+                {
+                case EAngle::DOWN:
+                    mSpr->SetImage((frame % 4) * 32, 32 * 3);
+                    break;
+                case EAngle::RIGHT:
+                    mSpr->SetImage((frame % 6) * 32, 32 * 4);
+                    break;
+                case EAngle::UP:
+                    mSpr->SetImage((frame % 4) * 32, 32 * 5);
+                    break;
+                case EAngle::LEFT:
+                    mSpr->SetImage((frame % 6) * 32, 32 * 4);
+                    mSpr->SetFlip(true);
+                    break;
+                }
+            }
+
+
+            mAnimTime += Time::DeltaMilli();
         }
-
-
-        mAnimTime += Time::DeltaMilli();
     }
 
     bool Player::doWaitForMove()

@@ -643,6 +643,10 @@ namespace ingame::main
         mTextField->SetCenterXY(mLuaData["centerX"].get_or(0), mLuaData["centerY"].get_or(0));
         
         GameController::Sole->OnGameTimeChanged.push_back([&](int minu, int sec) {renderText(minu, sec); });
+        GameController::Sole->OnGameTimeStopped.push_back([&](int minu, int sec) {
+            mTextField->SetColor(DxLib::GetColor(255, 255, 255), DxLib::GetColor(32, 32, 32));
+            renderText(minu, sec);
+        });
         renderText(GameController::GAME_TIME_START / 60, GameController::GAME_TIME_START % 60);
         
     }

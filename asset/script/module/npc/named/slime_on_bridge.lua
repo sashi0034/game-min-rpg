@@ -90,6 +90,8 @@ slime_on_bridge = {
 
                 m:animFlash()
                 while m:isRunning() do Yield() end
+
+                MapEventManager.killPlayer([[スライムにやられてしまった..]])
             elseif word==[[木の剣]] then
                 m:streamText("\n"..[[剣で攻撃だ!]])
                 while m:isRunning() do Yield() end
@@ -112,6 +114,7 @@ slime_on_bridge = {
 
                 m:animFlash()
                 while m:isRunning() do Yield() end
+                MapEventManager.killPlayer([[スライムにやられてしまった..]])
             elseif word==[[お塩]] then
                 m:streamText("\n"..[[お塩をかけたら小さくなるはずだ!]])
                 while m:isRunning() do Yield() end

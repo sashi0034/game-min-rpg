@@ -44,6 +44,8 @@ MapEventManager:addMapEvents({
 
             m:animFlash()
             while m:isRunning() do Yield() end
+
+            MapEventManager.killPlayer([[ƒnƒ`‚Éh‚³‚ê‚Ä‚â‚ç‚ê‚¿‚á‚Á‚½..]])
         elseif word=="–Ø‚Ì}" then
             m:streamText("\n"..[[‚³‚Á‚«ƒQƒbƒg‚µ‚½}‚ÅUŒ‚‚µ‚Ä‚İ‚æ‚¤]])
             while m:isRunning() do Yield() end
@@ -65,6 +67,8 @@ MapEventManager:addMapEvents({
 
             m:animFlash()
             while m:isRunning() do Yield() end
+            
+            MapEventManager.killPlayer([[ƒnƒ`‚Éh‚³‚ê‚Ä‚â‚ç‚ê‚¿‚á‚Á‚½..]])
         elseif word=="–Ø“" then
             m:streamText("\n"..[[‚³‚Á‚«ì‚Á‚Ä‚à‚ç‚Á‚½Œ•‚ÅUŒ‚‚µ‚Ä‚İ‚æ‚¤]])
             while m:isRunning() do Yield() end

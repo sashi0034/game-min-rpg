@@ -18,6 +18,7 @@ namespace ingame::main
         int mAnimTime = 0;
         int mWaitTime = 0;
         int mFixedCount = 0;
+        bool mIsKilled = false;
         bool isFixed();
         EventTimer debugTimer;
         EventTimer mRegularTimer;
@@ -31,6 +32,7 @@ namespace ingame::main
         double GetY();
         void IncreaseFixed();
         void DecreaseFixed();
+        void EnableKilled(std::string message);
 
         bool CanPopReachEvent(int x, int y);
         bool HasPopReachEvent();
@@ -38,6 +40,7 @@ namespace ingame::main
 
         bool CanPopTouchEvent(int x, int y);
         bool HasPopTouchEvent();
+        bool GetIsKilled();
         PlayerEventProps PopTouchEvent();
     protected:
         void update() override;
@@ -49,5 +52,7 @@ namespace ingame::main
         bool doMove();
         void dashAfterimage();
         int getDashLevel();
+
+        void blackFadeOut();
     };
 };

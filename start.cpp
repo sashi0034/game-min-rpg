@@ -108,7 +108,6 @@ namespace ingame
         {
             ExecuteScene((SceneBase*)(new title::TitleScene()));
             ExecuteScene((SceneBase*)(new main::MainScene()));
-            break;
         }
 
         return 0;
@@ -219,6 +218,7 @@ namespace ingame
         MainScene::~MainScene()
         {
             delete MapManager::Sole;
+            Sprite::DestroyAll();
         }
     }
 

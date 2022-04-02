@@ -310,6 +310,9 @@ namespace ingame::main
 
         luaManager::Lua[LUA_CLASS]["installCharacter"] = 
             [&](double x, double y, std::string character, std::string name) {InstallCharacter(x, y, character, name); };
+
+        luaManager::Lua[LUA_CLASS]["killPlayer"] =
+            [&](std::string message) {Player::Sole->EnableKilled(message); };
     }
 
     void MapEventManager::update()

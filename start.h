@@ -72,6 +72,7 @@ namespace ingame
             Graph* UiTitleLogo = loadPng("ui/title_logo");
             Graph* UiTitleBack = loadPng("ui/title_back_32x32");
             Graph* UiCurtainStrip = loadPng("ui/curtain_strip");
+            Graph* UiBlackScreen = loadPng("ui/black_screen");
 
 #if 0
             int Templa = LoadGraph(R"(.png)");

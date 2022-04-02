@@ -10,9 +10,11 @@ namespace ingame::main
 		int mGameTime;
 		EventTimer mCountDownTimer;
 	public:
+		bool GetIsPlaying();
 		GameController();
 		~GameController();
 		std::vector<std::function<void(int minu, int sec)>> OnGameTimeChanged{};
+		std::vector<std::function<void(int minu, int sec)>> OnGameTimeStopped{};
 	private:
 		void startCountDown();
 	protected:
