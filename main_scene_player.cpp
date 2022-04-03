@@ -97,7 +97,9 @@ namespace ingame::main
 
         e["message"] = message;
         e["blackFadeOut"] = [&]() {blackFadeOut(); };
-        e["exitScene"] = [&]() {IntermissionCurtain::CreateClose([&]() {MainScene::Sole->EnableExit(); }); };
+        e["exitScene"] = [&]() {
+            IntermissionCurtain::CreateClose([&]() {MainScene::Sole->EnableExit(); }); 
+        };
 
         mLuaData["eventDrive"](mLuaData, "killed", e);
     }
@@ -110,7 +112,9 @@ namespace ingame::main
         sol::table e = luaManager::Lua.create_table();
 
         e["blackFadeOut"] = [&]() {blackFadeOut(); };
-        e["exitScene"] = [&]() {IntermissionCurtain::CreateClose([&]() {MainScene::Sole->EnableExit(); }); };
+        e["exitScene"] = [&]() {
+            IntermissionCurtain::CreateClose([&]() {MainScene::Sole->EnableExit(); }); 
+        };
 
         mLuaData["eventDrive"](mLuaData, "winning", e);
     }

@@ -34,6 +34,7 @@ PlayerLuaData = {
     end,
 
     killed = function (self, e)
+        Sound.dynamic("player_killed.mp3")
         self.awaits:sleep(1.0)
         e.blackFadeOut()
         self.awaits:sleep(2.0)
@@ -49,6 +50,7 @@ PlayerLuaData = {
     end,
 
     winning = function (self, e)
+        Sound.dynamic("player_winning.mp3")
         self.awaits:sleep(3.0)
         e.blackFadeOut()
         self.awaits:sleep(2.0)

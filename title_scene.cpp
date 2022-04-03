@@ -20,6 +20,7 @@ namespace ingame::title
 		if (mIsOpen && Input::Sole->GetKeyDown(KEY_INPUT_SPACE))
 		{	
 			mIsOpen = false;
+			SoundManager::Sole->Play(Sounds->SceneChange);
 			IntermissionCurtain::CreateClose([]() {TitleScene::Sole->EnableExit(); });
 		}
 

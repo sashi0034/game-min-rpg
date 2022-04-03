@@ -103,6 +103,7 @@ namespace ingame
             Sound* WindowPush = loadMp3("window_push");
             Sound* WindowOpen = loadMp3("window_open");
             Sound* FlagOn = loadMp3("flag_on");
+            Sound* SceneChange = loadMp3("scene_change");
 
             SoundRes() {};
         };

@@ -24,6 +24,17 @@ MapEventManager:addStaticEvents({
 
         MapEventManager.installCharacter(e.x, e.y, "punicat", "cat_goto_hill")
     end,
+
+    startMessage = function (self)
+        Yield()
+        local m = MessageWindow.open()
+
+        self.awaits:streamText(m, [[—EÒ‚³‚ñA‚ ‚Æ5•ª‚Å¢ŠE‚ª–Å‚Ñ‚»‚¤‚Å‚·]])
+        self.awaits:streamText(m, "\n"..[[‚Ç‚¤‚©¢ŠE‚ğ‹~‚Á‚Ä‚­‚¾‚³‚¢]])
+
+        m:close()
+    end,
+
     test = function (self)
         self.awaits:sleep(5.0)
 

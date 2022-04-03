@@ -191,6 +191,7 @@ namespace ingame
         {
             new luaManager::LuaDebugManager();
 
+            new SoundManager();
             new TitleManager();
             IntermissionCurtain::CreateOpen([]() {});
         }
