@@ -141,7 +141,7 @@ skull_last = {
 
             local prayPower = CountFlagForPray()
 
-            if prayPower>=0 then
+            if prayPower>=5 then
                 self.awaits:streamText(m, "\n"..[[‚İ‚ñ‚È‚ÌŠ´Ó‚Ì‹C‚¿‚ğŠ´‚¶‚é]])
                 self.awaits:streamText(m, "\n"..[[‹F‚è‚ª“Í‚¢‚½‚æ‚¤‚¾]])
                 self.awaits:streamText(m, "\n"..[[‚±‚ê‚ª‹F‚è‚Ì—Í‚¾!]])

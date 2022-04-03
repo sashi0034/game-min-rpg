@@ -16,7 +16,7 @@ MapEventManager:addStaticEvents({
         while not FlagManager.getFlag(FlagName.kill_slime) do Yield() end
 
         local c = coroutine.create(self.doSleep)
-        while coroutine.resume(c, 1.0) do Yield() end
+        while coroutine.resume(c, 9.0) do Yield() end
 
         OutLog("cat_goto_hill is ready to summon.\n")
 

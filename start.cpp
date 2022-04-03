@@ -2,7 +2,7 @@
 #include "start.h"
 
 
-#define LOOP    (DxLib::ProcessMessage() != -1 && (!luaManager::CanRestartProgram))
+#define GAME_LOOP    (DxLib::ProcessMessage() != -1 && (!luaManager::CanRestartProgram))
 
 
 
@@ -10,16 +10,17 @@
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-    {//デバッグ用コンソールウインドウの表示
-        AllocConsole();
-        FILE* stream;
-        freopen_s(&stream, "CONIN$", "r", stdin);
-        freopen_s(&stream, "CONOUT$", "w", stdout);
-        freopen_s(&stream, "CONOUT$", "w", stderr);
-    }
+#ifdef  GAME_DEBUG
+    //デバッグ用コンソールウインドウの表示
+    AllocConsole();
+    FILE* stream;
+    freopen_s(&stream, "CONIN$", "r", stdin);
+    freopen_s(&stream, "CONOUT$", "w", stdout);
+    freopen_s(&stream, "CONOUT$", "w", stderr);
+#endif //  GAME_DEBUG
 
     return ingame::DoProcess();
-    
+
 }
 
 
@@ -45,8 +46,10 @@ namespace ingame
 
         DxLib::SetMainWindowText(GAME_TITLE_NAME);
 
+#ifdef GAME_DEBUG
         // ウインドウモードで起動
         DxLib::ChangeWindowMode(TRUE);
+#endif
 
         // フルスクリーンモード時のモニターの解像度を最大にするモードに設定
         DxLib::SetFullScreenResolutionMode(DX_FSRESOLUTIONMODE_NATIVE);
@@ -82,6 +85,7 @@ namespace ingame
         //シーン
         SceneTransition();
 
+#ifdef GAME_DEBUG
         if (luaManager::CanRestartProgram)
         {// 再起動
             luaManager::CanRestartProgram = false;
@@ -89,6 +93,7 @@ namespace ingame
             printfDx("Hot reloaded  at %s.\n", useful::GetDateTimeStr().c_str());
             goto restart;
         }
+#endif
 
         std::cout OUT_LOG "Game is finished.\n";
 
@@ -104,7 +109,7 @@ namespace ingame
     int SceneTransition()
     {
         //new test::Scene();
-        while (LOOP)
+        while (GAME_LOOP)
         {
             ExecuteScene((SceneBase*)(new title::TitleScene()));
             ExecuteScene((SceneBase*)(new main::MainScene()));
@@ -135,7 +140,7 @@ namespace ingame
     void SceneBase::Loop()
     {
         Time::Sole->Restart();
-        while (LOOP)
+        while (GAME_LOOP)
         {
             if (canExit) break;
             Sprite::UpdateAll();
@@ -189,8 +194,9 @@ namespace ingame
     {
         TitleScene::TitleScene()
         {
+#ifdef GAME_DEBUG
             new luaManager::LuaDebugManager();
-
+#endif
             new SoundManager();
             new TitleManager();
             IntermissionCurtain::CreateOpen([]() {});
@@ -207,7 +213,9 @@ namespace ingame
     {
         MainScene::MainScene()
         {
+#ifdef GAME_DEBUG
             new luaManager::LuaDebugManager();
+#endif
 
             new GameController();
             new SoundManager();

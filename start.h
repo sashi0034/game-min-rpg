@@ -15,11 +15,6 @@
 #include "title_scene.h"
 
 
-#define DEBUG
-
-#ifdef DEBUG
-
-#endif // DEBUG
 
 
 
